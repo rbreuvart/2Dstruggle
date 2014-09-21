@@ -34,7 +34,6 @@ import com.rbr.game.manageur.LightManageur;
 import com.rbr.game.manageur.MapManageur;
 import com.rbr.game.manageur.PlayerManageur;
 import com.rbr.game.manageur.WorldManageur;
-import com.rbr.game.net.NetworkManageur;
 
 public class ScreenGame implements Screen,InputProcessor,GestureListener{
 
@@ -192,9 +191,9 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
         	//Create a touchpad skin    
             touchpadSkin = new Skin();
             //Set background image
-            touchpadSkin.add("touchBackground", new Texture("data/touchBackground.png"));
+            touchpadSkin.add("touchBackground", new Texture(ConfigPref.file_touchBackground));
             //Set knob image
-            touchpadSkin.add("touchKnob", new Texture("data/touchKnob.png"));
+            touchpadSkin.add("touchKnob", new Texture(ConfigPref.file_touchKnob));
             //Create TouchPad Style
             touchpadStyle = new TouchpadStyle();
             //Create Drawable's from TouchPad skin

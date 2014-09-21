@@ -66,8 +66,10 @@ public class MainGame extends Game {
 					}else if(f.getName().contains("Map")){
 						manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 						manager.load(pathFile, TiledMap.class);
-					}else{						
+					}else if (pathFile.contains(".png")||pathFile.contains(".PNG")||pathFile.contains(".jpg")||pathFile.contains(".JPG")) {
 						manager.load( pathFile, Texture.class);
+					}else{						
+						
 					}
 					
 				} catch (IllegalArgumentException e) {e.printStackTrace();} catch (IllegalAccessException e) {e.printStackTrace();}

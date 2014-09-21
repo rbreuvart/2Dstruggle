@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="64">
+ <properties>
+  <property name="VERSIONMAP" value="1"/>
+ </properties>
+ <tileset firstgid="1" name="texturepack" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="texturepack.png" width="1024" height="1024"/>
+  <tile id="100">
+   <properties>
+    <property name="TRANSPARENT" value="TRANSPARENT"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="226" name="miscpack" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="miscpack.png" width="512" height="512"/>
+ </tileset>
+ <layer name="decor" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmY2NwyAMhZkh490SbNDZe5WKznr1LzaXpMLSUxMgxB92oCRHa+3Y2tpy6S7m4ei/erzV4fwK8nI8hDral5evg6R23nyp4EBforGS2kfyvjIe1J8KlrM4sixcvp3F8d+i41TBMYyO5UpbNV9x/Uv3y2olB8Z4pThfshxSrt6Zoxnnqzhm8oobh7tzYB6dxdHbHMd4Fjwclkl+cm2wLBsP7d64LqH9MP5g3x7OwYHlEQ7NLA40Kx7RfItyZPP7Wzle1pV66Tmc/X91hXiMcpxrMhwRuzKHFfeonxK7xjG7fqzkiMaD/s5wZHxAq+AY+53s+qHFw+N7RPT6M+errDbH93JUmeSnVZ/h4PateC/rPDruXH/Ikdl/oLx788i7Oc1oX7PzruUPV45rVkWMuH1cNh4zscmwSOURDu93gSyfNu7UKjhwbLhzqQx90Oq1e0Y5xnE2D1r7fC+PvnbmOmuOiHJEeTgOKycph+b/0fIch9C/lM/0mIsHx9GYNqMMxzTDMfrQvvdxxvkucXCGHJH1Q6qb+eZU0a46HtFnv4pj9jm/g1kcW1tbf3oCQQF9vQ==
+  </data>
+ </layer>
+ <layer name="blockage" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmNkNAyEMRKmSCkj/LeQnUZDF+OBaQ/wkFAXDwixeY0gpCAItr0OKRod3QocvQocvQseP8im0Li8odJwdOlaQQf1pfhU6dG1u8Sv6fDTeKKFjTEcrbnLxs7YXUN87x564i95bJr+oH+o/S0drf7Psg992Wp1arDpG/V6a58k6imCvmeVXT6/HrHhF3yOKRyi386jDMg61t9oVwc7Vz9Yh5SNe1qMVY6lNsqNYnZK8383Wgc413D7CadSyy69WEzru1DHr/kCT767UQce0/LfA5Z4tvJ7PaVzcce+zixPXA3GaDikOUB9b/Z2jb5WevTk7N4Y0R2sbRO89yurzoJVbdNS+ZckTkW895VeaXB31s+QBXuOVlX/TcUIJgkDPG7L+mDc=
+  </data>
+ </layer>
+ <layer name="foregound" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztzrEJAAAIwDCv9P9T3B1FECGB7o0AAACAubweWJItAAAAAADgnwKZqAGv
+  </data>
+ </layer>
+ <objectgroup name="element">
+  <object name="spawn" type="SPAWN" gid="270" x="1810.67" y="2742.67"/>
+  <object name="spawn" type="SPAWN" gid="270" x="480" y="2197.06"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="1790.67" y="2115.33"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="1545.33" y="2568"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="2041.33" y="2565.33"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="732" y="1242.67"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="960" y="1532"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="705.333" y="2432"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="2574.67" y="2354.67"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="1154.67" y="834.667"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="2418.67" y="846.667"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="2178.67" y="1537.33"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="1673.33" y="1474.67"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="2249.33" y="2621.33"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="2568" y="1024"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="1793.33" y="686.667"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="958.667" y="1926.67"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="1834.67" y="1054.67"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="376" y="1822.67"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="2578.67" y="1806.67"/>
+  <object name="spawn" type="SPAWN" gid="270" x="854" y="1698"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1055" y="1697"/>
+  <object name="spawn" type="SPAWN" gid="270" x="672" y="1186"/>
+  <object name="spawn" type="SPAWN" gid="270" x="2781" y="419"/>
+  <object name="spawn" type="SPAWN" gid="270" x="2304" y="2135"/>
+  <object name="spawn" type="SPAWN" gid="270" x="2356" y="2379"/>
+  <object name="spawn" type="SPAWN" gid="270" x="2588" y="2082"/>
+  <object name="spawn" type="SPAWN" gid="270" x="2396" y="1116"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1230" y="1114"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1345" y="2579"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1687.88" y="1690.91"/>
+  <object name="spawn" type="SPAWN" gid="270" x="366.667" y="430.303"/>
+  <object name="spawn" type="SPAWN" gid="270" x="378.788" y="2821.21"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1830.3" y="857.576"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1021.21" y="2187.88"/>
+  <object name="spawn" type="SPAWN" gid="270" x="548.485" y="1442.42"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1372.73" y="1439.39"/>
+  <object name="spawn" type="SPAWN" gid="270" x="548.485" y="1984.85"/>
+ </objectgroup>
+</map>

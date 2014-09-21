@@ -66,6 +66,8 @@ public class ConfigPref {
 	public static final String file_RedBox = "data/redbox.png";
 	public static final String file_RedCircle = "data/redcircle.png";
 	public static final String file_MapTest = "data/map/texturepack.tmx";
+	public static final String file_touchBackground = "data/touchBackground.png";
+	public static final String file_touchKnob = "data/touchKnob.png";
 	
 	
 	
