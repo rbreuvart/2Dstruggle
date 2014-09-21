@@ -68,10 +68,6 @@ public class MapManageur {
 				v[2] = new Vector2(  -tileSize / 2 / ConfigPref.pixelMeter,  tileSize / 2 / ConfigPref.pixelMeter);
 				v[3] = new Vector2(	-tileSize / 2 / ConfigPref.pixelMeter, -tileSize / 2 / ConfigPref.pixelMeter);
 				v[4] = new Vector2(  tileSize / 2 / ConfigPref.pixelMeter,  -tileSize / 2 / ConfigPref.pixelMeter);
-				/*
-				*/
-				
-				
 				
 				cs.createChain(v);
 				fdef.friction = 0;
@@ -79,7 +75,7 @@ public class MapManageur {
 				fdef.filter.categoryBits = ConfigPref.CATEGORY_SCENERY;
 				fdef.filter.groupIndex = ConfigPref.CATEGORY_SCENERY;
 				
-				if (ConfigPref.TilePropLightBlocage.equals(cell.getTile().getProperties().get(ConfigPref.TilePropLightBlocage))) {
+				if ("true".equals(cell.getTile().getProperties().get(ConfigPref.TilePropLightBlocage))) {
 					fdef.filter.maskBits = ConfigPref.CATEGORY_LIGHT;
 				//	System.out.println("trnasp");
 				}else{
@@ -95,15 +91,14 @@ public class MapManageur {
 		}
 		Light.setContactFilter(ConfigPref.CATEGORY_SCENERY, ConfigPref.CATEGORY_LIGHT, ConfigPref.CATEGORY_SCENERY);
 		
-		/*
+		
 		Light sun = new PointLight(screenGame.getLightManageur().getRayHandler(), 800);
 		sun.setDistance(1000);
-		sun.setPosition(new Vector2(-0,50));
-		
-		sun.setColor(255,249,200, 1f);
+		sun.setPosition(new Vector2(-0,50));		
+		sun.setColor(1,1,1,1);
 			//sun.setXray(true);	
 		
-		*/
+		
 		
 		MapLayer layerElement = tileMap.getLayers().get("element");
 		for (int j = 0; j <layerElement.getObjects().getCount(); j++) {
@@ -112,19 +107,39 @@ public class MapManageur {
 			//String name = mapObject.getName();
 		//	System.out.println(name);
 		
-			if (ConfigPref.MapPropTypeSpawn.equals(mapObject.getProperties().get("type"))) {
+			if (ConfigPref.MapTypeSpawn.equals(mapObject.getProperties().get("type"))) {
 				
 				listVectorSpawn.add(new Vector2(Float.valueOf(mapObject.getProperties().get("x").toString()), Float.valueOf(mapObject.getProperties().get("y").toString())));
 			
-			}else if(ConfigPref.MapPropTypePointLight.equals(mapObject.getProperties().get("type"))){
+			}else if(ConfigPref.MapTypePointLight.equals(mapObject.getProperties().get("type"))){
 				
 				Light light = new PointLight(screenGame.getLightManageur().getRayHandler(), 100);
-				light.setDistance(10);
+				light.setDistance(Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightDistance, String.class)));
+				light.setSoftnessLength(Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightSoftnesslen, String.class)));
+				
 				light.setPosition(new Vector2(Float.valueOf(mapObject.getProperties().get("x").toString())/ConfigPref.pixelMeter
 						,Float.valueOf(mapObject.getProperties().get("y").toString())/ConfigPref.pixelMeter));
 				
-				light.setColor(MathUtils.random(), MathUtils.random(),	MathUtils.random(), 1f);
-			//	System.out.println(light.getPosition());
+				light.setPosition(light.getPosition().add(ConfigPref.MapPointLightOffsetPosition));
+				
+				float r = Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightColorRed, String.class));
+				float g = Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightColorGreen, String.class));
+				float b = Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightColorBlue, String.class));
+				float a = Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightColorAlpha, String.class));
+				light.setColor(r,g,b,a);
+				if (Boolean.getBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightStatic, String.class))) {
+					light.setStaticLight(true);
+				}
+				if (Boolean.getBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightXray, String.class))) {
+					light.setXray(true);
+				}
+				if (Boolean.getBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightSoft, String.class))) {
+					light.setSoft(true);
+				}else{
+					light.setSoft(false);
+				}
+				//light.setColor(MathUtils.random(), MathUtils.random(),	MathUtils.random(), 1f);
+				//	System.out.println(light.getPosition());
 			}
 			
 			else{
@@ -133,6 +148,13 @@ public class MapManageur {
 		}
 		
 		
+	}
+	
+	public Vector2 getRandomSpawn(){
+		int lower = 0;
+		int higher = listVectorSpawn.size;
+		int random = (int) (Math.random() * (higher - lower)) + lower;		
+		return listVectorSpawn.get(random).cpy();
 	}
 	
 	

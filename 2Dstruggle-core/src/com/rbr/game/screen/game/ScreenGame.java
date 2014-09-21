@@ -241,14 +241,14 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		Player player = new Player(FabriqueAll.creationGameObjectCircle(worldManageur, 
 				new Sprite( (Texture) getMainGame().getManager().get(ConfigPref.file_Vaisseau1)),
-				getMapManageur().getListVectorSpawn().first().cpy(),"player", 0.45f,ConfigPref.pixelMeter));
+				mapManageur.getRandomSpawn(),"player", 0.45f,ConfigPref.pixelMeter));
 		playerManageur = new PlayerManageur(player);
 		gameObjectManageur.getGameObjectArray().add(player.getGameObject());
 
 		//IA
 		iaManageur = new IaManageur();
 		IaPlayer iaplayer = new IaPlayer(FabriqueAll.creationGameObjectCircle(getWorldManageur(), new Sprite((Texture) mainGame.getManager().get(ConfigPref.file_RedCircle)),
-				getMapManageur().getListVectorSpawn().get(1).cpy(), "Ia", 0.45f, ConfigPref.pixelMeter));
+				mapManageur.getRandomSpawn(), "Ia", 0.45f, ConfigPref.pixelMeter));
 		
 		iaManageur.getListIaPlayer().add(iaplayer);
 		gameObjectManageur.add(iaplayer.getGameObject());

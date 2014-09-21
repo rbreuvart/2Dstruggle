@@ -1,12 +1,10 @@
 package com.rbr.game.manageur;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
-import com.rbr.game.ConfigPref;
 import com.rbr.game.screen.game.ScreenGame;
 
 public class HudManageur {

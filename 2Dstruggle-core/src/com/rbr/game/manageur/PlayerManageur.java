@@ -10,6 +10,11 @@ public class PlayerManageur {
 	
 	public PlayerManageur(Player player){
 		this.player = player;
+		
+		
+		
+		
+		
 	}
 	public void update(float delta,ScreenGame screenGame){
 		player.update(screenGame,delta);

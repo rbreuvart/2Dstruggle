@@ -1,6 +1,7 @@
 package com.rbr.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 
 
 public class ConfigPref {
@@ -39,13 +40,35 @@ public class ConfigPref {
 	public static final Color CouleurGameBackGroundGL = new Color(0.f, 0f, 0.0f, 0f);
 	
 	//Map
+	public static final String MapVersion = "VERSIONMAP";
+	
 	//Layer
 	public static final String MapLayerBlockage = "blockage";
 	public static final String MapLayerDecor = "decor";
 	public static final String MapLayerElement = "element";
 	//Object
-	public static final String MapPropTypeSpawn = "SPAWN";
-	public static final String MapPropTypePointLight = "POINTLIGHT";
+	
+	//spawn
+	public static final String MapTypeSpawn = "SPAWN";
+	public static final Vector2 MapTypeSpawnOffsetPosition = new Vector2((float)32/pixelMeter,(float)32/pixelMeter);
+	
+	//light
+	//pointLight
+	public static final String MapTypePointLight = "POINTLIGHT";
+	public static final Vector2 MapPointLightOffsetPosition = new Vector2((float)32/pixelMeter,(float)32/pixelMeter);
+	public static final String MapPointLightColorRed = "ColorR";
+	public static final String MapPointLightColorGreen= "ColorG";
+	public static final String MapPointLightColorBlue= "ColorB";
+	public static final String MapPointLightColorAlpha= "ColorA";	
+	public static final String MapPointLightDistance= "Distance";
+	public static final String MapPointLightSoftnesslen= "Softness";
+	public static final String MapPointLightStatic= "Static";
+	public static final String MapPointLightXray= "Xray";
+	public static final String MapPointLightSoft= "Soft";
+	
+	
+	
+	
 	//Tile
 	public static final String TilePropLightBlocage = "TRANSPARENT";
 	
