@@ -31,8 +31,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
-import com.rbr.game.ConfigPref;
 import com.rbr.game.screen.game.ScreenGame;
+import com.rbr.game.utils.ConfigPref;
 
 public class NetworkManageur {
 	
@@ -126,7 +126,7 @@ public class NetworkManageur {
         {
             ipAddress = ipAddress + str + "\n";
         }
-        Skin skin =  screenGame.getMainGame().getManager().get(ConfigPref.file_UiSkin, Skin.class);
+        Skin skin =  screenGame.getMainGame().getManager().get(ConfigPref.File_UiSkin, Skin.class);
         Table table = new Table(skin);
         // Create our controls
         labelDetails = new Label(ipAddress,skin);

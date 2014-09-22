@@ -1,4 +1,4 @@
-package com.rbr.game;
+package com.rbr.game.utils;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -66,9 +66,6 @@ public class ConfigPref {
 	public static final String MapPointLightXray= "Xray";
 	public static final String MapPointLightSoft= "Soft";
 	
-	
-	
-	
 	//Tile
 	public static final String TilePropLightBlocage = "TRANSPARENT";
 	
@@ -84,16 +81,19 @@ public class ConfigPref {
 	public static final int Net_ChatMaxaffMsg = 15;
 	
 	//fichier
-	public static final String file_UiSkin = "data/skin/uiskin.json";
-	public static final String file_Vaisseau1 = "data/v1f.png";
-	public static final String file_RedBox = "data/redbox.png";
-	public static final String file_RedCircle = "data/redcircle.png";
-	public static final String file_MapTest = "data/map/texturepack.tmx";
-	public static final String file_touchBackground = "data/touchBackground.png";
-	public static final String file_touchKnob = "data/touchKnob.png";
+	public static final String File_UiSkin 	= "data/skin/uiskin.json";
 	
+	public static final String File_BodyJson 	= "data/body/test.json";
 	
+	public static final String File_Vaisseau1 	= "data/body/v1f.png";
 	
+	public static final String File_RedBox 		= 	"data/debug/redbox.png";
+	public static final String File_RedCircle	= 	"data/debug/redcircle.png";
+	
+	public static final String File_touchBackground = "data/ui/touchBackground.png";
+	public static final String File_touchKnob 		= "data/ui/touchKnob.png";
+	
+	public static final String File_MapTest 	= "data/map/texturepack.tmx";
 	
 	
 }

@@ -9,9 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.rbr.game.ConfigPref;
 import com.rbr.game.MainGame;
 import com.rbr.game.screen.AbsctactScreen;
+import com.rbr.game.utils.ConfigPref;
 
 public class ScreenLoading extends AbsctactScreen{
 	SpriteBatch spriteBatchLoading;
@@ -37,7 +37,7 @@ public class ScreenLoading extends AbsctactScreen{
 		
 	//	stage = new Stage(new StretchViewport(ConfigPref.viewPortWidth,ConfigPref.viewPortHeight));
 		
-		Skin skin = new Skin(Gdx.files.internal(ConfigPref.file_UiSkin));
+		Skin skin = new Skin(Gdx.files.internal(ConfigPref.File_UiSkin));
 		
 		Table table = new Table(skin);
 		table.align(Align.top+Align.left);

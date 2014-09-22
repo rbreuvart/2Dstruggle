@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.rbr.game.ConfigPref;
 import com.rbr.game.MainGame;
+import com.rbr.game.utils.ConfigPref;
 
 public abstract class AbsctactScreen implements  GameLogicScreenImpl ,Screen {
 	private MainGame mainGame;

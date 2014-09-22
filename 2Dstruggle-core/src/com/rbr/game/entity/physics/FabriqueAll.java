@@ -1,5 +1,7 @@
 package com.rbr.game.entity.physics;
 
+
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -10,8 +12,9 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.rbr.game.ConfigPref;
 import com.rbr.game.manageur.WorldManageur;
+import com.rbr.game.utils.BodyEditorLoader;
+import com.rbr.game.utils.ConfigPref;
 
 public class FabriqueAll {
 
@@ -71,7 +74,7 @@ public class FabriqueAll {
 		wallBody.createFixture(fixtureDef);
 		
 		//GameObjectWall wa = new GameObjectWall("wall",new Sprite(sprite),wallDef, wallBody,fixtureDef, (width/2)/pixelMeter,(height/2)/pixelMeter);
-		GameObjectWall wa = new GameObjectWall(name, wallDef, wallBody, fixtureDef,sprite);
+		GameObjectWall wa = new GameObjectWall(new GameObject(name, wallDef, wallBody, fixtureDef),sprite);
 		wallShape.dispose();
 		return wa;
 	}
@@ -134,6 +137,31 @@ public class FabriqueAll {
 		squareDynamicShape.dispose();
 		return new GameObject2dSquare(new GameObject(name,squareBodyDef, squareBody, fixtureDef),sprite);
 	}
+	
+	public static GameObjectSprite creationBody(String name,World world,FileHandle fileHandle ,Vector2 position,Sprite sprite,short CATEGORY,short GROUP,short MASK){		
+			
+		BodyEditorLoader loader = new BodyEditorLoader(ConfigPref.File_BodyJson);	
+		
+	    BodyDef bd = new BodyDef();
+	    bd.position.set(0, 0);
+	    bd.type = BodyType.DynamicBody;
+	    
+	    // 2. Create a FixtureDef, as usual.
+	    FixtureDef fd = new FixtureDef();
+	    fd.density = 1;
+	    fd.friction = 0.5f;
+	    fd.restitution = 0.3f;
+	 
+	    // 3. Create a Body, as usual.
+	    Body body = world.createBody(bd);
+	    
+	    loader.attachFixture(body, "test01", fd, 1);
+	 
+	    GameObjectSprite gameObjSp = new GameObjectSprite(new GameObject(name, bd, body, fd), sprite) ;	 
+		return gameObjSp ;		
+	}
+	
+	
 /*
 	public Ship creationPersonnage(Vector2 position,short CATEGORIE_JOUEUR){		
 		int scale = 4;			

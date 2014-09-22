@@ -13,9 +13,11 @@ public  class GameObject {
 	private BodyDef bodyDef;
 	private Body body ;
 	private FixtureDef fixtureDef;
-	/*
-	private ArrayList<GameObjectCollisionListener> listObservables ;
-	*/
+	
+	private float ratioDeceleration;
+	private boolean autoDeceleration ;
+	
+	
 	//get/set
 	public BodyDef getBodyDef() {
 		return bodyDef;
@@ -61,7 +63,11 @@ public  class GameObject {
 	}
 	
 	public  void render(ScreenGame screenGame , SpriteBatch batch){};
-	public  void update(ScreenGame screenGame , float delta){};
+	public  void update(ScreenGame screenGame , float delta){
+		if (isAutoDeceleration()) {
+				deceleration(getRatioDeceleration());
+		}
+	};
 	
 	public void lookAt(Vector2 position){
 		Vector2 toTarget = position.sub(this.getBody().getPosition()) ;	
@@ -70,25 +76,19 @@ public  class GameObject {
 		this.getBody().setTransform(this.getBody().getPosition(), desiredAngle);
 	}
 	
-	/*public void acceleration(Vector2 vel){
-		
-	}*/
-	private float ratioDeceleration;
-	
+
 	public void deceleration(float ratioDeceleration){
 		Vector2 vel = getBody().getLinearVelocity().cpy().scl(ratioDeceleration-1);
 		
 		getBody().applyLinearImpulse(vel, getBody().getPosition(), true);
 	}
+	
 	public float getRatioDeceleration() {
 		return ratioDeceleration;
 	}
 	public void setRatioDeceleration(float ratioDeceleration) {
 		this.ratioDeceleration = ratioDeceleration;
 	}
-	
-	private boolean autoDeceleration ;
-	
 	public boolean isAutoDeceleration() {
 		return autoDeceleration;
 	}
@@ -116,37 +116,7 @@ public  class GameObject {
 		}
 	}
 	
-	public void addObserverCollision(GameObjectCollisionListener collisionListener){
-		
-		if (listObservables == null) {
-			listObservables = new ArrayList<GameObjectCollisionListener>();
-		}
-		
-		boolean dejala = false;
-		for (GameObjectCollisionListener gameObjectCollisionListener : listObservables) {
-			if (collisionListener.equals(gameObjectCollisionListener)) {
-				dejala = true;
-			}
-		}
-		if (!dejala) {			
-			listObservables.add(collisionListener);
-		}
-		
-	}
-	public void removeObserverCollision(GameObjectCollisionListener collisionListener){
-		if (listObservables != null) {
-			listObservables.remove(collisionListener);
-		}
-	}
-	*/
-	/*
-	public final void gameLogicInterface(ScreenGame screenGame, SpriteBatch batch,float delta) {
-        //do the things you always want to have happen here
-
-		update( screenGame,  delta);
-		render( screenGame,  batch);
-    }*/
-
+*/
   
 	
 

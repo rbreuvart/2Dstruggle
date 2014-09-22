@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.rbr.game.screen.game.ScreenGame;
+import com.rbr.game.utils.ConfigPref;
 
 
 public class CameraManageur {

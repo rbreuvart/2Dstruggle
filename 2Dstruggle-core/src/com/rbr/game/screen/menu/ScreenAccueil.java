@@ -8,11 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.rbr.game.ConfigPref;
-import com.rbr.game.ConfigPref.TypeMsg;
 import com.rbr.game.MainGame;
 import com.rbr.game.screen.AbsctactScreen;
 import com.rbr.game.screen.game.ScreenGame;
+import com.rbr.game.utils.ConfigPref;
+import com.rbr.game.utils.ConfigPref.TypeMsg;
 
 public class ScreenAccueil extends AbsctactScreen {
 
@@ -24,7 +24,7 @@ public class ScreenAccueil extends AbsctactScreen {
 	@Override
 	public void create() {		
 		super.create();
-		Skin skin = getMainGame().getManager().get(ConfigPref.file_UiSkin);
+		Skin skin = getMainGame().getManager().get(ConfigPref.File_UiSkin);
 	    Table table = new Table(skin);
 	    table.setFillParent(true);	  
 	    getStage().addActor(table);

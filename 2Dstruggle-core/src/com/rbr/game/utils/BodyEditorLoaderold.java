@@ -12,16 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
- 
-/**
- * Loads the collision fixtures defined with the Physics Body Editor
- * application. You only need to give it a body and the corresponding fixture
- * name, and it will attach these fixtures to your body.
- *
- * @author Aurelien Ribon | http://www.aurelienribon.com
- */
-public class BodyEditorLoader {
- 
+
+public class BodyEditorLoaderold {
+	 
 	// Model
 	private final Model model;
  
@@ -35,12 +28,12 @@ public class BodyEditorLoader {
 	// Ctors
 	// -------------------------------------------------------------------------
  
-	public BodyEditorLoader(FileHandle file) {
+	public BodyEditorLoaderold(FileHandle file) {
 		if (file == null) throw new NullPointerException("file is null");
 		model = readJson(file.readString());
 	}
  
-	public BodyEditorLoader(String str) {
+	public BodyEditorLoaderold(String str) {
 		if (str == null) throw new NullPointerException("str is null");
 		model = readJson(str);
 	}

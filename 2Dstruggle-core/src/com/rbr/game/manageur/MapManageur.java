@@ -10,15 +10,14 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Array;
-import com.rbr.game.ConfigPref;
 import com.rbr.game.screen.game.ScreenGame;
+import com.rbr.game.utils.ConfigPref;
 
 public class MapManageur {
 	
@@ -30,7 +29,7 @@ public class MapManageur {
 	private Array<Vector2> listVectorSpawn ; 
 	
 	public MapManageur(ScreenGame screenGame) {
-		this.tileMap = screenGame.getMainGame().getManager().get(ConfigPref.file_MapTest);
+		this.tileMap = screenGame.getMainGame().getManager().get(ConfigPref.File_MapTest);
 	//	TiledMapTileLayer layer = (TiledMapTileLayer)map.getLayers().get(0); // assuming the layer at index on contains tiles
 		float unitScale = (float)1/ConfigPref.pixelMeter;
 		renderer = new OrthogonalTiledMapRenderer(tileMap, unitScale);
@@ -91,25 +90,25 @@ public class MapManageur {
 		}
 		Light.setContactFilter(ConfigPref.CATEGORY_SCENERY, ConfigPref.CATEGORY_LIGHT, ConfigPref.CATEGORY_SCENERY);
 		
-		
+	/*	
 		Light sun = new PointLight(screenGame.getLightManageur().getRayHandler(), 800);
 		sun.setDistance(1000);
 		sun.setPosition(new Vector2(-0,50));		
 		sun.setColor(1,1,1,1);
 			//sun.setXray(true);	
-		
+		*/
 		
 		
 		MapLayer layerElement = tileMap.getLayers().get("element");
 		for (int j = 0; j <layerElement.getObjects().getCount(); j++) {
 		
 			MapObject mapObject = layerElement.getObjects().get(j);
-			//String name = mapObject.getName();
-		//	System.out.println(name);
+		
 		
 			if (ConfigPref.MapTypeSpawn.equals(mapObject.getProperties().get("type"))) {
 				
-				listVectorSpawn.add(new Vector2(Float.valueOf(mapObject.getProperties().get("x").toString()), Float.valueOf(mapObject.getProperties().get("y").toString())));
+				listVectorSpawn.add(new Vector2(Float.valueOf(mapObject.getProperties().get("x").toString())+ConfigPref.MapTypeSpawnOffsetPosition.x,
+												Float.valueOf(mapObject.getProperties().get("y").toString())+ConfigPref.MapTypeSpawnOffsetPosition.y));
 			
 			}else if(ConfigPref.MapTypePointLight.equals(mapObject.getProperties().get("type"))){
 				
@@ -127,13 +126,14 @@ public class MapManageur {
 				float b = Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightColorBlue, String.class));
 				float a = Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightColorAlpha, String.class));
 				light.setColor(r,g,b,a);
-				if (Boolean.getBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightStatic, String.class))) {
+				if (Boolean.parseBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightStatic, String.class))) {
 					light.setStaticLight(true);
+					//System.out.println("MapManageur.MapManageur()setStaticLight"+mapObject.getProperties().get(ConfigPref.MapPointLightStatic, String.class));
 				}
-				if (Boolean.getBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightXray, String.class))) {
+				if (Boolean.parseBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightXray, String.class))) {
 					light.setXray(true);
 				}
-				if (Boolean.getBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightSoft, String.class))) {
+				if (Boolean.parseBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightSoft, String.class))) {
 					light.setSoft(true);
 				}else{
 					light.setSoft(false);

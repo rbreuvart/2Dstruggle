@@ -3,8 +3,8 @@ package com.rbr.game.manageur;
 import box2dLight.ChainLight;
 import box2dLight.RayHandler;
 
-import com.rbr.game.ConfigPref;
 import com.rbr.game.screen.game.ScreenGame;
+import com.rbr.game.utils.ConfigPref;
 
 public class LightManageur {
 

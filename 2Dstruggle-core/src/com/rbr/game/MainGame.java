@@ -1,17 +1,16 @@
 package com.rbr.game;
 
-import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.rbr.game.ConfigPref.TypeMsg;
+import com.badlogic.gdx.files.FileHandle;
 import com.rbr.game.screen.menu.ScreenLoading;
+import com.rbr.game.utils.ConfigPref;
+import com.rbr.game.utils.ConfigPref.TypeMsg;
+import com.rbr.game.utils.FileLoader;
 
 public class MainGame extends Game {
 
@@ -19,23 +18,28 @@ public class MainGame extends Game {
 	private AssetManager manager;
 	
 	
-
+	private Map<String, FileHandle> mapFileHandle;
+	
 	public AssetManager getManager() {
 		return manager;
 	}
-
 	public void setManager(AssetManager manager) {
 		this.manager = manager;
 	}
-
+	public Map<String, FileHandle> getMapFileHandle() {
+		return mapFileHandle;
+	}
+	public void setMapFileHandle(Map<String, FileHandle> mapFileHandle) {
+		this.mapFileHandle = mapFileHandle;
+	}
 	
 	
 	@Override
 	public void create() {
 		
 	
-		
 		manager = new AssetManager();
+		mapFileHandle = new HashMap<String, FileHandle>();
 	/*	FileHandle[] files = Gdx.files.internal("data/").list();
 		for(FileHandle file: files) {
 			if (file.name().contains("skin")) {
@@ -50,34 +54,8 @@ public class MainGame extends Game {
 		manager.load(GameConfigPref.file_redBox,Texture.class);
 		manager.load(GameConfigPref.file_redCircle,Texture.class);
 		*/
-		Class<ConfigPref> c = ConfigPref.class;
-		Field[] fields = c.getDeclaredFields();
- 
-		for(Field f : fields){
-			if (f.getName().contains("file")) {
-			
-				
-				
-				try {
-					System.out.println(f.getName()+ " "+(String)f.get(ConfigPref.class));
-					String pathFile = (String)f.get(ConfigPref.class);
-					if (f.getName().contains("Skin")) {
-						manager.load( pathFile, Skin.class);
-					}else if(f.getName().contains("Map")){
-						manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-						manager.load(pathFile, TiledMap.class);
-					}else if (pathFile.contains(".png")||pathFile.contains(".PNG")||pathFile.contains(".jpg")||pathFile.contains(".JPG")) {
-						manager.load( pathFile, Texture.class);
-					}else{						
-						
-					}
-					
-				} catch (IllegalArgumentException e) {e.printStackTrace();} catch (IllegalAccessException e) {e.printStackTrace();}
-				
-			}
-			
-		}
-		
+		FileLoader loader = new FileLoader();
+		loader.addAllFile(this);
 		setScreen(new ScreenLoading(this) );
 	}
 
@@ -215,6 +193,9 @@ public class MainGame extends Game {
 		}
 
 	}
+
+	
+
 	
 	
 	

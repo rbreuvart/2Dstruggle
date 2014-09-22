@@ -21,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Touchpad.TouchpadStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.rbr.game.CameraManageur;
-import com.rbr.game.ConfigPref;
 import com.rbr.game.MainGame;
 import com.rbr.game.entity.physics.ContactGameObjectListener;
 import com.rbr.game.entity.physics.FabriqueAll;
@@ -34,6 +33,7 @@ import com.rbr.game.manageur.LightManageur;
 import com.rbr.game.manageur.MapManageur;
 import com.rbr.game.manageur.PlayerManageur;
 import com.rbr.game.manageur.WorldManageur;
+import com.rbr.game.utils.ConfigPref;
 
 public class ScreenGame implements Screen,InputProcessor,GestureListener{
 
@@ -191,9 +191,9 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
         	//Create a touchpad skin    
             touchpadSkin = new Skin();
             //Set background image
-            touchpadSkin.add("touchBackground", new Texture(ConfigPref.file_touchBackground));
+            touchpadSkin.add("touchBackground", new Texture(ConfigPref.File_touchBackground));
             //Set knob image
-            touchpadSkin.add("touchKnob", new Texture(ConfigPref.file_touchKnob));
+            touchpadSkin.add("touchKnob", new Texture(ConfigPref.File_touchKnob));
             //Create TouchPad Style
             touchpadStyle = new TouchpadStyle();
             //Create Drawable's from TouchPad skin
@@ -238,16 +238,23 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 				getMapManageur().getListVectorSpawn().first().cpy(),"player", 0.5f,ConfigPref.pixelMeter));
 		playerManageur = new PlayerManageur(player);
 		gameObjectManageur.getGameObjectArray().add(player.getGameObject());*/
-		
+		Sprite spritePlayer = new Sprite(  getMainGame().getManager().get(ConfigPref.File_Vaisseau1,Texture.class));
 		Player player = new Player(FabriqueAll.creationGameObjectCircle(worldManageur, 
-				new Sprite( (Texture) getMainGame().getManager().get(ConfigPref.file_Vaisseau1)),
-				mapManageur.getRandomSpawn(),"player", 0.45f,ConfigPref.pixelMeter));
+				spritePlayer,
+		mapManageur.getRandomSpawn(),"player", 0.45f,ConfigPref.pixelMeter));
+		/*
+		Player player = new Player(FabriqueAll.creationBody("player",
+				worldManageur.getWorld(),
+				getMainGame().getMapFileHandle().get(ConfigPref.File_BodyJson),
+				getMapManageur().getRandomSpawn(),spritePlayer,
+				(short) (ConfigPref.CATEGORY_JOUEUR+ConfigPref.CATEGORY_LIGHT),(short)0,(short)0));*/
+		
 		playerManageur = new PlayerManageur(player);
 		gameObjectManageur.getGameObjectArray().add(player.getGameObject());
 
 		//IA
 		iaManageur = new IaManageur();
-		IaPlayer iaplayer = new IaPlayer(FabriqueAll.creationGameObjectCircle(getWorldManageur(), new Sprite((Texture) mainGame.getManager().get(ConfigPref.file_RedCircle)),
+		IaPlayer iaplayer = new IaPlayer(FabriqueAll.creationGameObjectCircle(getWorldManageur(), new Sprite((Texture) mainGame.getManager().get(ConfigPref.File_RedCircle)),
 				mapManageur.getRandomSpawn(), "Ia", 0.45f, ConfigPref.pixelMeter));
 		
 		iaManageur.getListIaPlayer().add(iaplayer);
