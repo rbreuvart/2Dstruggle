@@ -1,10 +1,13 @@
 package com.rbr.game.manageur;
 
+import java.util.Map.Entry;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.rbr.game.player.Player;
 import com.rbr.game.screen.game.ScreenGame;
 
 public class HudManageur {
@@ -25,6 +28,18 @@ public class HudManageur {
 		batch.begin();
 		bitmapFont.draw(batch, "cam("+screenGame.getCamManageur().getOrthographicCamera().position.x+","+screenGame.getCamManageur().getOrthographicCamera().position.y+")", 10, 12);
 		bitmapFont.draw(batch, "FPS:"+Gdx.graphics.getFramesPerSecond(), 10, 24);
+		
+		int i = 0;
+		for (Entry<Integer, Player> entry : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
+			
+			bitmapFont.draw(batch, "PlayerManageur id"+entry.getValue().getId()+" name"+entry.getValue().getGameObject().getName()+" key"+entry.getKey()+" position"+entry.getValue().getGameObject().getBody().getPosition(), 10,36+(i*12));
+			i++;
+			
+		}
+		
+			
+		
+			
 		
 	/*
 			int compt = 0;

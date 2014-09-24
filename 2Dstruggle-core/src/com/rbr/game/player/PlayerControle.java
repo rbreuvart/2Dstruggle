@@ -5,6 +5,8 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.rbr.game.entity.physics.GameObject;
+import com.rbr.game.net.kryo.NetKryoManageur.NetApplicationType;
+import com.rbr.game.net.kryo.packet.PacketUpdateGameObjectPlayer;
 import com.rbr.game.screen.game.ScreenGame;
 import com.rbr.game.utils.ConfigPref;
 
@@ -120,5 +122,17 @@ public class PlayerControle extends Player{
 		});
 		*/
 		//gameObject.lookAt(screenGame.getIaManageur().getListIaPlayer().first().getGameObject().getBody().getPosition());
+		if (screenGame.getKryoManageur().getNetApplicationType().equals(NetApplicationType.Client)) {
+			PacketUpdateGameObjectPlayer packetUpdateGameObjectPlayer = new PacketUpdateGameObjectPlayer();
+			packetUpdateGameObjectPlayer.id = this.getId();
+			packetUpdateGameObjectPlayer.gameObject = this.getGameObject();
+			
+		//	screenGame.getKryoManageur().getKryoClientManageur().getClient().sendUDP(packetUpdateGameObjectPlayer);
+		
+		
+		}		
 	}
+	
+	
+	
 }

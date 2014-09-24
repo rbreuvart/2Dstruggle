@@ -41,7 +41,7 @@ public class CameraManageur {
 				velY = 0;
 		}
 		
-		if (!screenGame.getPlayerManageur().getPlayerLocal().equals(null)) {
+		if (screenGame.getPlayerManageur().getPlayerLocal()!=null) {
 			folowTarget(screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition());
 		}
 		

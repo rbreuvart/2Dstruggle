@@ -25,7 +25,6 @@ public class PlayerManageur {
 	}
 	
 	
-
 	/**
 	 * retourne le player Cité
 	 */
@@ -40,10 +39,14 @@ public class PlayerManageur {
 		}
 	}
 	
-	/*
+	public void removePlayerById(int id){
+		hashMapPlayer.remove(id);
+	}
+	
+	
 	public HashMap<Integer, Player> getHashMapPlayer() {
 		return hashMapPlayer;
-	}*/
+	}
 	/*
 	public void setHashMapPlayer(HashMap<Integer, Player> hashMapPlayer) {
 		this.hashMapPlayer = hashMapPlayer;

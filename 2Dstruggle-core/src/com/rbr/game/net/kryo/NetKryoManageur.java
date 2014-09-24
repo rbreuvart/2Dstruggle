@@ -14,8 +14,8 @@ public class NetKryoManageur {
 		Client,Serveur;
 	}
 	
-	NetKryoServerManageur kryoServerManageur;
-	NetKryoClientManageur kryoClientManageur;
+	private NetKryoServerManageur kryoServerManageur;
+	private NetKryoClientManageur kryoClientManageur;
 	
 	ArrayList<String>addressesInterface;
 	
@@ -24,7 +24,7 @@ public class NetKryoManageur {
 	public NetKryoManageur(ScreenGame screenGame, NetApplicationType type) {
 		netApplicationType = type;
 		if (NetApplicationType.Client.equals(type)) {
-			kryoClientManageur = new NetKryoClientManageur();
+			kryoClientManageur = new NetKryoClientManageur(screenGame);
 			System.err.println("Creation Client");
 		}
 		if (NetApplicationType.Serveur.equals(type)) {		
@@ -36,7 +36,6 @@ public class NetKryoManageur {
 			}
 			System.out.println("Creation Serveur");
 		}
-		
 		
 	}
 	
@@ -55,6 +54,30 @@ public class NetKryoManageur {
 
 	public void setNetApplicationType(NetApplicationType netApplicationType) {
 		this.netApplicationType = netApplicationType;
+	}
+
+	public NetKryoServerManageur getKryoServerManageur() {
+		return kryoServerManageur;
+	}
+
+	public void setKryoServerManageur(NetKryoServerManageur kryoServerManageur) {
+		this.kryoServerManageur = kryoServerManageur;
+	}
+
+	public NetKryoClientManageur getKryoClientManageur() {
+		return kryoClientManageur;
+	}
+
+	public void setKryoClientManageur(NetKryoClientManageur kryoClientManageur) {
+		this.kryoClientManageur = kryoClientManageur;
+	}
+
+	public ArrayList<String> getAddressesInterface() {
+		return addressesInterface;
+	}
+
+	public void setAddressesInterface(ArrayList<String> addressesInterface) {
+		this.addressesInterface = addressesInterface;
 	}
 	
 	

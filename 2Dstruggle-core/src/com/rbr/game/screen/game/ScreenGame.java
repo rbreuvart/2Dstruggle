@@ -247,20 +247,8 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		//map
 		mapManageur = new MapManageur(this);
 		
-		//joueur		
-		/*Player player = new Player(FabriqueAll.creationGameObjectCircle(worldManageur, 
-				new Sprite( (Texture) getMainGame().getManager().get(ConfigPref.file_Vaisseau1)),
-				getMapManageur().getListVectorSpawn().first().cpy(),"player", 0.5f,ConfigPref.pixelMeter));
-		playerManageur = new PlayerManageur(player);
-		gameObjectManageur.getGameObjectArray().add(player.getGameObject());*/
 		
-		/*
-		Player player = new Player(FabriqueAll.creationBody("player",
-				worldManageur.getWorld(),
-				getMainGame().getMapFileHandle().get(ConfigPref.File_BodyJson),
-				getMapManageur().getRandomSpawn(),spritePlayer,
-				(short) (ConfigPref.CATEGORY_JOUEUR+ConfigPref.CATEGORY_LIGHT),(short)0,(short)0));*/
-		
+		//Multiplayer and player
 		playerManageur = new PlayerManageur();
 	
 
@@ -282,17 +270,13 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		table.setFillParent(true);
 		table.align(Align.center+Align.top);
-	//	networkManageur = new NetworkManageur(this);
+	
 		TextButton btCreateServeur = new TextButton("C Serveur", skin);
 		btCreateServeur.addCaptureListener(new InputListener(){
     		@Override
     		public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {
-				System.out.println("Serveur");
-				
-				createPlayerInitialise();
-				
-				setKryoManageur(new NetKryoManageur(screenGame,NetApplicationType.Serveur));
-				
+				System.out.println("Serveur");					
+				setKryoManageur(new NetKryoManageur(screenGame,NetApplicationType.Serveur));				
 				return false;
 			}
 		});
@@ -302,10 +286,6 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 			@Override
     		public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {
 				System.out.println("Client");
-				
-				createPlayerInitialise();
-				
-				
 				setKryoManageur(new NetKryoManageur(screenGame,NetApplicationType.Client));
 				return false;
 			}
@@ -318,13 +298,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	}	
 	
 	
-	public void createPlayerInitialise(){
-		Sprite spritePlayer = new Sprite(  getMainGame().getManager().get(ConfigPref.File_Vaisseau1,Texture.class));
-		PlayerControle playerControle = new PlayerControle(FabriqueAll.creationGameObjectCircle(worldManageur, 
-				spritePlayer,			mapManageur.getRandomSpawn(),"player", 0.45f,ConfigPref.pixelMeter));
-		gameObjectManageur.getGameObjectArray().add(playerControle.getGameObject());
-		playerManageur.addPlayerInMap(0,playerControle);
-	}
+	
 	
 	
 	@Override
