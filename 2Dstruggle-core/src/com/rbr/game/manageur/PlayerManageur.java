@@ -34,7 +34,7 @@ public class PlayerManageur {
 	public void addPlayerInMap(int id,Player player){
 		hashMapPlayer.put(id, player);
 		player.setId(id);
-		if (playerLocal instanceof PlayerControle) {
+		if (player instanceof PlayerControle) {
 			this.playerLocal = (PlayerControle) player;
 		}
 	}

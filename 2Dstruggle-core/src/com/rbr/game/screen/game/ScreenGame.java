@@ -8,7 +8,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
@@ -28,7 +27,6 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.rbr.game.CameraManageur;
 import com.rbr.game.MainGame;
 import com.rbr.game.entity.physics.ContactGameObjectListener;
-import com.rbr.game.entity.physics.FabriqueAll;
 import com.rbr.game.manageur.GameObjectManageur;
 import com.rbr.game.manageur.HudManageur;
 import com.rbr.game.manageur.IaManageur;
@@ -38,7 +36,6 @@ import com.rbr.game.manageur.PlayerManageur;
 import com.rbr.game.manageur.WorldManageur;
 import com.rbr.game.net.kryo.NetKryoManageur;
 import com.rbr.game.net.kryo.NetKryoManageur.NetApplicationType;
-import com.rbr.game.player.PlayerControle;
 import com.rbr.game.utils.ConfigPref;
 
 public class ScreenGame implements Screen,InputProcessor,GestureListener{

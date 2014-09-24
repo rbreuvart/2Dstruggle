@@ -61,7 +61,9 @@ public class NetKryoServerManageur extends Listener{
 		if (screenGame.getPlayerManageur().getPlayerLocal()!=null) {
 			PacketUpdateGameObjectPlayer packetUpdateGameObjectPlayer = new PacketUpdateGameObjectPlayer();
 			packetUpdateGameObjectPlayer.id = screenGame.getPlayerManageur().getPlayerLocal().getId();
-			packetUpdateGameObjectPlayer.gameObject = screenGame.getPlayerManageur().getPlayerLocal().getGameObject();
+			packetUpdateGameObjectPlayer.positionX = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().x;
+			packetUpdateGameObjectPlayer.positionY = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().y;
+			packetUpdateGameObjectPlayer.angle = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getAngle();
 			
 			screenGame.getKryoManageur().getKryoServerManageur().getServer().sendToAllTCP( packetUpdateGameObjectPlayer);
 		}
@@ -113,18 +115,16 @@ public class NetKryoServerManageur extends Listener{
 	
 	public void received(Connection c, Object o){
 		if(o instanceof PacketUpdateGameObjectPlayer){
-			System.out.println("PacketUpdateGameObjectPlayer");
+		//	System.out.println("PacketUpdateGameObjectPlayer");
 			final PacketUpdateGameObjectPlayer packet = (PacketUpdateGameObjectPlayer) o;
 			Gdx.app.postRunnable(new Runnable() {
 				@Override
 				public void run() {
-					screenGame.getPlayerManageur().getPlayerById(packet.id).getGameObject().getBody().setTransform(packet.gameObject.getBody().getPosition(), packet.gameObject.getBody().getAngle());
+					screenGame.getPlayerManageur().getPlayerById(packet.id).getGameObject().getBody().setTransform(new Vector2(packet.positionX, packet.positionY), packet.angle);
 					server.sendToAllExceptUDP(packet.id, packet);
-				System.out
-						.println("NetKryoServerManageur.received(PacketUpdateGameObjectPlayer).new Runnable() {...}.run()");
+				System.out.println("NetKryoServerManageur.sendToAllExceptUDP :"+packet);
 				}
 			});
-			
 			
 		}
 	}

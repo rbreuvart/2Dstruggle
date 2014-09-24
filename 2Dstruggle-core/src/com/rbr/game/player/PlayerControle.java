@@ -122,15 +122,7 @@ public class PlayerControle extends Player{
 		});
 		*/
 		//gameObject.lookAt(screenGame.getIaManageur().getListIaPlayer().first().getGameObject().getBody().getPosition());
-		if (screenGame.getKryoManageur().getNetApplicationType().equals(NetApplicationType.Client)) {
-			PacketUpdateGameObjectPlayer packetUpdateGameObjectPlayer = new PacketUpdateGameObjectPlayer();
-			packetUpdateGameObjectPlayer.id = this.getId();
-			packetUpdateGameObjectPlayer.gameObject = this.getGameObject();
-			
-		//	screenGame.getKryoManageur().getKryoClientManageur().getClient().sendUDP(packetUpdateGameObjectPlayer);
-		
-		
-		}		
+		screenGame.getCamManageur().folowTarget(getGameObject().getBody().getPosition());
 	}
 	
 	

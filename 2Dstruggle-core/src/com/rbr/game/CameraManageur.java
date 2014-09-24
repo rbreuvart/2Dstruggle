@@ -40,11 +40,11 @@ public class CameraManageur {
 			if (Math.abs(velY) < 0.1f)
 				velY = 0;
 		}
-		
+		/*
 		if (screenGame.getPlayerManageur().getPlayerLocal()!=null) {
 			folowTarget(screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition());
 		}
-		
+		*/
 		
 		getOrthographicCamera().update();
 		

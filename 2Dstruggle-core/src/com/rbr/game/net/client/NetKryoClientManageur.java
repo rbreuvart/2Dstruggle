@@ -64,7 +64,18 @@ public class NetKryoClientManageur extends Listener{
 	
 	int comp = 0;
 	public void update(ScreenGame screenGame ){
-	
+		
+		if (screenGame.getPlayerManageur().getPlayerLocal() != null) {
+			PacketUpdateGameObjectPlayer packetUpdateGameObjectPlayer = new PacketUpdateGameObjectPlayer();
+			packetUpdateGameObjectPlayer.id = screenGame.getPlayerManageur().getPlayerLocal().getId();
+			packetUpdateGameObjectPlayer.angle = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getAngle();
+			packetUpdateGameObjectPlayer.positionX = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().x;
+			packetUpdateGameObjectPlayer.positionY = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().y;
+			client.sendTCP(packetUpdateGameObjectPlayer);
+	//		System.out.println("clien sendTCP"+packetUpdateGameObjectPlayer);
+		}
+			
+		
 	}
 	
 	public void received(Connection c, Object o){
@@ -130,12 +141,12 @@ public class NetKryoClientManageur extends Listener{
 		
 			
 		}else if(o instanceof PacketUpdateGameObjectPlayer){
-			System.out.println("PacketUpdateGameObjectPlayer");
+		//	System.out.println("PacketUpdateGameObjectPlayer");
 			final PacketUpdateGameObjectPlayer packet = (PacketUpdateGameObjectPlayer) o;
 			Gdx.app.postRunnable(new Runnable() {
 				@Override
 				public void run() {
-					screenGame.getPlayerManageur().getPlayerById(packet.id).getGameObject().getBody().setTransform(packet.gameObject.getBody().getPosition(), packet.gameObject.getBody().getAngle());
+					screenGame.getPlayerManageur().getPlayerById(packet.id).getGameObject().getBody().setTransform(new Vector2(packet.positionX, packet.positionY), packet.angle);
 					
 				}
 			});

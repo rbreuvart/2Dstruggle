@@ -9,6 +9,7 @@ public class RegisterPacket {
 		kryo.register(PacketAddMultiPlayer.class);
 		kryo.register(PacketRemovePlayer.class);
 		kryo.register(PacketUpdateGameObjectPlayer.class);	
+		
 	}
 	
 }

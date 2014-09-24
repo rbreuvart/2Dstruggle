@@ -1,8 +1,14 @@
 package com.rbr.game.net.kryo.packet;
 
-import com.rbr.game.entity.physics.GameObject;
 
 public class PacketUpdateGameObjectPlayer {
 	public int id;
-	public GameObject gameObject;
+	public float positionX,positionY,angle;
+	@Override
+	public String toString() {
+		return "PacketUpdateGameObjectPlayer [id=" + id + ", positionX="
+				+ positionX + ", positionY=" + positionY + ", angle=" + angle
+				+ "]";
+	}
+	
 }
