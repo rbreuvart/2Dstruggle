@@ -1,7 +1,7 @@
 package com.rbr.game.manageur;
 
 import com.badlogic.gdx.utils.Array;
-import com.rbr.game.inteligence.IaPlayer;
+import com.rbr.game.player.IaPlayer;
 import com.rbr.game.screen.game.ScreenGame;
 
 public class IaManageur {

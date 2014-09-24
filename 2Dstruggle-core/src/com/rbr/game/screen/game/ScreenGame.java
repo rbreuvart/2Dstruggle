@@ -14,18 +14,21 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad.TouchpadStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.rbr.game.CameraManageur;
 import com.rbr.game.MainGame;
 import com.rbr.game.entity.physics.ContactGameObjectListener;
 import com.rbr.game.entity.physics.FabriqueAll;
-import com.rbr.game.inteligence.IaPlayer;
-import com.rbr.game.inteligence.Player;
 import com.rbr.game.manageur.GameObjectManageur;
 import com.rbr.game.manageur.HudManageur;
 import com.rbr.game.manageur.IaManageur;
@@ -33,6 +36,9 @@ import com.rbr.game.manageur.LightManageur;
 import com.rbr.game.manageur.MapManageur;
 import com.rbr.game.manageur.PlayerManageur;
 import com.rbr.game.manageur.WorldManageur;
+import com.rbr.game.net.kryo.NetKryoManageur;
+import com.rbr.game.net.kryo.NetKryoManageur.NetApplicationType;
+import com.rbr.game.player.PlayerControle;
 import com.rbr.game.utils.ConfigPref;
 
 public class ScreenGame implements Screen,InputProcessor,GestureListener{
@@ -70,6 +76,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	private CameraManageur camManageur;
 	
 	//private NetworkManageur networkManageur;
+	private NetKryoManageur kryoManageur;
 	
 	private WorldManageur worldManageur ;
 	
@@ -135,6 +142,12 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	public void setLightManageur(LightManageur lightManageur) {
 		this.lightManageur = lightManageur;
 	}
+	public NetKryoManageur getKryoManageur() {
+		return kryoManageur;
+	}
+	public void setKryoManageur(NetKryoManageur kryoManageur) {
+		this.kryoManageur = kryoManageur;
+	}
 	/*
 	public NetworkManageur getNetworkManageur() {
 		return networkManageur;
@@ -163,8 +176,9 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		this.stage = stage;
 	}
 	
+	ScreenGame screenGame;
 	public ScreenGame(MainGame mainGame) {
-		
+		this.screenGame = this;
 		//recuperation de l'intance de MainGame
 		this.setMainGame(mainGame);
 		
@@ -183,6 +197,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
         if (Gdx.app.getType().equals(ApplicationType.Desktop)) {
             stage = new Stage(new StretchViewport(ConfigPref.viewPortWidth/1.2f,ConfigPref.viewPortHeight/1.2f));
             im.addProcessor(stage);
+         //   Gdx.input.setInputProcessor(stage);
         }
         
         Gdx.input.setInputProcessor(im);
@@ -191,9 +206,9 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
         	//Create a touchpad skin    
             touchpadSkin = new Skin();
             //Set background image
-            touchpadSkin.add("touchBackground", new Texture(ConfigPref.File_touchBackground));
+            touchpadSkin.add("touchBackground",getMainGame().getManager().get(ConfigPref.File_TouchBackground, Texture.class));
             //Set knob image
-            touchpadSkin.add("touchKnob", new Texture(ConfigPref.File_touchKnob));
+            touchpadSkin.add("touchKnob", getMainGame().getManager().get(ConfigPref.File_TouchKnob, Texture.class));
             //Create TouchPad Style
             touchpadStyle = new TouchpadStyle();
             //Create Drawable's from TouchPad skin
@@ -214,7 +229,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
             stage.addActor(touchpad);            
             Gdx.input.setInputProcessor(stage);
 		}
-        
+       // Gdx.input.setInputProcessor(stage);
 		//Cammera
 		camManageur  = new CameraManageur(mainGame);
 		camManageur.getOrthographicCamera().zoom = 100/ConfigPref.pixelMeter;
@@ -238,10 +253,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 				getMapManageur().getListVectorSpawn().first().cpy(),"player", 0.5f,ConfigPref.pixelMeter));
 		playerManageur = new PlayerManageur(player);
 		gameObjectManageur.getGameObjectArray().add(player.getGameObject());*/
-		Sprite spritePlayer = new Sprite(  getMainGame().getManager().get(ConfigPref.File_Vaisseau1,Texture.class));
-		Player player = new Player(FabriqueAll.creationGameObjectCircle(worldManageur, 
-				spritePlayer,
-		mapManageur.getRandomSpawn(),"player", 0.45f,ConfigPref.pixelMeter));
+		
 		/*
 		Player player = new Player(FabriqueAll.creationBody("player",
 				worldManageur.getWorld(),
@@ -249,27 +261,70 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 				getMapManageur().getRandomSpawn(),spritePlayer,
 				(short) (ConfigPref.CATEGORY_JOUEUR+ConfigPref.CATEGORY_LIGHT),(short)0,(short)0));*/
 		
-		playerManageur = new PlayerManageur(player);
-		gameObjectManageur.getGameObjectArray().add(player.getGameObject());
+		playerManageur = new PlayerManageur();
+	
 
 		//IA
 		iaManageur = new IaManageur();
+		/*
 		IaPlayer iaplayer = new IaPlayer(FabriqueAll.creationGameObjectCircle(getWorldManageur(), new Sprite((Texture) mainGame.getManager().get(ConfigPref.File_RedCircle)),
 				mapManageur.getRandomSpawn(), "Ia", 0.45f, ConfigPref.pixelMeter));
 		
 		iaManageur.getListIaPlayer().add(iaplayer);
 		gameObjectManageur.add(iaplayer.getGameObject());
-				
-		//centre la camera
-		camManageur.folowTarget(playerManageur.player.getGameObject().getBody().getPosition());
-
+		*/	
+		
+		
 		
 		hudManageur =  new HudManageur();
+		Skin skin = getMainGame().getManager().get(ConfigPref.File_UiSkin,Skin.class);
+		Table table =new Table(skin);
 		
+		table.setFillParent(true);
+		table.align(Align.center+Align.top);
 	//	networkManageur = new NetworkManageur(this);
+		TextButton btCreateServeur = new TextButton("C Serveur", skin);
+		btCreateServeur.addCaptureListener(new InputListener(){
+    		@Override
+    		public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {
+				System.out.println("Serveur");
+				
+				createPlayerInitialise();
+				
+				setKryoManageur(new NetKryoManageur(screenGame,NetApplicationType.Serveur));
+				
+				return false;
+			}
+		});
 		
+		TextButton btCreateClient = new TextButton("C Client",skin );
+		btCreateClient.addCaptureListener(new InputListener(){
+			@Override
+    		public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {
+				System.out.println("Client");
+				
+				createPlayerInitialise();
+				
+				
+				setKryoManageur(new NetKryoManageur(screenGame,NetApplicationType.Client));
+				return false;
+			}
+		});
+		
+		table.add(btCreateClient);
+		table.add(btCreateServeur);
+		
+		getStage().addActor(table);
 	}	
 	
+	
+	public void createPlayerInitialise(){
+		Sprite spritePlayer = new Sprite(  getMainGame().getManager().get(ConfigPref.File_Vaisseau1,Texture.class));
+		PlayerControle playerControle = new PlayerControle(FabriqueAll.creationGameObjectCircle(worldManageur, 
+				spritePlayer,			mapManageur.getRandomSpawn(),"player", 0.45f,ConfigPref.pixelMeter));
+		gameObjectManageur.getGameObjectArray().add(playerControle.getGameObject());
+		playerManageur.addPlayerInMap(0,playerControle);
+	}
 	
 	
 	@Override
@@ -283,7 +338,8 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		playerManageur.update(delta, this);
 		
 	//	if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-		camManageur.folowTarget(playerManageur.player.getGameObject().getBody().getPosition());			
+		
+					
 	//	}
 		
 		camManageur.update(this,delta);
@@ -299,8 +355,9 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		hudManageur.update(this, delta);
 		hudManageur.render(this, batch);
-		
-		
+		if (kryoManageur!=null) {
+			kryoManageur.update(this, delta);			
+		}
 		
 	}
 	@Override
@@ -409,13 +466,14 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	//object Terrain
 	
 	
-			//test Wall
-			/*GameObjectWall gameObjectWall = fabriqueAll.creationStaticWall(worldManageur.getWorld(),
-											new Sprite((Texture) mainGame.getManager().get(GameConfigPref.file_redBox)),
-											-1000, -1000, 1000, 1,
-											"groundWall", GameConfigPref.pixelMeter);
-			
-			gameObjectManageur.add(gameObjectWall);*/
+	
+	//test Wall
+	/*GameObjectWall gameObjectWall = fabriqueAll.creationStaticWall(worldManageur.getWorld(),
+									new Sprite((Texture) mainGame.getManager().get(GameConfigPref.file_redBox)),
+									-1000, -1000, 1000, 1,
+									"groundWall", GameConfigPref.pixelMeter);
+	
+	gameObjectManageur.add(gameObjectWall);*/
 	/*
 	
 	//chaine

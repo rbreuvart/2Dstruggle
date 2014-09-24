@@ -1,4 +1,4 @@
-package com.rbr.game.inteligence;
+package com.rbr.game.player;
 
 import com.rbr.game.entity.physics.GameObject;
 import com.rbr.game.screen.game.ScreenGame;

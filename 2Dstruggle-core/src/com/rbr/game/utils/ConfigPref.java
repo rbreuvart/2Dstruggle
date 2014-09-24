@@ -36,6 +36,13 @@ public class ConfigPref {
 	
 	public static final Color CouleurAmbientLight = new Color(0.2f, 0.2f, 0.2f, 0.2f);
 
+	//Player
+	
+	public static final float Player_MAX_VELOCITY = 3.5f;
+	
+	
+	
+	
 	//Couleur Scene
 	public static final Color CouleurGameBackGroundGL = new Color(0.f, 0f, 0.0f, 0f);
 	
@@ -56,23 +63,26 @@ public class ConfigPref {
 	//pointLight
 	public static final String MapTypePointLight = "POINTLIGHT";
 	public static final Vector2 MapPointLightOffsetPosition = new Vector2((float)32/pixelMeter,(float)32/pixelMeter);
-	public static final String MapPointLightColorRed = "ColorR";
-	public static final String MapPointLightColorGreen= "ColorG";
-	public static final String MapPointLightColorBlue= "ColorB";
-	public static final String MapPointLightColorAlpha= "ColorA";	
-	public static final String MapPointLightDistance= "Distance";
-	public static final String MapPointLightSoftnesslen= "Softness";
-	public static final String MapPointLightStatic= "Static";
-	public static final String MapPointLightXray= "Xray";
-	public static final String MapPointLightSoft= "Soft";
+	public static final String MapPointLightColorRed 	= "ColorR";
+	public static final String MapPointLightColorGreen	= "ColorG";
+	public static final String MapPointLightColorBlue	= "ColorB";
+	public static final String MapPointLightColorAlpha	= "ColorA";	
+	public static final String MapPointLightDistance	= "Distance";
+	public static final String MapPointLightSoftnesslen	= "Softness";
+	public static final String MapPointLightStatic		= "Static";
+	public static final String MapPointLightXray		= "Xray";
+	public static final String MapPointLightSoft		= "Soft";
 	
 	//Tile
 	public static final String TilePropLightBlocage = "TRANSPARENT";
 	
 	
 	//network
-	public static final int Net_CommunicationPort = 9090;
+	public static final int Net_CommunicationPortTCP = 54555;
+	public static final int Net_CommunicationPortUDP = 54777;
+	
 	public static final int Net_TimeOut = 4000;//socket close aprés 4sec 
+	
 	public static final String Net_PatternPosition = "@P@"; 
 	public static final String Net_PatternMsgRecu = "<--";
 	public static final String Net_PatternMsgEmit = "-->";
@@ -90,8 +100,8 @@ public class ConfigPref {
 	public static final String File_RedBox 		= 	"data/debug/redbox.png";
 	public static final String File_RedCircle	= 	"data/debug/redcircle.png";
 	
-	public static final String File_touchBackground = "data/ui/touchBackground.png";
-	public static final String File_touchKnob 		= "data/ui/touchKnob.png";
+	public static final String File_TouchBackground = "data/ui/touchBackground.png";
+	public static final String File_TouchKnob 		= "data/ui/touchKnob.png";
 	
 	public static final String File_MapTest 	= "data/map/texturepack.tmx";
 	
