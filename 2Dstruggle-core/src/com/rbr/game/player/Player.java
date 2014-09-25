@@ -19,8 +19,7 @@ public abstract class Player {
 	
 	public Player(GameObject gameObject) {
 		this.gameObject = gameObject;
-		//prend en charge manuelement dans l'update de player l'auto deceleration
-		getGameObject().setAutoDeceleration(false);
+		
 	}
 	
 	

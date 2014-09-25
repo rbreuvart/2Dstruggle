@@ -14,6 +14,8 @@ public class PlayerControle extends Player{
 
 	public PlayerControle(GameObject gameObject) {
 		super(gameObject);		
+		//prend en charge manuelement dans l'update de player l'auto deceleration
+				getGameObject().setAutoDeceleration(false);
 	}
 
 	

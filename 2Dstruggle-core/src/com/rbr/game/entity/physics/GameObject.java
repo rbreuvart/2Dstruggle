@@ -78,8 +78,14 @@ public  class GameObject {
 	
 
 	public void deceleration(float ratioDeceleration){
+		System.out.println("deceleration : "+getName());
 		Vector2 vel = getBody().getLinearVelocity().cpy().scl(ratioDeceleration-1);
-		
+		if (Math.sqrt(vel.x)+Math.sqrt(vel.y) <=0.05) {
+			 getBody().setLinearVelocity(new Vector2());
+			 getBody().setLinearDamping(0);
+			 getBody().setAngularDamping(0);
+			 getBody().setAngularVelocity(0);
+		}
 		getBody().applyLinearImpulse(vel, getBody().getPosition(), true);
 	}
 	
