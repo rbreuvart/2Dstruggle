@@ -1,6 +1,7 @@
 package com.rbr.game.net.server;
 
 import java.io.IOException;
+import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -65,6 +66,7 @@ public class NetKryoServerManageur extends Listener{
 			packetUpdateGameObjectPlayer.positionY = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().y;
 			packetUpdateGameObjectPlayer.angle = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getAngle();
 			
+			
 			screenGame.getKryoManageur().getKryoServerManageur().getServer().sendToAllTCP( packetUpdateGameObjectPlayer);
 		}
 		
@@ -101,15 +103,15 @@ public class NetKryoServerManageur extends Listener{
 			packet2.id = p.getId();
 			packet2.positionSpawnx = p.getGameObject().getBody().getPosition().x;
 			packet2.positionSpawny = p.getGameObject().getBody().getPosition().y;
-			if (packet2.id!=packetAddPlayer.id ) {
-				c.sendTCP(packet2);
-			}
+			
+			c.sendTCP(packet2);
+			System.out.println(packet2);
+			
 			
 		}
 		
 		//ajout a la MAp des joueurs
 		screenGame.getPlayerManageur().addPlayerInMap(idConnectionPlayer, playerMulti);
-		System.out.println("Connection received.");
 	
 	}
 	
@@ -121,8 +123,15 @@ public class NetKryoServerManageur extends Listener{
 				@Override
 				public void run() {
 					screenGame.getPlayerManageur().getPlayerById(packet.id).getGameObject().getBody().setTransform(new Vector2(packet.positionX, packet.positionY), packet.angle);
-					server.sendToAllExceptUDP(packet.id, packet);
-				System.out.println("NetKryoServerManageur.sendToAllExceptUDP :"+packet);
+				
+					//server.sendToAllExceptUDP(packet.id, packet);
+					//System.out.println("NetKryoServerManageur.sendToAllExceptUDP :"+packet);
+					for (Entry<Integer,Player> entry : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
+						if (entry.getKey()!=packet.id && entry.getKey() != screenGame.getPlayerManageur().getPlayerLocal().getId()) {
+							server.sendToUDP(packet.id, packet);
+						}
+					}
+					
 				}
 			});
 			

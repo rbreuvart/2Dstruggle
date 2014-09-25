@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -71,7 +72,7 @@ public class NetKryoClientManageur extends Listener{
 			packetUpdateGameObjectPlayer.angle = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getAngle();
 			packetUpdateGameObjectPlayer.positionX = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().x;
 			packetUpdateGameObjectPlayer.positionY = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().y;
-			client.sendTCP(packetUpdateGameObjectPlayer);
+			client.sendUDP(packetUpdateGameObjectPlayer);
 	//		System.out.println("clien sendTCP"+packetUpdateGameObjectPlayer);
 		}
 			
@@ -80,7 +81,7 @@ public class NetKryoClientManageur extends Listener{
 	
 	public void received(Connection c, Object o){
 		if(o instanceof PacketAddPlayer){
-			System.out.println("PacketAddPlayer");
+			//System.out.println("PacketAddPlayer");
 			final PacketAddPlayer packet = (PacketAddPlayer) o;
 			Gdx.app.postRunnable(new Runnable() {
 				@Override
@@ -102,14 +103,14 @@ public class NetKryoClientManageur extends Listener{
 		//	ClientProgram.players.put(packet.id, newPlayer);
 			
 		}if(o instanceof PacketAddMultiPlayer){
-			System.out.println("PacketAddMultiPlayer");
+		//	System.out.println("PacketAddMultiPlayer");
 			final PacketAddMultiPlayer packet = (PacketAddMultiPlayer) o;
-			System.out.println("Client recoie de serveur un AddMultyplayer id:"+packet.id+" a la position de spawn: "+packet.positionSpawnx+","+packet.positionSpawny);
+		//	System.out.println("Client recoie de serveur un AddMultyplayer id:"+packet.id+" a la position de spawn: "+packet.positionSpawnx+","+packet.positionSpawny);
 			Gdx.app.postRunnable(new Runnable() {
 				@Override
 				public void run() {
 					Vector2 position =new Vector2(packet.positionSpawnx, packet.positionSpawny);
-					System.out.println(position);
+					//System.out.println(position);
 					Sprite spritePlayer = new Sprite(  screenGame.getMainGame().getManager().get(ConfigPref.File_RedCircle,Texture.class));
 					PlayerMulti playerControle = new PlayerMulti(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
 							spritePlayer,	new Vector2(0, 0) ,"playerMulti", 0.45f,ConfigPref.pixelMeter));
@@ -127,7 +128,7 @@ public class NetKryoClientManageur extends Listener{
 		//	ClientProgram.players.put(packet.id, newPlayer);
 			
 		}else if(o instanceof PacketRemovePlayer){
-			System.out.println("PacketRemovePlayer");
+			
 			final PacketRemovePlayer packet = (PacketRemovePlayer) o;
 		//	ClientProgram.players.remove(packet.id);
 			Gdx.app.postRunnable(new Runnable() {
@@ -141,16 +142,29 @@ public class NetKryoClientManageur extends Listener{
 		
 			
 		}else if(o instanceof PacketUpdateGameObjectPlayer){
-		//	System.out.println("PacketUpdateGameObjectPlayer");
+			
 			final PacketUpdateGameObjectPlayer packet = (PacketUpdateGameObjectPlayer) o;
+			//System.out.println("Client"+packet);
 			Gdx.app.postRunnable(new Runnable() {
 				@Override
 				public void run() {
-					screenGame.getPlayerManageur().getPlayerById(packet.id).getGameObject().getBody().setTransform(new Vector2(packet.positionX, packet.positionY), packet.angle);
-					
+					Vector2 newPosition = new Vector2(packet.positionX, packet.positionY);
+					Body bodyPlayer = screenGame.getPlayerManageur().getPlayerById(packet.id).getGameObject().getBody();
+					Vector2 correctPosition = new Vector2(bodyPlayer.getPosition());
+					if (newPosition.x != bodyPlayer.getPosition().x ) {
+						correctPosition.x = newPosition.x;
+					}
+					if (newPosition.y != bodyPlayer.getPosition().y) {
+						correctPosition.y = newPosition.y;
+					}
+					bodyPlayer.setTransform(correctPosition, packet.angle);
+				/*
+					bodyPlayer.setLinearDamping(0);
+					bodyPlayer.setAngularDamping(0);
+					bodyPlayer.setAngularVelocity(0);
+					bodyPlayer.setLinearVelocity(new Vector2(0,0));*/
 				}
 			});
-		//	ClientProgram.players.get(packet.id).x = packet.x;
 			
 		}
 	}
@@ -178,35 +192,6 @@ public class NetKryoClientManageur extends Listener{
 	public void setAddress(InetAddress address) {
 		this.address = address;
 	}
-	
-	
-	
-	/*
-	public static void main(String[] args){
-		new NetKryoClientManageur();
-	}
-	*/
-	
-	/*
-	
-	clientName = "Remi";
-	clientNetWorkListener = new KryoClientNetWorkListener(client,clientName);
-	scanner = new Scanner(System.in);
-	
-	
-	registerPackets();
-	client.addListener(clientNetWorkListener);
 
-    new Thread (client).start();
-    System.out.println(address);
-    if(address == null) {
-        System.exit(0);
-    }
-    try {
-		client.connect(5000, address, ConfigPref.Net_CommunicationPortTCP,ConfigPref.Net_CommunicationPortUDP);
-	
-	} catch (IOException e) {
-		e.printStackTrace();
-	}*/
 	
 }

@@ -2,11 +2,13 @@ package com.rbr.game.manageur;
 
 import java.util.Map.Entry;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.rbr.game.net.kryo.NetKryoManageur.NetApplicationType;
 import com.rbr.game.player.Player;
 import com.rbr.game.screen.game.ScreenGame;
 
@@ -28,7 +30,13 @@ public class HudManageur {
 		batch.begin();
 		bitmapFont.draw(batch, "cam("+screenGame.getCamManageur().getOrthographicCamera().position.x+","+screenGame.getCamManageur().getOrthographicCamera().position.y+")", 10, 12);
 		bitmapFont.draw(batch, "FPS:"+Gdx.graphics.getFramesPerSecond(), 10, 24);
-		
+		if (screenGame.getKryoManageur()!=null) {		
+			if (screenGame.getKryoManageur().getNetApplicationType().equals(NetApplicationType.Client)) {
+				bitmapFont.draw(batch, "Type : "+"Client",50, 24);
+			}else {
+				bitmapFont.draw(batch, "Type : "+"Serveur",50, 24);
+			}
+		}
 		int i = 0;
 		for (Entry<Integer, Player> entry : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
 			
