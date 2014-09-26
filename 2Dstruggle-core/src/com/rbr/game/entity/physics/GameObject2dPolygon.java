@@ -8,8 +8,8 @@ public class GameObject2dPolygon extends GameObjectSprite{
 	public GameObject2dPolygon(GameObject go,Sprite sprite) {
 		super(go,sprite);
 		
-		getSprite().setOrigin(getSprite().getWidth(), getSprite().getHeight());
-		getSprite().flip(true,false);
+		sprite.setOrigin(sprite.getWidth(), sprite.getHeight());
+		sprite.flip(true,false);
 	}
 
 

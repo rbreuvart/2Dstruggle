@@ -1,12 +1,10 @@
 package com.rbr.game.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.rbr.game.entity.physics.GameObject;
-import com.rbr.game.net.kryo.NetKryoManageur.NetApplicationType;
-import com.rbr.game.net.kryo.packet.PacketUpdateGameObjectPlayer;
 import com.rbr.game.screen.game.ScreenGame;
 import com.rbr.game.utils.ConfigPref;
 
@@ -14,8 +12,8 @@ public class PlayerControle extends Player{
 
 	public PlayerControle(GameObject gameObject) {
 		super(gameObject);		
-		//prend en charge manuelement dans l'update de player l'auto deceleration
-				getGameObject().setAutoDeceleration(false);
+		//prend en charge manuelement dans l'update de playerControle l'auto deceleration
+		getGameObject().setAutoDeceleration(false);
 	}
 
 	

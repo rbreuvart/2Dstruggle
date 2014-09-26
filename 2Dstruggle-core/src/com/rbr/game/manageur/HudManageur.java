@@ -2,7 +2,6 @@ package com.rbr.game.manageur;
 
 import java.util.Map.Entry;
 
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
@@ -18,7 +17,7 @@ public class HudManageur {
 	BitmapFontCache  bfc ;
 	public HudManageur() {
 		normalProjection = new Matrix4();
-		normalProjection.setToOrtho2D(0, 0, Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);	
+		normalProjection.setToOrtho2D(0, 0, Gdx.graphics.getWidth()/1.5f,Gdx.graphics.getHeight()/1.5f);	
 		bitmapFont = new BitmapFont();
 		
 		bfc = new BitmapFontCache(bitmapFont);

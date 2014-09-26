@@ -138,6 +138,7 @@ public class FabriqueAll {
 		return new GameObject2dSquare(new GameObject(name,squareBodyDef, squareBody, fixtureDef),sprite);
 	}
 	
+	//FIXME le jSon reader ne marche pas
 	public static GameObjectSprite creationBody(String name,World world,FileHandle fileHandle ,Vector2 position,Sprite sprite,short CATEGORY,short GROUP,short MASK){		
 			
 		BodyEditorLoader loader = new BodyEditorLoader(ConfigPref.File_BodyJson);	

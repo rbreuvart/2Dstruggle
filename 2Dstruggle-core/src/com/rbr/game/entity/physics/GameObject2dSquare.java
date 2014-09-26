@@ -8,7 +8,7 @@ public class GameObject2dSquare extends GameObjectSprite{
 	
 	public GameObject2dSquare(GameObject go, Sprite sprite) {
 		super(go, sprite);
-		getSprite().setOrigin(getSprite().getWidth()/2, getSprite().getHeight()/2);
+		sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
 	}
 	
 

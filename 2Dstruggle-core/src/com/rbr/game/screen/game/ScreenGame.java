@@ -184,21 +184,20 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 		
-		//controle
-		InputMultiplexer im = new InputMultiplexer();
+	
+      
+        stage = new Stage(new StretchViewport(ConfigPref.viewPortWidth/1f,ConfigPref.viewPortHeight/1f));
+        //controle
+        InputMultiplexer im = new InputMultiplexer();
         GestureDetector gd = new GestureDetector(this);
         im.addProcessor(gd);
         im.addProcessor(this);
-      
-        
-        if (Gdx.app.getType().equals(ApplicationType.Desktop)) {
-            stage = new Stage(new StretchViewport(ConfigPref.viewPortWidth/1.2f,ConfigPref.viewPortHeight/1.2f));
-            im.addProcessor(stage);
-         //   Gdx.input.setInputProcessor(stage);
-        }
-        
-        Gdx.input.setInputProcessor(im);
-        
+    	im.addProcessor(stage);
+    	Gdx.input.setInputProcessor(im);
+    	
+        if (Gdx.app.getType().equals(ApplicationType.Desktop)) {        	
+    	
+        }         
         if (Gdx.app.getType().equals(ApplicationType.Android)) {
         	//Create a touchpad skin    
             touchpadSkin = new Skin();
@@ -222,9 +221,9 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
             touchpad.setBounds(30, 40, 200, 200);
             
             //Create a Stage and add TouchPad
-            stage = new Stage(new StretchViewport(ConfigPref.viewPortWidth/1.2f,ConfigPref.viewPortHeight/1.2f));
+           // stage = new Stage(new StretchViewport(ConfigPref.viewPortWidth/1.2f,ConfigPref.viewPortHeight/1.2f));
             stage.addActor(touchpad);            
-            Gdx.input.setInputProcessor(stage);
+         //   Gdx.input.setInputProcessor(stage);
 		}
        // Gdx.input.setInputProcessor(stage);
 		//Cammera

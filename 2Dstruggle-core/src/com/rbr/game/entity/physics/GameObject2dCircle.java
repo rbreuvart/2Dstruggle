@@ -15,8 +15,8 @@ public class GameObject2dCircle extends GameObjectSprite{
 		super(go, sprite);
 		setRadius(radius);
 	
-		getSprite().setSize(radius*2,radius*2);		
-		getSprite().setOrigin(getSprite().getWidth()/2, getSprite().getHeight()/2);	
+		sprite.setSize(radius*2,radius*2);		
+		sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);	
 	}
 
 		
