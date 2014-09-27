@@ -104,6 +104,6 @@ public class ConfigPref {
 	public static final String File_TouchKnob 		= "data/ui/touchKnob.png";
 	
 	public static final String File_MapTest 	= "data/map/texturepack.tmx";
-	
+	public static final String File_MiniatureCarte = "data/map/minmap.png";
 	
 }

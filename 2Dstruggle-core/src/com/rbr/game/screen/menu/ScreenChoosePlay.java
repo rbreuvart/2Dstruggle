@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.rbr.game.MainGame;
 import com.rbr.game.screen.AbsctactScreen;
 import com.rbr.game.screen.game.ScreenGame;
@@ -150,35 +149,64 @@ public class ScreenChoosePlay extends AbsctactScreen{
 			
 		
 			
+			
 		
-			Object[] listEntries = {"This is a list entry1", "And another one1", "The meaning of life1", "Is hard to come by1",
-					"This is a list entry2", "And another one2", "The meaning of life2", "Is hard to come by2", "This is a list entry3",
-					"And another one3", "The meaning of life3", "Is hard to come by3", "This is a list entry4", "And another one4",
-					"The meaning of life4", "Is hard to come by4", "This is a list entry5", "And another one5", "The meaning of life5",
-					"Is hard to come by5"};
+			Object[] listEntries = {
+					"texturepack.tmx",
+					"??",
+					"???",
+					"????",
+					};
 			Texture texture2 = new Texture(Gdx.files.internal("data/map/texturepack.png"));
+			
+			
 			TextureRegion image2 = new TextureRegion(texture2);
 			Image imageActor = new Image(image2);
-			ScrollPane scrollPane = new ScrollPane(imageActor);
+			final ScrollPane scrollPane = new ScrollPane(imageActor);
 			
 			@SuppressWarnings("rawtypes")
-			List list = new List(skin);
+			final List list = new List(skin);
 						
 			list.setItems(listEntries);
 			list.getSelection().setMultiple(false);
 			list.getSelection().setRequired(false);
+			
 			ScrollPane scrollPane2 = new ScrollPane(list, skin);
 			scrollPane2.setFlickScroll(false);
-			SplitPane splitPane = new SplitPane(scrollPane, scrollPane2, false, skin, "default-horizontal");
+			
+			final SplitPane splitPane = new SplitPane(scrollPane, scrollPane2, false, skin, "default-horizontal");
 			
 			list.addCaptureListener(new InputListener(){
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
-					System.out.println("List touchDown "+event);
+					Gdx.app.postRunnable(new Runnable() {						
+						@Override
+						public void run() {							
+							int index = list.getSelectedIndex();
+							if (index>=0) {
+								String nameObjectlist = (String) list.getItems().get(index);
+								System.out.println(nameObjectlist);
+								
+								ScrollPane spane = (ScrollPane) splitPane.getChildren().get(0);
+								
+								Texture textureMiniature = getMainGame().getManager().get(ConfigPref.File_MiniatureCarte, Texture.class);
+								TextureRegion imageMin = new TextureRegion(textureMiniature);
+								final Image imageActorMin = new Image(imageMin);
+								
+								spane.setWidget(new ScrollPane(imageActorMin));
+								
+								
+							}
+						
+						}
+					});
 					return super.touchDown(event, x, y, pointer, button);
 				}
 			});
+			
+			
+		
 			tableWindow.add(splitPane).fill().expand().colspan(4).maxHeight(470);
 			
 			//tableWindow.add(list).align(Align.top+Align.left).expand(1, 1);
