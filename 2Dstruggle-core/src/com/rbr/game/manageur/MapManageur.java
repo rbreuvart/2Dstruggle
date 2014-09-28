@@ -28,8 +28,8 @@ public class MapManageur {
 	
 	private Array<Vector2> listVectorSpawn ; 
 	
-	public MapManageur(ScreenGame screenGame) {
-		this.tileMap = screenGame.getMainGame().getManager().get(ConfigPref.File_MapTest);
+	public MapManageur(ScreenGame screenGame,String fileMapAsset) {
+		this.tileMap = screenGame.getMainGame().getManager().get(fileMapAsset);
 	//	TiledMapTileLayer layer = (TiledMapTileLayer)map.getLayers().get(0); // assuming the layer at index on contains tiles
 		float unitScale = (float)1/ConfigPref.pixelMeter;
 		renderer = new OrthogonalTiledMapRenderer(tileMap, unitScale);

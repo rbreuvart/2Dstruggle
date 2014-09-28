@@ -56,8 +56,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -70,8 +70,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="true"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -84,8 +84,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -98,8 +98,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -112,8 +112,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -126,8 +126,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -140,8 +140,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -154,8 +154,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -168,8 +168,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -182,8 +182,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -196,8 +196,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -210,8 +210,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -224,8 +224,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -238,8 +238,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>
@@ -252,8 +252,8 @@
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
     <property name="ColorR" value="1"/>
-    <property name="Distance" value="20"/>
-    <property name="Quality" value="200"/>
+    <property name="Distance" value="25"/>
+    <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
     <property name="Static" value="true"/>

@@ -174,7 +174,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	}
 	
 	ScreenGame screenGame;
-	public ScreenGame(MainGame mainGame) {
+	public ScreenGame(MainGame mainGame,NetApplicationType  netAppType,String mapFileAsset) {
 		this.screenGame = this;
 		//recuperation de l'intance de MainGame
 		this.setMainGame(mainGame);
@@ -241,7 +241,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		lightManageur = new LightManageur(this);
 		
 		//map
-		mapManageur = new MapManageur(this);
+		mapManageur = new MapManageur(this,mapFileAsset);
 		
 		
 		//Multiplayer and player
@@ -261,36 +261,44 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		
 		hudManageur =  new HudManageur();
-		Skin skin = getMainGame().getManager().get(ConfigPref.File_UiSkin,Skin.class);
-		Table table =new Table(skin);
 		
-		table.setFillParent(true);
-		table.align(Align.center+Align.top);
-	
-		TextButton btCreateServeur = new TextButton("C Serveur", skin);
-		btCreateServeur.addCaptureListener(new InputListener(){
-    		@Override
-    		public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {
-				System.out.println("Serveur");					
-				setKryoManageur(new NetKryoManageur(screenGame,NetApplicationType.Serveur));				
-				return false;
-			}
-		});
+		if (netAppType == null) {
+			Skin skin = getMainGame().getManager().get(ConfigPref.File_UiSkin,Skin.class);
+			Table table =new Table(skin);
+			
+			table.setFillParent(true);
+			table.align(Align.center+Align.top);
 		
-		TextButton btCreateClient = new TextButton("C Client",skin );
-		btCreateClient.addCaptureListener(new InputListener(){
-			@Override
-    		public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {
-				System.out.println("Client");
-				setKryoManageur(new NetKryoManageur(screenGame,NetApplicationType.Client));
-				return false;
-			}
-		});
+			TextButton btCreateServeur = new TextButton("C Serveur", skin);
+			btCreateServeur.addCaptureListener(new InputListener(){
+	    		@Override
+	    		public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {
+					System.out.println("Serveur");					
+					setKryoManageur(new NetKryoManageur(screenGame,NetApplicationType.Serveur));				
+					return false;
+				}
+			});
+			
+			TextButton btCreateClient = new TextButton("C Client",skin );
+			btCreateClient.addCaptureListener(new InputListener(){
+				@Override
+	    		public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {
+					System.out.println("Client");
+					setKryoManageur(new NetKryoManageur(screenGame,NetApplicationType.Client));
+					return false;
+				}
+			});
+			
+			table.add(btCreateClient);
+			table.add(btCreateServeur);
+			
+			getStage().addActor(table);
+		}else{
+			this.kryoManageur = new NetKryoManageur(this, netAppType);
+		}
 		
-		table.add(btCreateClient);
-		table.add(btCreateServeur);
 		
-		getStage().addActor(table);
+		
 	}	
 	
 	

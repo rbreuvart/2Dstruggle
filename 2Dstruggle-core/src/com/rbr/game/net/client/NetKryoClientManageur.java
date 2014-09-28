@@ -88,7 +88,7 @@ public class NetKryoClientManageur extends Listener{
 				public void run() {
 					
 					
-					Sprite spritePlayer = new Sprite(  screenGame.getMainGame().getManager().get(ConfigPref.File_Vaisseau1,Texture.class));
+					Sprite spritePlayer = new Sprite(  screenGame.getMainGame().getManager().get(ConfigPref.File_BodyPerso,Texture.class));
 					PlayerControle playerControle = new PlayerControle(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
 							spritePlayer,	new Vector2(packet.positionSpawnx, packet.positionSpawny),"player", 0.45f,ConfigPref.pixelMeter));
 					screenGame.getGameObjectManageur().getGameObjectArray().add(playerControle.getGameObject());

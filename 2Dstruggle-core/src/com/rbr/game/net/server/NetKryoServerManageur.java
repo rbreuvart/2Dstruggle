@@ -48,7 +48,7 @@ public class NetKryoServerManageur extends Listener{
 		server.start();
 		
 		//creation du player pour le serveur
-		Sprite spritePlayer = new Sprite(  screenGame.getMainGame().getManager().get(ConfigPref.File_Vaisseau1,Texture.class));
+		Sprite spritePlayer = new Sprite(  screenGame.getMainGame().getManager().get(ConfigPref.File_BodyPerso,Texture.class));
 		PlayerControle playerControle = new PlayerControle(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
 				spritePlayer,screenGame.getMapManageur().getRandomSpawn(),"player", 0.45f,ConfigPref.pixelMeter));
 		screenGame.getGameObjectManageur().getGameObjectArray().add(playerControle.getGameObject());

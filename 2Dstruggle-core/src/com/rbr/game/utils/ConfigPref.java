@@ -83,19 +83,20 @@ public class ConfigPref {
 	
 	public static final int Net_TimeOut = 4000;//socket close aprés 4sec 
 	
-	public static final String Net_PatternPosition = "@P@"; 
-	public static final String Net_PatternMsgRecu = "<--";
-	public static final String Net_PatternMsgEmit = "-->";
+
 	public static final Color Net_ChatColorRecu = Color.CYAN;
 	public static final Color Net_ChatColorEmit = Color.WHITE;
 	public static final int Net_ChatMaxaffMsg = 15;
 	
-	//fichier
+	
+	/* fichier
+	 * 
+	 */
 	public static final String File_UiSkin 	= "data/skin/uiskin.json";
 	
-	public static final String File_BodyJson 	= "data/body/test.json";
-	
-	public static final String File_Vaisseau1 	= "data/body/v1f.png";
+	public static final String File_BodyJson 	= "data/body/test.json";	
+
+	public static final String File_BodyPerso 	= "data/body/bodyPerso.png";
 	
 	public static final String File_RedBox 		= 	"data/debug/redbox.png";
 	public static final String File_RedCircle	= 	"data/debug/redcircle.png";
@@ -103,7 +104,19 @@ public class ConfigPref {
 	public static final String File_TouchBackground = "data/ui/touchBackground.png";
 	public static final String File_TouchKnob 		= "data/ui/touchKnob.png";
 	
-	public static final String File_MapTest 	= "data/map/texturepack.tmx";
-	public static final String File_MiniatureCarte = "data/map/minmap.png";
+	
+	public static final String File_MapTest 			= "data/map/texturepack.tmx";		
+	public static final String File_MapTestMiniature 	= "data/map/minmap_texturepack.png";
+	
+	public static final String File_MapMiniature 	= 	"data/map/minmap.png";
+	
+	
+	//pattern pour fichier
+	public static final String Pattern_Map 			=	".tmx";
+	public static final String Pattern_TexturePng 	=	".png";
+	public static final String Pattern_TextureJpg 	=	".jpg";
+	
+	public static final String PatternField_Skin =	"Skin";
+	public static final String PatternField_File =	"File_";
 	
 }

@@ -18,22 +18,22 @@ public class FileLoader {
 		Field[] fields = c.getDeclaredFields();
  
 		for(Field f : fields){
-			if (f.getName().contains("File_")) {
+			if (f.getName().contains(ConfigPref.PatternField_File)) {
 				
 				try {
-					System.out.println(f.getName()+ " "+(String)f.get(ConfigPref.class));
+					//System.out.println(f.getName()+ " "+(String)f.get(ConfigPref.class));
 					String pathFile = (String)f.get(ConfigPref.class);
 					//	Skin Ui
-					if (f.getName().contains("Skin")) {
+					if (f.getName().contains(ConfigPref.PatternField_Skin)) {
 						manager.load( pathFile, Skin.class);
 					}
 					//	Tiled MAP
-					else if(f.getName().contains("Map")){
+					else if(pathFile.contains(ConfigPref.Pattern_Map)){
 						manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 						manager.load(pathFile, TiledMap.class);
 					}
 					//	IMAGE
-					else if (pathFile.contains(".png")||pathFile.contains(".PNG")||pathFile.contains(".jpg")||pathFile.contains(".JPG")) {
+					else if (pathFile.contains(ConfigPref.Pattern_TexturePng)||pathFile.contains(ConfigPref.Pattern_TextureJpg)) {
 						manager.load( pathFile, Texture.class);
 					}
 					//	Autre

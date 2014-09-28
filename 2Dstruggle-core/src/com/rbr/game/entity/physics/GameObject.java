@@ -67,6 +67,7 @@ public  class GameObject {
 		if (isAutoDeceleration()) {
 				deceleration(getRatioDeceleration());
 		}
+		
 	};
 	
 	public void lookAt(Vector2 position){
