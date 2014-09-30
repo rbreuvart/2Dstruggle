@@ -111,12 +111,12 @@
     <property name="ColorA" value="0.5"/>
     <property name="ColorB" value="1"/>
     <property name="ColorG" value="1"/>
-    <property name="ColorR" value="1"/>
+    <property name="ColorR" value="0"/>
     <property name="Distance" value="25"/>
     <property name="Quality" value="800"/>
     <property name="Soft" value="false"/>
     <property name="Softness" value="1.2"/>
-    <property name="Static" value="true"/>
+    <property name="Static" value="false"/>
     <property name="Xray" value="false"/>
    </properties>
   </object>
