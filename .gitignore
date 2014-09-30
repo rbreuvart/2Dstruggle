@@ -1,7 +1,12 @@
 !/.gitignore
 
-
+*.class
 .classpath
+2Dstruggle-android/.classpath
+2Dstruggle-core/.classpath
 .project
+2Dstruggle-android/.project
+2Dstruggle-core/.project
+
 *.jar
 .buildpath
