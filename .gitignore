@@ -1,7 +1,7 @@
 !/.gitignore
 
 
-*.class
-
-!*.classpath
-!*.project
+.classpath
+.project
+*.jar
+.buildpath
