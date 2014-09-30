@@ -1,7 +1,7 @@
 !/.gitignore
 
 *.class
-.classpath
+*.classpath
 2Dstruggle-android/.classpath
 2Dstruggle-core/.classpath
 .project
