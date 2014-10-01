@@ -112,7 +112,7 @@ public class MapManageur {
 			
 			}else if(ConfigPref.MapTypePointLight.equals(mapObject.getProperties().get("type"))){
 				
-				Light light = new PointLight(screenGame.getLightManageur().getRayHandler(), 100);
+				Light light = new PointLight(screenGame.getLightManageur().getRayHandler(), (int) Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightQuality, String.class)));
 				light.setDistance(Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightDistance, String.class)));
 				light.setSoftnessLength(Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightSoftnesslen, String.class)));
 				

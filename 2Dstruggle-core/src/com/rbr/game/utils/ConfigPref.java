@@ -72,6 +72,7 @@ public class ConfigPref {
 	public static final String MapPointLightStatic		= "Static";
 	public static final String MapPointLightXray		= "Xray";
 	public static final String MapPointLightSoft		= "Soft";
+	public static final String MapPointLightQuality 	= "Quality";
 	
 	//Tile
 	public static final String TilePropLightBlocage = "TRANSPARENT";
@@ -108,6 +109,9 @@ public class ConfigPref {
 	public static final String File_MapTest 			= "data/map/texturepack.tmx";		
 	public static final String File_MapTestMiniature 	= "data/map/minmap_texturepack.png";
 	
+	public static final String File_MapDeDust2 				= "data/map/ninjamap.tmx";		
+	public static final String File_MapDeDust2Miniature 	= "data/map/minmap_ninjamap.png";
+	
 	public static final String File_MapMiniature 	= 	"data/map/minmap.png";
 	
 	
@@ -118,5 +122,6 @@ public class ConfigPref {
 	
 	public static final String PatternField_Skin =	"Skin";
 	public static final String PatternField_File =	"File_";
+	
 	
 }

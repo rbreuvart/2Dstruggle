@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="64">
+ <properties>
+  <property name="VERSIONMAP" value="1"/>
+ </properties>
+ <tileset firstgid="1" name="texturepack" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="texturepack.png" width="1024" height="1024"/>
+  <tile id="100">
+   <properties>
+    <property name="TRANSPARENT" value="true"/>
+   </properties>
+  </tile>
+  <tile id="180">
+   <properties>
+    <property name="TRANSPARENT" value="true"/>
+   </properties>
+  </tile>
+  <tile id="214">
+   <properties>
+    <property name="TRANSPARENT" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="226" name="miscpack" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="miscpack.png" width="512" height="512"/>
+ </tileset>
+ <layer name="decor" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztlFEKwzAMQ3v/K+Sy+x3Zusr2S+sFCQyFxpJfa3IcVmeNt/pnmYPXOKlK7xNs5tA4ojy/fDJFclQ9u3EoOXdzqB7ZfHPwHJ3KHJp25CBkjt4c0b6shzmu/bIcqndlD9V5aA7iboyoykEUodUcSj+hCAf5rSv3QvUfk/vxJMdVRqbHHDyPOWKZY3qmOOhe9TzFUfXIZpIzVD2yO74TR6e9Us6dvZ+f1XlXcMw+mQxK5vj0yWRQonw7cmRyzcHIHN99FP8Vojmq915Wan5njigDUeYwR7d5d9QLsS99Ew==
+  </data>
+ </layer>
+ <layer name="blockage" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmQmKwzAMRXP/++Qsuc5QmDDG2PqL5NYp8yHQxZb0bFlK0+P4Pl2D64l6xX3+vj6PZ3NE79+pUW6weTLi+FSuRX4UjvP4yzHFRpXewaHsC8oPJ3fUvGp1c13NWCdX+8/b9Tq7y4kTfd9ztHOitUQckS8nTjZX2DFov9oarwpx9HYrzvmKeqFwrK5XqKagvJrttRMfyuOMHfe8r+KoYh1pxsH4VOv+Co5Z7bzjYzmU7zN9cHYGEAcjhyMjta8/iQPVK9SLmd8kfT1dxaHMG9V4JZ934lDvRR2f6vwqjlbZe1MlHtYmiinqu+17xSeSwnGvs9qzmP1i6oLaPyIOR4wPtb4x65jhcNdK7TdZDhSn2ydVDtaHUjd35VDnVnFEa7eSY5ZXzF6q8bY2q3osEys64w4HM65XdM+TWQuFf1RLot8UbAzoc2ZstgdVc7D9vJojsqM+u8nuB3oejM4UGsP04VFskaL6ek3GMD6UeNnYRmLyGHGsvM9nbVRwZGNAUnMzyufInhqDqqo82DGvnPVz9sPpH2pM1fsx0s4c92umf7g11ompao47lrWn2ETP5RS/lVLtVf0f8GmOXf3+c/D2K+4BM36qrpX6Ae11uB8=
+  </data>
+ </layer>
+ <layer name="foregound" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAADg3wAnEAAB
+  </data>
+ </layer>
+ <objectgroup name="element">
+  <object name="spawn" type="SPAWN" gid="270" x="1718.18" y="639.395"/>
+  <object name="light" type="POINTLIGHT" gid="238" x="1405.45" y="893.212">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="900" y="1409.09">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="181.818" y="1633.33">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="312.121" y="263.636">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="609.091" y="1184.85">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="787.879" y="2090.91">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="260.606" y="3045.45">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="900" y="2612.12">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="1375.76" y="3060.61">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="1900" y="2492">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="1300" y="2168">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="2064" y="576">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="2776" y="380">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="2878.04" y="2044.43" rotation="-254.023">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="light" type="POINTLIGHT" gid="238" x="2216" y="1672">
+   <properties>
+    <property name="ColorA" value="0.5"/>
+    <property name="ColorB" value="0.5"/>
+    <property name="ColorG" value="1"/>
+    <property name="ColorR" value="0.98"/>
+    <property name="Distance" value="18"/>
+    <property name="Quality" value="2500"/>
+    <property name="Soft" value="false"/>
+    <property name="Softness" value="1.2"/>
+    <property name="Static" value="true"/>
+    <property name="Xray" value="false"/>
+   </properties>
+  </object>
+  <object name="spawn" type="SPAWN" gid="270" x="1764" y="740"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1802.76" y="553.841" rotation="-22.6026"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1652" y="548"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1432" y="2968"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1552.62" y="2968.21" rotation="6.43474"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1432" y="3032"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1572" y="3020"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1500" y="3060"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1352" y="2996"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1348" y="3052"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1496" y="3072"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1644" y="632"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1824" y="632"/>
+  <object name="spawn" type="SPAWN" gid="270" x="1704" y="720"/>
+ </objectgroup>
+</map>

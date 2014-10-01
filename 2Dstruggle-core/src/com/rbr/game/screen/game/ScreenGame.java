@@ -145,14 +145,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	public void setKryoManageur(NetKryoManageur kryoManageur) {
 		this.kryoManageur = kryoManageur;
 	}
-	/*
-	public NetworkManageur getNetworkManageur() {
-		return networkManageur;
-	}
-	public void setNetworkManageur(NetworkManageur networkManageur) {
-		this.networkManageur = networkManageur;
-	}*/
-	
+
 	private Touchpad touchpad;
 	private TouchpadStyle touchpadStyle;
 	private Skin touchpadSkin;
@@ -250,13 +243,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 
 		//IA
 		iaManageur = new IaManageur();
-		/*
-		IaPlayer iaplayer = new IaPlayer(FabriqueAll.creationGameObjectCircle(getWorldManageur(), new Sprite((Texture) mainGame.getManager().get(ConfigPref.File_RedCircle)),
-				mapManageur.getRandomSpawn(), "Ia", 0.45f, ConfigPref.pixelMeter));
-		
-		iaManageur.getListIaPlayer().add(iaplayer);
-		gameObjectManageur.add(iaplayer.getGameObject());
-		*/	
+	
 		
 		
 		
@@ -297,12 +284,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 			this.kryoManageur = new NetKryoManageur(this, netAppType);
 		}
 		
-		
-		
 	}	
-	
-	
-	
 	
 	
 	@Override
@@ -314,11 +296,6 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		gameObjectManageur.update(this, delta);		
 		iaManageur.update(this,delta);
 		playerManageur.update(delta, this);
-		
-	//	if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-		
-					
-	//	}
 		
 		camManageur.update(this,delta);
 		
@@ -441,31 +418,5 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		// TODO Auto-generated method stub
 		return false;
 	}	
-	//object Terrain
 	
-	
-	
-	//test Wall
-	/*GameObjectWall gameObjectWall = fabriqueAll.creationStaticWall(worldManageur.getWorld(),
-									new Sprite((Texture) mainGame.getManager().get(GameConfigPref.file_redBox)),
-									-1000, -1000, 1000, 1,
-									"groundWall", GameConfigPref.pixelMeter);
-	
-	gameObjectManageur.add(gameObjectWall);*/
-	/*
-	
-	//chaine
-	Vector2[] listeVector2 = new Vector2[1000];
-	
-	for (int i = 0; i < 1000; i++) {
-		int lower = 0;
-		int higher = 3;
-
-		int randomy = (int)(Math.random() * (higher-lower)) + lower;
-		listeVector2[i] = new Vector2(i, randomy);
-	}
-	GameObjectChaineShape gameObjectChaineShape = FabriqueAll.creationStaticChaineShape(worldManageur.getWorld(), -2000, -2000,"chaine", listeVector2, ConfigPref.pixelMeter);
-	gameObjectManageur.add(gameObjectChaineShape);
-	
-	*/
 }
