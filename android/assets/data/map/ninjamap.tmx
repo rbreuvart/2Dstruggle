@@ -10,6 +10,36 @@
     <property name="TRANSPARENT" value="true"/>
    </properties>
   </tile>
+  <tile id="101">
+   <properties>
+    <property name="TRANSPARENT" value="true"/>
+   </properties>
+  </tile>
+  <tile id="102">
+   <properties>
+    <property name="TRANSPARENT" value="true"/>
+   </properties>
+  </tile>
+  <tile id="103">
+   <properties>
+    <property name="TRANSPARENT" value="true"/>
+   </properties>
+  </tile>
+  <tile id="104">
+   <properties>
+    <property name="TRANSPARENT" value="true"/>
+   </properties>
+  </tile>
+  <tile id="118">
+   <properties>
+    <property name="TRANSPARENT" value="true"/>
+   </properties>
+  </tile>
+  <tile id="119">
+   <properties>
+    <property name="TRANSPARENT" value="true"/>
+   </properties>
+  </tile>
   <tile id="180">
    <properties>
     <property name="TRANSPARENT" value="true"/>
@@ -26,12 +56,12 @@
  </tileset>
  <layer name="decor" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJztlFEKwzAMQ3v/K+Sy+x3Zusr2S+sFCQyFxpJfa3IcVmeNt/pnmYPXOKlK7xNs5tA4ojy/fDJFclQ9u3EoOXdzqB7ZfHPwHJ3KHJp25CBkjt4c0b6shzmu/bIcqndlD9V5aA7iboyoykEUodUcSj+hCAf5rSv3QvUfk/vxJMdVRqbHHDyPOWKZY3qmOOhe9TzFUfXIZpIzVD2yO74TR6e9Us6dvZ+f1XlXcMw+mQxK5vj0yWRQonw7cmRyzcHIHN99FP8Vojmq915Wan5njigDUeYwR7d5d9QLsS99Ew==
+   eJztmAEKwzAIRb1xb9CL7LLbYII4E3/UdW7kgxRKqr5qkqZEW511e9j5uv6yTmG/rGf+B/XguA0MEXNkfFRpc7z3leVjlec0bJanZ4gOkCPik/1ewcH1OEAOJM7V9eC9YxYrGj/KMcoB5ZD3MhxWLUa1ruSoNpl7dI9d7a9PcEgeyTJb27PzJPOs50f31TkY15WjQl04UL/d61HNgcrbPyIc3ljrOctfd45ZjAoOb4xcg6x1iKgvh8yffVv3EA5EGQ69/+qc+f1rjtH87cRhfet5cYmu5dB9rs8Leg5UclTtG8wxyj3zXXc1x0jZ71OizTGySE4dOeS5G1XVuQeJM3s+Wo/VtVYqusag53bk/3N2rkXmpu4TpK+8d5rhWO1z9qNzQurhzY9vcaz8D0J6vJrDG8Py/jWtKjs/pJ9IjCptjnc/kRhVqvLbkSMSd3PUaHPYfhD/n1A1R3bdiwqN35ljlaHCNsfm6JbvP+oOEfp+8A==
   </data>
  </layer>
  <layer name="blockage" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJztmQmKwzAMRXP/++Qsuc5QmDDG2PqL5NYp8yHQxZb0bFlK0+P4Pl2D64l6xX3+vj6PZ3NE79+pUW6weTLi+FSuRX4UjvP4yzHFRpXewaHsC8oPJ3fUvGp1c13NWCdX+8/b9Tq7y4kTfd9ztHOitUQckS8nTjZX2DFov9oarwpx9HYrzvmKeqFwrK5XqKagvJrttRMfyuOMHfe8r+KoYh1pxsH4VOv+Co5Z7bzjYzmU7zN9cHYGEAcjhyMjta8/iQPVK9SLmd8kfT1dxaHMG9V4JZ934lDvRR2f6vwqjlbZe1MlHtYmiinqu+17xSeSwnGvs9qzmP1i6oLaPyIOR4wPtb4x65jhcNdK7TdZDhSn2ydVDtaHUjd35VDnVnFEa7eSY5ZXzF6q8bY2q3osEys64w4HM65XdM+TWQuFf1RLot8UbAzoc2ZstgdVc7D9vJojsqM+u8nuB3oejM4UGsP04VFskaL6ek3GMD6UeNnYRmLyGHGsvM9nbVRwZGNAUnMzyufInhqDqqo82DGvnPVz9sPpH2pM1fsx0s4c92umf7g11ompao47lrWn2ETP5RS/lVLtVf0f8GmOXf3+c/D2K+4BM36qrpX6Ae11uB8=
+   eJztmQtuAyEMRDlt2p6gJ9uz5DrtqkVFlj8zNiFs1JGQtvux/cAYQlt7Pd2VdkWdcR+/10e7Nof390ppuYHmicbxrFzz/DAcR/vLMcbGLK3gYMYlyo9M7rB5dRuuO9d9eDeTq/L+2F+HaKxN67nHMX7j9WXEkVE0Vh4H4x/Jj7HGs4o4pN0sx6hqvWBjkBxv3+2j4D9SZKfHYnFYY52JL5qPnj7bT19FTevLrpUcFdZIFgfik637j+CwamePD+VgnlfWQWsORByIKmtQxS76zZU4onoVrcXIbxK5R7sN95l1v1pbLdtjTqL5LDnQeOQ+Dv3OeoeZe5Z25pA+vRoXcUR9leGIYtKey3vWHi27n2E4Oj+7ZiHjFXFk1g/PVkaID4SjC+3HCke2rxiOU1UOtr6jPlgO1AdTN3flYL+9OoeVV8hYsvHKtUJ7z9qjIfPEUjTHMxzRexqHt9djxljzj/JrtcT7TZEZD1RIPzJ2ZnOg6/lsDs/O6vGIzoOjORW9g6zDWmyerPkh42J9MPGisWny8ljasTgqZ9CIVnFUY4ik2Xhv+jkfslfcieOsFWwe7JhX0bnNrPFA8hXVqvHQtDNHv0bWj2yNRWOq5FXWZ0VsX0TncozfmWLtzfp/wLM5dvX7z4Hbn7EHrPiZ1R6pL5baxx4=
   </data>
  </layer>
  <layer name="foregound" width="50" height="50">
@@ -41,7 +71,7 @@
  </layer>
  <objectgroup name="element">
   <object name="spawn" type="SPAWN" gid="270" x="1718.18" y="639.395"/>
-  <object name="light" type="POINTLIGHT" gid="238" x="1405.45" y="893.212">
+  <object name="light" type="POINTLIGHT" gid="238" x="1111.51" y="1087.15">
    <properties>
     <property name="ColorA" value="0.5"/>
     <property name="ColorB" value="0.5"/>
@@ -55,7 +85,7 @@
     <property name="Xray" value="false"/>
    </properties>
   </object>
-  <object name="light" type="POINTLIGHT" gid="238" x="900" y="1409.09">
+  <object name="light" type="POINTLIGHT" gid="238" x="1863.64" y="1439.39">
    <properties>
     <property name="ColorA" value="0.5"/>
     <property name="ColorB" value="0.5"/>
@@ -69,7 +99,7 @@
     <property name="Xray" value="false"/>
    </properties>
   </object>
-  <object name="light" type="POINTLIGHT" gid="238" x="181.818" y="1633.33">
+  <object name="light" type="POINTLIGHT" gid="238" x="2821.21" y="1351.51">
    <properties>
     <property name="ColorA" value="0.5"/>
     <property name="ColorB" value="0.5"/>
@@ -97,7 +127,7 @@
     <property name="Xray" value="false"/>
    </properties>
   </object>
-  <object name="light" type="POINTLIGHT" gid="238" x="609.091" y="1184.85">
+  <object name="light" type="POINTLIGHT" gid="238" x="754.546" y="739.395">
    <properties>
     <property name="ColorA" value="0.5"/>
     <property name="ColorB" value="0.5"/>
@@ -111,7 +141,7 @@
     <property name="Xray" value="false"/>
    </properties>
   </object>
-  <object name="light" type="POINTLIGHT" gid="238" x="787.879" y="2090.91">
+  <object name="light" type="POINTLIGHT" gid="238" x="66.6669" y="2366.67">
    <properties>
     <property name="ColorA" value="0.5"/>
     <property name="ColorB" value="0.5"/>
@@ -125,7 +155,7 @@
     <property name="Xray" value="false"/>
    </properties>
   </object>
-  <object name="light" type="POINTLIGHT" gid="238" x="260.606" y="3045.45">
+  <object name="light" type="POINTLIGHT" gid="238" x="339.394" y="3169.69">
    <properties>
     <property name="ColorA" value="0.5"/>
     <property name="ColorB" value="0.5"/>
@@ -195,20 +225,6 @@
     <property name="Xray" value="false"/>
    </properties>
   </object>
-  <object name="light" type="POINTLIGHT" gid="238" x="2064" y="576">
-   <properties>
-    <property name="ColorA" value="0.5"/>
-    <property name="ColorB" value="0.5"/>
-    <property name="ColorG" value="1"/>
-    <property name="ColorR" value="0.98"/>
-    <property name="Distance" value="18"/>
-    <property name="Quality" value="2500"/>
-    <property name="Soft" value="false"/>
-    <property name="Softness" value="1.2"/>
-    <property name="Static" value="true"/>
-    <property name="Xray" value="false"/>
-   </properties>
-  </object>
   <object name="light" type="POINTLIGHT" gid="238" x="2776" y="380">
    <properties>
     <property name="ColorA" value="0.5"/>
@@ -237,7 +253,7 @@
     <property name="Xray" value="false"/>
    </properties>
   </object>
-  <object name="light" type="POINTLIGHT" gid="238" x="2216" y="1672">
+  <object name="light" type="POINTLIGHT" gid="238" x="2288.73" y="2056.85">
    <properties>
     <property name="ColorA" value="0.5"/>
     <property name="ColorB" value="0.5"/>

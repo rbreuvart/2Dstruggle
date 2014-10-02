@@ -223,22 +223,9 @@ public class ScreenChoosePlay extends AbsctactScreen{
 							/*
 							 * definie la carte a chargé
 							 */
-							Class<ConfigPref> ct = ConfigPref.class;
-							Field[] fieldsClass = ct.getDeclaredFields();
-							for(Field f : fieldsClass){
-								if (f.getName().contains(ConfigPref.PatternField_File)) {
-									try {	
-										String pathFile = (String)f.get(ConfigPref.class);					
-										if (f.getName().contains(nameObjectlist)) {											
-											 if(pathFile.contains(ConfigPref.Pattern_Map)){
-												setMapFileAssetChoisie(pathFile);
-											//	System.out.println("--->"+getMapFileAssetChoisie());					
-												
-											}											
-										}
-									} catch (IllegalArgumentException e) {e.printStackTrace();} catch (IllegalAccessException e) {e.printStackTrace();}
-								}
-							}
+						
+							setMapFileAssetChoisie(getPathfileFormItemName(nameObjectlist));
+										
 						}else {
 							setMapFileAssetChoisie("");
 						}
@@ -275,9 +262,31 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		
 		
 		//map par default
-		setMapFileAssetChoisie(ConfigPref.File_MapTest);
+		setMapFileAssetChoisie(getPathfileFormItemName((String)list.getItems().first()));
 	}
-
+	private String getPathfileFormItemName(String nameObjectlist){
+		/*
+		 * definie la carte a chargé
+		 */
+		Class<ConfigPref> ct = ConfigPref.class;
+		Field[] fieldsClass = ct.getDeclaredFields();
+		for(Field f : fieldsClass){
+			if (f.getName().contains(ConfigPref.PatternField_File)) {
+				try {	
+					String pathFile = (String)f.get(ConfigPref.class);					
+					if (f.getName().contains(nameObjectlist)) {											
+						 if(pathFile.contains(ConfigPref.Pattern_Map)){
+							setMapFileAssetChoisie(pathFile);
+						//	System.out.println("--->"+getMapFileAssetChoisie());					
+							return pathFile;
+						}											
+					}
+				} catch (IllegalArgumentException e) {e.printStackTrace();} catch (IllegalAccessException e) {e.printStackTrace();}
+			}
+		}
+		return nameObjectlist;
+		
+	}
 	public String getMapFileAssetChoisie() {
 		return mapFileAssetChoisie;
 	}

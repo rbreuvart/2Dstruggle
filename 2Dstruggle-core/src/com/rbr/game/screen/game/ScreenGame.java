@@ -152,7 +152,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
     private Drawable touchBackground;
     private Drawable touchKnob;
     private Stage stage;
-    
+    private Touchpad touchpadAim;
     public Touchpad getTouchpad() {
 		return touchpad;
 	}
@@ -211,11 +211,19 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
             touchpad = new Touchpad(10, touchpadStyle);
             touchpad.setColor(0, 0, 0, .2f);
             //setBounds(x,y,width,height)
-            touchpad.setBounds(30, 40, 200, 200);
+            touchpad.setBounds(30, 40, 250, 250);
             
             //Create a Stage and add TouchPad
            // stage = new Stage(new StretchViewport(ConfigPref.viewPortWidth/1.2f,ConfigPref.viewPortHeight/1.2f));
-            stage.addActor(touchpad);            
+            stage.addActor(touchpad);      
+            
+            
+            
+            touchpadAim = new Touchpad(20, touchpadStyle);
+            touchpadAim.setColor(0.5f, 0, 0, .2f);
+            //setBounds(x,y,width,height)
+            touchpadAim.setBounds(960-250-30, 40, 250, 250);
+            stage.addActor(touchpadAim);   
          //   Gdx.input.setInputProcessor(stage);
 		}
        // Gdx.input.setInputProcessor(stage);
@@ -248,7 +256,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		
 		hudManageur =  new HudManageur();
-		
+		/*
 		if (netAppType == null) {
 			Skin skin = getMainGame().getManager().get(ConfigPref.File_UiSkin,Skin.class);
 			Table table =new Table(skin);
@@ -280,9 +288,9 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 			table.add(btCreateServeur);
 			
 			getStage().addActor(table);
-		}else{
+		}else{*/
 			this.kryoManageur = new NetKryoManageur(this, netAppType);
-		}
+		//}
 		
 	}	
 	
@@ -417,6 +425,12 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 			Vector2 pointer1, Vector2 pointer2) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	public Touchpad getTouchpadAim() {
+		return touchpadAim;
+	}
+	public void setTouchpadAim(Touchpad touchpadAim) {
+		this.touchpadAim = touchpadAim;
 	}	
 	
 }
