@@ -10,22 +10,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad.TouchpadStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.rbr.game.CameraManageur;
 import com.rbr.game.MainGame;
+import com.rbr.game.entity.map.Zone;
 import com.rbr.game.entity.physics.ContactGameObjectListener;
 import com.rbr.game.manageur.GameObjectManageur;
 import com.rbr.game.manageur.HudManageur;
@@ -243,7 +240,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		//map
 		mapManageur = new MapManageur(this,mapFileAsset);
-		
+		//mapManageur.create(screenGame);
 		
 		//Multiplayer and player
 		playerManageur = new PlayerManageur();
@@ -306,6 +303,11 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		playerManageur.update(delta, this);
 		
 		camManageur.update(this,delta);
+		mapManageur.update(this);
+		
+		if (kryoManageur!=null) {
+			kryoManageur.update(this, delta);			
+		}
 		
 		mapManageur.render(this);
 		worldManageur.render(delta,camManageur);
@@ -314,13 +316,20 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		getBatch().begin();
 		gameObjectManageur.render(this, getBatch());
 		getBatch().end();
+		
+		screenGame.getShapeRenderer().setProjectionMatrix(screenGame.getCamManageur().getOrthographicCamera().combined);
+		
+		screenGame.getShapeRenderer().begin(ShapeType.Line);
+		for (Zone zone : getMapManageur().getListZone()) {
+			screenGame.getShapeRenderer().polygon(zone.getPolygon().getTransformedVertices());
+		}
+		screenGame.getShapeRenderer().end();
+		
 		lightManageur.render(this);
 		
 		hudManageur.update(this, delta);
 		hudManageur.render(this, batch);
-		if (kryoManageur!=null) {
-			kryoManageur.update(this, delta);			
-		}
+		
 		
 	}
 	@Override
