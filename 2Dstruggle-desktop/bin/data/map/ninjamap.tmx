@@ -56,12 +56,12 @@
  </tileset>
  <layer name="decor" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJztmAEKwzAIRb1xb9CL7LLbYII4E3/UdW7kgxRKqr5qkqZEW511e9j5uv6yTmG/rGf+B/XguA0MEXNkfFRpc7z3leVjlec0bJanZ4gOkCPik/1ewcH1OEAOJM7V9eC9YxYrGj/KMcoB5ZD3MhxWLUa1ruSoNpl7dI9d7a9PcEgeyTJb27PzJPOs50f31TkY15WjQl04UL/d61HNgcrbPyIc3ljrOctfd45ZjAoOb4xcg6x1iKgvh8yffVv3EA5EGQ69/+qc+f1rjtH87cRhfet5cYmu5dB9rs8Leg5UclTtG8wxyj3zXXc1x0jZ71OizTGySE4dOeS5G1XVuQeJM3s+Wo/VtVYqusag53bk/3N2rkXmpu4TpK+8d5rhWO1z9qNzQurhzY9vcaz8D0J6vJrDG8Py/jWtKjs/pJ9IjCptjnc/kRhVqvLbkSMSd3PUaHPYfhD/n1A1R3bdiwqN35ljlaHCNsfm6JbvP+oOEfp+8A==
+   eJztmAEKwzAIRb1xb9CL7LLbYIK4JP6oTd3IBxmUVH1Tk7ZEW5X1eNn5+f1lncJ+We/8D6rB8egYIuaI+MjS5vjuq5aPWZ6zYaM8LUN0gBwen+x3BQfX4wA5kDir68FnxyiWN76Xo5cDyiGvRThatejVOpMj22Tu3jN2tr+u4JA8kmW0t0fnJHKv5Uf31dlZV5UjQ1U4UL/V65HNgco6Pzwc1trWfS1/1TlGMTI4rDVyD2rtQ0R1OWT+7Lt1DeFAFOHQ56/Omf9/zdGb30ocrWc9Ky7RWg7d5/p9Qc9AJkfWucEcvdwjz3WrOXqKPp8SbY6eeXKqyCHfu1FlvfcgcUb3e+sxu9dKefcY9L0d+f4cnTXPbOo+QfrK+k8jHLN9zn50Tkg9rPm4i2PmexDS41dwjNawrG9Ns4rOh/YzGyNLmRyeGFn613pE/SAxVnF44m6OHGVz6DXRuUN1BceKvK34Vk6on7s5vHncyTHLkGGbY3NUy/cf9QRs/YbP
   </data>
  </layer>
  <layer name="blockage" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJztmQtuAyEMRDlt2p6gJ9uz5DrtqkVFlj8zNiFs1JGQtvux/cAYQlt7Pd2VdkWdcR+/10e7Nof390ppuYHmicbxrFzz/DAcR/vLMcbGLK3gYMYlyo9M7rB5dRuuO9d9eDeTq/L+2F+HaKxN67nHMX7j9WXEkVE0Vh4H4x/Jj7HGs4o4pN0sx6hqvWBjkBxv3+2j4D9SZKfHYnFYY52JL5qPnj7bT19FTevLrpUcFdZIFgfik637j+CwamePD+VgnlfWQWsORByIKmtQxS76zZU4onoVrcXIbxK5R7sN95l1v1pbLdtjTqL5LDnQeOQ+Dv3OeoeZe5Z25pA+vRoXcUR9leGIYtKey3vWHi27n2E4Oj+7ZiHjFXFk1g/PVkaID4SjC+3HCke2rxiOU1UOtr6jPlgO1AdTN3flYL+9OoeVV8hYsvHKtUJ7z9qjIfPEUjTHMxzRexqHt9djxljzj/JrtcT7TZEZD1RIPzJ2ZnOg6/lsDs/O6vGIzoOjORW9g6zDWmyerPkh42J9MPGisWny8ljasTgqZ9CIVnFUY4ik2Xhv+jkfslfcieOsFWwe7JhX0bnNrPFA8hXVqvHQtDNHv0bWj2yNRWOq5FXWZ0VsX0TncozfmWLtzfp/wLM5dvX7z4Hbn7EHrPiZ1R6pL5baxx4=
+   eJztmQtuAyEMRPe0aXuCnmzPkuu0qxYVIdszY7O/qCMhJfuxeWBsQpbl9fQ02h219Xv9/bwu9+aIvh8pKzbYOLE4zoq1yI/CsS5/MabYmKUjOJR5QfGRiR01rh7d58b17J7NxOp4vR+vdWiqTe9+xNG/E40l4sgIzVXEofhn4qPP8aoQx2g3y9Grmi/UPowcb9/to+AfCdlpffE4vLnO9A+tx0ify89YoWaNZdORHBVWJI+D8anm/T04vNzZ+sdyKPcrddBbA4iDUaUGVeyy79yJA+UrVIuZ3yTjHu3RXVfqfjW3erb7mGTjeeRg+zPu49j3vGeUtefpyhyjzyjHIQ40VhkO1Cfr/njN26Nl9zMKR+NXaxYzX4gjUz8iWxkxPhiOJnYcKxzZsVI4NlU51PzO+lA5WB9K3rwqh/ru3Tm8uGLmUu3vWCus57w9GrNOPKE1nuFAz1kc0V5PmWPLP8tv5ZLoN0VmPlgx46jYmc3B1vPZHJGdo+fDGwN2TaFnmDps9S2Stz5Q/VRypVrvWB+bojge7XjnwZUzaEazOSyb2fqjyLLxvtjnfOxe8SocW65Q4wBxnBFX6Nxm1nww8cpqj/lo31HeuQMH8lnJsWyfqnGV8VmROhboXE7xO1OqvVn/B5zNcVW//xy8/Rl7wIqfWW1PfQGyI8R3
   </data>
  </layer>
  <layer name="foregound" width="50" height="50">
@@ -70,6 +70,10 @@
   </data>
  </layer>
  <objectgroup name="element">
+  <properties>
+   <property name="TargetX" value=""/>
+   <property name="TargetY" value=""/>
+  </properties>
   <object name="spawn" type="SPAWN" gid="270" x="1718.18" y="639.395"/>
   <object name="light" type="POINTLIGHT" gid="238" x="1111.51" y="1087.15">
    <properties>
@@ -113,7 +117,7 @@
     <property name="Xray" value="false"/>
    </properties>
   </object>
-  <object name="light" type="POINTLIGHT" gid="238" x="312.121" y="263.636">
+  <object name="light" type="POINTLIGHT" gid="238" x="201.121" y="279.636">
    <properties>
     <property name="ColorA" value="0.5"/>
     <property name="ColorB" value="0.5"/>
@@ -281,5 +285,11 @@
   <object name="spawn" type="SPAWN" gid="270" x="1644" y="632"/>
   <object name="spawn" type="SPAWN" gid="270" x="1824" y="632"/>
   <object name="spawn" type="SPAWN" gid="270" x="1704" y="720"/>
+  <object name="teleporter" type="TELEPORT" x="2062.87" y="512.042" width="116" height="247" rotation="4.71915">
+   <properties>
+    <property name="TargetName" value="target_teleporter"/>
+   </properties>
+  </object>
+  <object name="target_teleporter" type="TARGET" gid="253" x="356" y="286"/>
  </objectgroup>
 </map>

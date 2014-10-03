@@ -74,19 +74,23 @@ public class MapManageur {
 	
 	
 	public void update(ScreenGame screenGame){
-		Vector2 positionjoueurLocal =  screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition();
-				
-		for (Zone zone : listZone) {				
-			//si joueux local entre dans une zone
-			if (zone.getPolygon().contains(positionjoueurLocal.x, positionjoueurLocal.y)) {
-				System.out.println("MapManageur.update() contains");
-				if (zone instanceof ZoneTeleport) {
-					ZoneTeleport zoneTeleport = (ZoneTeleport) zone;
-					screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().setTransform(zoneTeleport.getTarget(), 0);
+		
+		if (screenGame.getPlayerManageur().getPlayerLocal()!=null) {
+			Vector2 positionjoueurLocal =  screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition();
+			
+			for (Zone zone : listZone) {				
+				//si joueux local entre dans une zone
+				if (zone.getPolygon().contains(positionjoueurLocal.x, positionjoueurLocal.y)) {
+					System.out.println("MapManageur.update() contains");
+					if (zone instanceof ZoneTeleport) {
+						ZoneTeleport zoneTeleport = (ZoneTeleport) zone;
+						screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().setTransform(zoneTeleport.getTarget(), 0);
+					}
+					
 				}
-				
 			}
 		}
+		
 	}
 	
 	public void render(ScreenGame screenGame){	

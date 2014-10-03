@@ -253,41 +253,9 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		
 		hudManageur =  new HudManageur();
-		/*
-		if (netAppType == null) {
-			Skin skin = getMainGame().getManager().get(ConfigPref.File_UiSkin,Skin.class);
-			Table table =new Table(skin);
-			
-			table.setFillParent(true);
-			table.align(Align.center+Align.top);
+	
+		kryoManageur = new NetKryoManageur(this, netAppType);
 		
-			TextButton btCreateServeur = new TextButton("C Serveur", skin);
-			btCreateServeur.addCaptureListener(new InputListener(){
-	    		@Override
-	    		public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {
-					System.out.println("Serveur");					
-					setKryoManageur(new NetKryoManageur(screenGame,NetApplicationType.Serveur));				
-					return false;
-				}
-			});
-			
-			TextButton btCreateClient = new TextButton("C Client",skin );
-			btCreateClient.addCaptureListener(new InputListener(){
-				@Override
-	    		public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {
-					System.out.println("Client");
-					setKryoManageur(new NetKryoManageur(screenGame,NetApplicationType.Client));
-					return false;
-				}
-			});
-			
-			table.add(btCreateClient);
-			table.add(btCreateServeur);
-			
-			getStage().addActor(table);
-		}else{*/
-			this.kryoManageur = new NetKryoManageur(this, netAppType);
-		//}
 		
 	}	
 	
@@ -303,10 +271,11 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		playerManageur.update(delta, this);
 		
 		camManageur.update(this,delta);
+		
 		mapManageur.update(this);
 		
 		if (kryoManageur!=null) {
-			kryoManageur.update(this, delta);			
+			kryoManageur.update(this, delta);
 		}
 		
 		mapManageur.render(this);
