@@ -17,6 +17,7 @@ public  class GameObject {
 	private float ratioDeceleration;
 	private boolean autoDeceleration ;
 	
+	private boolean remove;
 	
 	//get/set
 	public BodyDef getBodyDef() {
@@ -54,11 +55,12 @@ public  class GameObject {
 		
 		this.ratioDeceleration = 0.95f;
 		autoDeceleration = true;
+		remove = false;
 	}
-	public  void colisionBegin(GameObject contact){
+	public  void colisionBegin(GameObject contact, ScreenGame screenGame){
 		
 	}
-	public  void colisionEnd(GameObject contact){
+	public  void colisionEnd(GameObject contact, ScreenGame screenGame){
 		
 	}
 	
@@ -101,6 +103,12 @@ public  class GameObject {
 	}
 	public void setAutoDeceleration(boolean autoDeceleration) {
 		this.autoDeceleration = autoDeceleration;
+	}
+	public boolean isRemove() {
+		return remove;
+	}
+	public void setRemove(boolean remove) {
+		this.remove = remove;
 	}
 	
 	

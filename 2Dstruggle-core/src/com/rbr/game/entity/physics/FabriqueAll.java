@@ -19,7 +19,8 @@ import com.rbr.game.utils.ConfigPref;
 public class FabriqueAll {
 
 	
-	public static GameObject2dCircle creationGameObjectCircle(WorldManageur worldManageur, Sprite s,Vector2 position,String name, float radius,int pixelmeter) {
+	public static GameObject2dCircle creationGameObjectCircle(WorldManageur worldManageur, Sprite s,Vector2 position,String name, float radius,int pixelmeter,
+			float density,float friction,float restitution,short CATEGORY,short GROUP,short MASK) {
 		BodyDef Def;
 		Body Body;
 		CircleShape DynamicShape;
@@ -37,10 +38,16 @@ public class FabriqueAll {
 	
 		fixtureDef = new FixtureDef();
 		fixtureDef.shape = DynamicShape;
-		fixtureDef.density = 1f;
+		fixtureDef.density = density;
+		fixtureDef.friction = friction;
+		fixtureDef.restitution = restitution;
+		/*
+		 * 		fixtureDef.density = 1f;
 		fixtureDef.friction = 0.95f;
-		fixtureDef.restitution = 0.01f;
+		fixtureDef.restitution = 0.01f;*/
 		fixtureDef.filter.categoryBits = ConfigPref.CATEGORY_SCENERY+ConfigPref.CATEGORY_LIGHT;
+		
+		
 		//fixtureDef.filter.maskBits = ;
 		Body.createFixture(fixtureDef);
 		DynamicShape.dispose();
@@ -138,6 +145,61 @@ public class FabriqueAll {
 		return new GameObject2dSquare(new GameObject(name,squareBodyDef, squareBody, fixtureDef),sprite);
 	}
 	
+	/**
+	 * utiliser pour les projectiles
+	 * @param w
+	 * @param name
+	 * @param x
+	 * @param y
+	 * @param wi
+	 * @param h
+	 * @param pixelMeter
+	 * @param bodyType
+	 * @return
+	 */
+    public static GameObject creationGameObjectSquare(World w,String name,
+    		float x,float y,float wi,float h,
+    		int pixelMeter,
+    		BodyType bodyType,float density,float friction,float restitution,
+    		short CATEGORY,short GROUP,short MASK) {
+		
+		BodyDef squareBodyDef;
+		Body squareBody ;
+		PolygonShape squareDynamicShape;
+		FixtureDef fixtureDef;
+		squareBodyDef = new BodyDef();
+		squareBodyDef.type = bodyType;
+		squareBodyDef.position.set(x, y);
+		
+		squareDynamicShape = new PolygonShape();
+	
+		squareDynamicShape.setAsBox((wi/2),(h/2));
+		
+		
+		fixtureDef = new FixtureDef();
+		fixtureDef.shape = squareDynamicShape;
+		fixtureDef.density = density;
+		fixtureDef.friction = friction;
+		fixtureDef.restitution = restitution;
+		
+		fixtureDef.filter.categoryBits = CATEGORY;
+		if (GROUP!=0) {
+			fixtureDef.filter.groupIndex = GROUP;
+		}
+		if (MASK!=0) {
+			fixtureDef.filter.maskBits = MASK;
+		}
+		
+		
+				
+		squareBody = w.createBody(squareBodyDef);
+		squareBody.createFixture(fixtureDef);
+		
+		squareDynamicShape.dispose();
+		return new GameObject(name,squareBodyDef, squareBody, fixtureDef);
+	}
+	
+	
 	//FIXME le jSon reader ne marche pas
 	public static GameObjectSprite creationBody(String name,World world,FileHandle fileHandle ,Vector2 position,Sprite sprite,short CATEGORY,short GROUP,short MASK){		
 			
@@ -161,6 +223,7 @@ public class FabriqueAll {
 	    GameObjectSprite gameObjSp = new GameObjectSprite(new GameObject(name, bd, body, fd), sprite) ;	 
 		return gameObjSp ;		
 	}
+
 	
 
 }

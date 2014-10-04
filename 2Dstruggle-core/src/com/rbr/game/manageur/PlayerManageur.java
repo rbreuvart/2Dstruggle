@@ -3,13 +3,22 @@ package com.rbr.game.manageur;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.esotericsoftware.kryonet.Connection;
+import com.rbr.game.entity.physics.FabriqueAll;
 import com.rbr.game.player.Player;
-import com.rbr.game.player.PlayerControle;
+import com.rbr.game.player.PlayerLocal;
+import com.rbr.game.player.PlayerMulti;
 import com.rbr.game.screen.game.ScreenGame;
+import com.rbr.game.utils.ConfigPref;
 
 public class PlayerManageur {
 
-	private PlayerControle playerLocal;
+	private PlayerLocal playerLocal;
 	
 	private HashMap<Integer, Player>  hashMapPlayer ;
 	
@@ -24,6 +33,11 @@ public class PlayerManageur {
 		}
 	}
 	
+	public void render(ScreenGame screenGame, SpriteBatch spriteBatch, ShapeRenderer shapeRenderer){
+		if (playerLocal!=null) {
+			playerLocal.render(screenGame,spriteBatch,shapeRenderer);
+		}
+	}
 	
 	/**
 	 * retourne le player Cité
@@ -34,33 +48,52 @@ public class PlayerManageur {
 	public void addPlayerInMap(int id,Player player){
 		hashMapPlayer.put(id, player);
 		player.setId(id);
-		if (player instanceof PlayerControle) {
-			this.playerLocal = (PlayerControle) player;
+		if (player instanceof PlayerLocal) {
+			this.playerLocal = (PlayerLocal) player;
 		}
 	}
+	
+	public PlayerLocal createLocalPlayer(ScreenGame screenGame,int id,Vector2 position){
+		Sprite spritePlayer = new Sprite(  screenGame.getMainGame().getManager().get(ConfigPref.File_BodyPerso,Texture.class));
+		PlayerLocal playerControle = new PlayerLocal(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
+				spritePlayer,position ,"player", 0.45f,ConfigPref.pixelMeter,
+				1,0.95f,0f,
+				(short) ((short)ConfigPref.CATEGORY_SCENERY+ConfigPref.CATEGORY_LIGHT),
+				ConfigPref.CATEGORY_JOUEUR,
+				(short)0));
+		
+		screenGame.getGameObjectManageur().getGameObjectArray().add(playerControle.getGameObject());
+		screenGame.getPlayerManageur().addPlayerInMap(id,playerControle);
+		return playerLocal;
+	}
+	
+	public PlayerMulti createMultiPlayer(ScreenGame screenGame,Connection conection,Vector2 position){
+		Sprite spritePlayerMulti = new Sprite( screenGame.getMainGame().getManager().get(ConfigPref.File_RedCircle,Texture.class));
+		
+		
+		
+		PlayerMulti playerMulti =  new PlayerMulti(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
+					spritePlayerMulti,position,"playerMulti"+conection.getID(), 0.45f,ConfigPref.pixelMeter,1,0.95f,0f,
+					(short) ((short)ConfigPref.CATEGORY_SCENERY+ConfigPref.CATEGORY_LIGHT),
+					ConfigPref.CATEGORY_JOUEUR,
+					(short)0));
+			screenGame.getGameObjectManageur().getGameObjectArray().add(playerMulti.getGameObject());
+			playerMulti.setConnection(conection);
+			
+		return playerMulti;
+	}
+	
 	
 	public void removePlayerById(int id){
 		hashMapPlayer.remove(id);
 	}
-	
-	
 	public HashMap<Integer, Player> getHashMapPlayer() {
 		return hashMapPlayer;
 	}
-	/*
-	public void setHashMapPlayer(HashMap<Integer, Player> hashMapPlayer) {
-		this.hashMapPlayer = hashMapPlayer;
-	}*/
-
-	public PlayerControle getPlayerLocal() {
+	public PlayerLocal getPlayerLocal() {
 		return playerLocal;
 	}
-
-	public void setPlayerLocal(PlayerControle playerLocal) {
+	public void setPlayerLocal(PlayerLocal playerLocal) {
 		this.playerLocal = playerLocal;
 	}
-
-
-
-
 }

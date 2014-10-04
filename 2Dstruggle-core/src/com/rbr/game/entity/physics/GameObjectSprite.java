@@ -8,8 +8,7 @@ import com.rbr.game.screen.game.ScreenGame;
 
 public class GameObjectSprite extends GameObject{
 
-	//private Sprite sprite;
-	//private Animation animation;
+
 	private ISpriteRender iSpriteRender;
 	
 	public GameObjectSprite(GameObject go,Sprite sprite) {
@@ -35,7 +34,9 @@ public class GameObjectSprite extends GameObject{
 	@Override
 	public void render(ScreenGame screenGame, SpriteBatch batch) {
 		super.render(screenGame, batch);
-		this.iSpriteRender.render(screenGame, getBody().getPosition(),  getBody().getLinearVelocity().angle()-90, 0, batch);
+		//		this.iSpriteRender.render(screenGame, getBody().getPosition(),  getBody().getLinearVelocity().angle()-90, 0, batch);
+		this.iSpriteRender.render(screenGame, 	getBody().getPosition(),
+												getBody().getAngle(), 0, batch);
 		/*getSprite().draw(batch);*/
 	}
 	

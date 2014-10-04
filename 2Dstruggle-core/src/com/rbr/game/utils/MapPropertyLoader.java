@@ -36,8 +36,9 @@ public class MapPropertyLoader {
 				if(cell == null) continue;
 				if(cell.getTile() == null) continue;
 				
-				// create a body + fixture from cell
+				// create a body + fixture from cell				
 				bdef.type = BodyType.StaticBody;
+				
 				bdef.position.set(
 					(col + 0.5f) * tileSize / ConfigPref.pixelMeter,
 					(row + 0.5f) * tileSize / ConfigPref.pixelMeter
@@ -161,24 +162,18 @@ public class MapPropertyLoader {
 		float targetx = (Float) mapObjectTPTarget.getProperties().get("x")/ConfigPref.pixelMeter+ConfigPref.MapPointLightOffsetPosition.x;
 		float targety = (Float) mapObjectTPTarget.getProperties().get("y")/ConfigPref.pixelMeter+ConfigPref.MapPointLightOffsetPosition.y;
 		
-		//System.out.println(rectangleMapObject.getName()+" target :"+tpTargetName+" ("+targetx+","+targety+")");
 		float unitScale = (float)1/ConfigPref.pixelMeter;
-		Polygon polygon = new Polygon(new float[]{	0,
-													0,
-													rectangleMapObject.getRectangle().width*unitScale,
-													0,
-													rectangleMapObject.getRectangle().width*unitScale,
-													rectangleMapObject.getRectangle().height*unitScale,
-													0,
-													rectangleMapObject.getRectangle().height*unitScale});
-	   // polygon.setOrigin(rectangleMapObject.getRectangle().width/2, rectangleMapObject.getRectangle().height/2);
-	    polygon.setRotation(-(float)rectangleMapObject.getProperties().get("rotation",float.class));
+		Polygon polygon = new Polygon(new float[]{	0,0,
+													rectangleMapObject.getRectangle().width*unitScale,0,
+													rectangleMapObject.getRectangle().width*unitScale,rectangleMapObject.getRectangle().height*unitScale,
+													0,rectangleMapObject.getRectangle().height*unitScale});
+		if (rectangleMapObject.getProperties().get("rotation",float.class)!=null) {			
+			polygon.setRotation(-(float)rectangleMapObject.getProperties().get("rotation",float.class));
+		}
 	    polygon.setPosition(rectangleMapObject.getRectangle().x/ConfigPref.pixelMeter, rectangleMapObject.getRectangle().y/ConfigPref.pixelMeter);
-	    //float unitScale = (float)1/(ConfigPref.pixelMeter*100);
-	  //  polygon.scale(unitScale);
-	   
-	    ZoneTeleport zoneTeleport = new ZoneTeleport(polygon, new Vector2(targetx, targety));
-	    System.out.println("Tp Portal Créé");
+	 
+	    ZoneTeleport zoneTeleport = new ZoneTeleport(polygon,rectangleMapObject.getName(), new Vector2(targetx, targety));
+	  
 	    listZone.add(zoneTeleport);
 	}
 }

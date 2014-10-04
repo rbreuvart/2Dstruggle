@@ -21,6 +21,8 @@ public class ConfigPref {
 	public static final boolean debugMsg = true;
 	public static final boolean debugMsgErr = true;
 	public static final boolean debugStage = true;	
+	
+	public static boolean debugWorld = false;
 	public enum TypeMsg {
 		Debug,ShapeRender,Batch,Controlleur,Stage
 	}
@@ -124,6 +126,7 @@ public class ConfigPref {
 	
 	public static final String File_MapMiniature 	= 	"data/map/minmap.png";
 	
+	public static final String File_Bullet1 = "data/body/bullet/shoot_1.png";
 	
 	//pattern pour fichier
 	public static final String Pattern_Map 			=	".tmx";
@@ -132,6 +135,8 @@ public class ConfigPref {
 	
 	public static final String PatternField_Skin =	"Skin";
 	public static final String PatternField_File =	"File_";
+	
+
 	
 	
 }

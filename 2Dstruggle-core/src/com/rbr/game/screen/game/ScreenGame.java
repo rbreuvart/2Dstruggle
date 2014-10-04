@@ -25,6 +25,7 @@ import com.rbr.game.MainGame;
 import com.rbr.game.entity.map.Zone;
 import com.rbr.game.entity.physics.ContactGameObjectListener;
 import com.rbr.game.manageur.GameObjectManageur;
+import com.rbr.game.manageur.GarbageManageur;
 import com.rbr.game.manageur.HudManageur;
 import com.rbr.game.manageur.IaManageur;
 import com.rbr.game.manageur.LightManageur;
@@ -86,6 +87,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	
 	private HudManageur hudManageur;
 	
+	private GarbageManageur garbageManageur;
 	
 	public CameraManageur getCamManageur() {
 		return camManageur;
@@ -122,8 +124,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	}
 	public void setMapManageur(MapManageur mapManageur) {
 		this.mapManageur = mapManageur;
-	}
-	
+	}	
 	public HudManageur getHudManageur() {
 		return hudManageur;
 	}
@@ -141,6 +142,12 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	}
 	public void setKryoManageur(NetKryoManageur kryoManageur) {
 		this.kryoManageur = kryoManageur;
+	}
+	public GarbageManageur getGarbageManageur() {
+		return garbageManageur;
+	}
+	public void setGarbageManageur(GarbageManageur garbageManageur) {
+		this.garbageManageur = garbageManageur;
 	}
 
 	private Touchpad touchpad;
@@ -186,7 +193,8 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
     	Gdx.input.setInputProcessor(im);
     	
         if (Gdx.app.getType().equals(ApplicationType.Desktop)) {        	
-    	
+        //	Gdx.input.setCursorCatched(true);
+        //	Gdx.input.setCursorImage(pixmap, xHotspot, yHotspot);
         }         
         if (Gdx.app.getType().equals(ApplicationType.Android)) {
         	//Create a touchpad skin    
@@ -233,7 +241,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		//Moteur physique
 		worldManageur = new WorldManageur(ConfigPref.pixelMeter);
-		worldManageur.getWorld().setContactListener(new ContactGameObjectListener(gameObjectManageur));
+		worldManageur.getWorld().setContactListener(new ContactGameObjectListener(this));
 		
 		//light
 		lightManageur = new LightManageur(this);
@@ -256,7 +264,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	
 		kryoManageur = new NetKryoManageur(this, netAppType);
 		
-		
+		garbageManageur = new GarbageManageur(this);
 	}	
 	
 	
@@ -283,23 +291,31 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		getBatch().setProjectionMatrix(camManageur.getOrthographicCamera().combined);
 		getBatch().begin();
-		gameObjectManageur.render(this, getBatch());
+			gameObjectManageur.render(this, getBatch());
 		getBatch().end();
-		
-		screenGame.getShapeRenderer().setProjectionMatrix(screenGame.getCamManageur().getOrthographicCamera().combined);
-		
-		screenGame.getShapeRenderer().begin(ShapeType.Line);
-		for (Zone zone : getMapManageur().getListZone()) {
-			screenGame.getShapeRenderer().polygon(zone.getPolygon().getTransformedVertices());
-		}
-		screenGame.getShapeRenderer().end();
+	
 		
 		lightManageur.render(this);
+		
+		//debug pour les zones de la map
+		shapeRenderer.setProjectionMatrix(screenGame.getCamManageur().getOrthographicCamera().combined);
+		shapeRenderer.begin(ShapeType.Line);
+		playerManageur.render(this, getBatch(),shapeRenderer);	
+
+		for (Zone zone : getMapManageur().getListZone()) {
+			shapeRenderer.polygon(zone.getPolygon().getTransformedVertices());
+		}
+		
+		shapeRenderer.end();
+		
+		
+		
+		
 		
 		hudManageur.update(this, delta);
 		hudManageur.render(this, batch);
 		
-		
+		garbageManageur.update(this);
 	}
 	@Override
 	public void resize(int width, int height) {
@@ -361,7 +377,11 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	@Override
 	public boolean scrolled(int amount) {
 		System.out.println("ScreenGame.scrolled()");
-		getCamManageur().getOrthographicCamera().zoom = getCamManageur().getOrthographicCamera().zoom +(amount*1);
+		
+		float zoom = getCamManageur().getOrthographicCamera().zoom +(amount*0.5f);
+		if (zoom>0) {
+			getCamManageur().getOrthographicCamera().zoom =zoom;
+		}
 		return false;
 	}
 	@Override

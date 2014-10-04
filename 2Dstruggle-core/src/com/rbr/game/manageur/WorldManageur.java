@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.rbr.game.CameraManageur;
+import com.rbr.game.utils.ConfigPref;
 
 public class WorldManageur {
 	
@@ -48,7 +49,10 @@ public class WorldManageur {
 		
 	}
 	public void render(float delta, CameraManageur camManageur) {	
-		//debugRenderer.render(world, camManageur.getOrthographicCamera().combined);
+		if (ConfigPref.debugWorld) {
+			debugRenderer.render(world, camManageur.getOrthographicCamera().combined);
+		}
+	
 	}
 	
 	public void dispose(){

@@ -9,8 +9,8 @@ public class ZoneTeleport extends Zone{
 	
 	
 
-	public ZoneTeleport(Polygon polygon, Vector2 target) {
-		super(polygon);
+	public ZoneTeleport(Polygon polygon,String name, Vector2 target) {
+		super(polygon,name);
 		
 		this.target = target;
 	}

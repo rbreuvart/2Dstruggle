@@ -81,10 +81,11 @@ public class MapManageur {
 			for (Zone zone : listZone) {				
 				//si joueux local entre dans une zone
 				if (zone.getPolygon().contains(positionjoueurLocal.x, positionjoueurLocal.y)) {
-					System.out.println("MapManageur.update() contains");
+				
 					if (zone instanceof ZoneTeleport) {
 						ZoneTeleport zoneTeleport = (ZoneTeleport) zone;
 						screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().setTransform(zoneTeleport.getTarget(), 0);
+						System.out.println("Teleport :"+zoneTeleport.getName()+" to "+zoneTeleport.getTarget());
 					}
 					
 				}
