@@ -31,8 +31,8 @@ public class ConfigPref {
 	public static final int	pixelMeter = 64;
 	public static final short CATEGORY_GHOST 				= 0x0000; 
 	public static final short CATEGORY_SCENERY 				= 0x0001; 		
-	public static final short CATEGORY_JOUEUR				= 0x0002;
-	public static final short CATEGORY_MONSTER				= 0x0004;	
+	public static final short CATEGORY_ALLIER				= 0x0002;
+	public static final short CATEGORY_ENEMY				= 0x0004;	
 	public static final short CATEGORY_PROJECTILE 			= 0x0008;
 	public static final short CATEGORY_LIGHT				= 0x0010;
 	

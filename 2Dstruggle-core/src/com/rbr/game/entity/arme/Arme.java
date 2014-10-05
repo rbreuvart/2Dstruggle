@@ -70,26 +70,78 @@ public class Arme {
 				float friction =0.01f;
 				float restitution =0f;
 				
-				Vector2 vecStart = starposition.cpy().sub(direction.cpy().nor().scl(0.1f));
+				Vector2 vecStart = starposition.cpy().sub(direction.cpy().nor().scl(0.05f));
 				
-				
-				
+								
 				GameObject gameObject = FabriqueAll.creationGameObjectSquare(screenGame.getWorldManageur().getWorld(),
 						"bulletShoot",
 						vecStart.x, vecStart.y,
 						0.2f, 0.2f,
-						ConfigPref.pixelMeter, BodyType.DynamicBody,density,friction,restitution,(short) (ConfigPref.CATEGORY_SCENERY),ConfigPref.CATEGORY_JOUEUR,ConfigPref.CATEGORY_GHOST);
+						ConfigPref.pixelMeter, BodyType.DynamicBody,density,friction,restitution,
+						(short) (ConfigPref.CATEGORY_PROJECTILE|ConfigPref.CATEGORY_LIGHT|ConfigPref.CATEGORY_ALLIER),//CATEGORY type
+						(short) (ConfigPref.CATEGORY_ALLIER),//GROUP traverse
+						(short) (0));//MASK Inverse
 				Sprite spritebullet = new Sprite(screenGame.getMainGame().getManager().get(ConfigPref.File_Bullet1, Texture.class));
 				//float unitscale = (float)(1/ConfigPref.pixelMeter);
 				//System.out.println("unitscale"+unitscale);
 				spritebullet.setScale(0.2f/ConfigPref.pixelMeter);
 				//spritebullet.setAlpha(0.3f);
 				Projectile projectile = new Projectile(gameObject,spritebullet);
-				projectile.getBody().applyLinearImpulse(direction.cpy().nor().scl(-0.5f), projectile.getBody().getPosition(), true);
+				
+				projectile.getBody().applyLinearImpulse(direction.cpy().nor().scl((float) -Math.random()), projectile.getBody().getPosition(), true);
 				screenGame.getGameObjectManageur().add(projectile);
 			}
 		});
 		
 	}
+
+	public float getCooldown() {
+		return cooldown;
+	}
+
+	public void setCooldown(float cooldown) {
+		this.cooldown = cooldown;
+	}
+
+	public float getRange() {
+		return range;
+	}
+
+	public void setRange(float range) {
+		this.range = range;
+	}
+
+	public float getDegat() {
+		return degat;
+	}
+
+	public void setDegat(float degat) {
+		this.degat = degat;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
+
+	public float getPresision() {
+		return presision;
+	}
+
+	public void setPresision(float presision) {
+		this.presision = presision;
+	}
+
+	public long getLastShootTime() {
+		return lastShootTime;
+	}
+
+	public void setLastShootTime(long lastShootTime) {
+		this.lastShootTime = lastShootTime;
+	}
+	
 	
 }

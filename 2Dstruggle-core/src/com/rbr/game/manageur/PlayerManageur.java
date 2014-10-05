@@ -56,11 +56,11 @@ public class PlayerManageur {
 	public PlayerLocal createLocalPlayer(ScreenGame screenGame,int id,Vector2 position){
 		Sprite spritePlayer = new Sprite(  screenGame.getMainGame().getManager().get(ConfigPref.File_BodyPerso,Texture.class));
 		PlayerLocal playerControle = new PlayerLocal(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
-				spritePlayer,position ,"player", 0.45f,ConfigPref.pixelMeter,
-				1,0.95f,0f,
-				(short) ((short)ConfigPref.CATEGORY_SCENERY+ConfigPref.CATEGORY_LIGHT),
-				ConfigPref.CATEGORY_JOUEUR,
-				(short)0));
+				spritePlayer,position ,"player",
+				0.45f,ConfigPref.pixelMeter,1,0.95f,0f,
+				(short)(ConfigPref.CATEGORY_ALLIER),
+				(short)(0),
+				(short)(ConfigPref.CATEGORY_ALLIER)));
 		
 		screenGame.getGameObjectManageur().getGameObjectArray().add(playerControle.getGameObject());
 		screenGame.getPlayerManageur().addPlayerInMap(id,playerControle);
@@ -70,13 +70,12 @@ public class PlayerManageur {
 	public PlayerMulti createMultiPlayer(ScreenGame screenGame,Connection conection,Vector2 position){
 		Sprite spritePlayerMulti = new Sprite( screenGame.getMainGame().getManager().get(ConfigPref.File_RedCircle,Texture.class));
 		
-		
-		
 		PlayerMulti playerMulti =  new PlayerMulti(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
-					spritePlayerMulti,position,"playerMulti"+conection.getID(), 0.45f,ConfigPref.pixelMeter,1,0.95f,0f,
-					(short) ((short)ConfigPref.CATEGORY_SCENERY+ConfigPref.CATEGORY_LIGHT),
-					ConfigPref.CATEGORY_JOUEUR,
-					(short)0));
+					spritePlayerMulti,position,"playerMulti"+conection.getID(),
+					0.45f,ConfigPref.pixelMeter,1,0.95f,0f,
+					(short)(ConfigPref.CATEGORY_ENEMY),
+					(short)(0),
+					(short)(ConfigPref.CATEGORY_ENEMY)));
 			screenGame.getGameObjectManageur().getGameObjectArray().add(playerMulti.getGameObject());
 			playerMulti.setConnection(conection);
 			

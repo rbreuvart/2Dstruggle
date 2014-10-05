@@ -55,20 +55,28 @@ public class MapPropertyLoader {
 				cs.createChain(v);
 				fdef.friction = 0;
 				fdef.shape = cs;
-				fdef.filter.categoryBits = ConfigPref.CATEGORY_SCENERY;
-				fdef.filter.groupIndex = ConfigPref.CATEGORY_SCENERY;
 				
+				
+				//si la tuile laise passer la lumiére ou non
 				if ("true".equals(cell.getTile().getProperties().get(ConfigPref.TilePropLightBlocage))) {
-					fdef.filter.maskBits = ConfigPref.CATEGORY_LIGHT;
-				}else{
+					fdef.filter.categoryBits = ConfigPref.CATEGORY_SCENERY|ConfigPref.CATEGORY_LIGHT;
+					fdef.filter.groupIndex = ConfigPref.CATEGORY_SCENERY;
 					fdef.filter.maskBits = ConfigPref.CATEGORY_SCENERY;
+				}else{
+					
+					fdef.filter.categoryBits = ConfigPref.CATEGORY_SCENERY;
+					fdef.filter.groupIndex = ConfigPref.CATEGORY_SCENERY;
+					fdef.filter.maskBits = ConfigPref.CATEGORY_LIGHT;
 				}
 				
 				fdef.isSensor = false;
 				screenGame.getWorldManageur().getWorld().createBody(bdef).createFixture(fdef);
 			}
 		}
-		Light.setContactFilter(ConfigPref.CATEGORY_SCENERY, ConfigPref.CATEGORY_LIGHT, ConfigPref.CATEGORY_SCENERY);
+//		Light.setContactFilter(ConfigPref.CATEGORY_SCENERY, ConfigPref.CATEGORY_LIGHT, ConfigPref.CATEGORY_SCENERY);
+		Light.setContactFilter(	(short)(ConfigPref.CATEGORY_LIGHT),
+								(short)(0),
+								(short)(ConfigPref.CATEGORY_SCENERY));
 		
 	}
 	
@@ -103,13 +111,9 @@ public class MapPropertyLoader {
 	 * @param listVectorSpawn 
 	 */
 	private static void loadSpawn(ScreenGame screenGame, MapObject mapObject, Array<Vector2> listVectorSpawn){
-		Vector2 spawn = new Vector2(
-				Float.valueOf(mapObject.getProperties().get("x").toString())+ConfigPref.MapTypeSpawnOffsetPosition.x,
-				Float.valueOf(mapObject.getProperties().get("y").toString())+ConfigPref.MapTypeSpawnOffsetPosition.y);
-		//System.out.println("spawn x:"+spawn.x+" y:"+spawn.y);
+		Vector2 spawn = new Vector2(Float.valueOf(mapObject.getProperties().get("x").toString())+ConfigPref.MapTypeSpawnOffsetPosition.x,
+									Float.valueOf(mapObject.getProperties().get("y").toString())+ConfigPref.MapTypeSpawnOffsetPosition.y);
 		listVectorSpawn.add(spawn);
-
-		
 	}
 	
 	/**
@@ -117,10 +121,9 @@ public class MapPropertyLoader {
 	 * @param screenGame
 	 * @param mapObject
 	 */
-	private static void loadPointLight(ScreenGame screenGame, MapObject mapObject){
-		
+	private static void loadPointLight(ScreenGame screenGame, MapObject mapObject){		
 		Light light = new PointLight(screenGame.getLightManageur().getRayHandler(), (int) Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightQuality, String.class)));
-		light.setDistance(Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightDistance, String.class)));
+		light.setDistance(		Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightDistance, String.class)));
 		light.setSoftnessLength(Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightSoftnesslen, String.class)));
 		
 		light.setPosition(new Vector2(	Float.valueOf(mapObject.getProperties().get("x").toString())/ConfigPref.pixelMeter,
@@ -135,7 +138,6 @@ public class MapPropertyLoader {
 		light.setColor(r,g,b,a);
 		if (Boolean.parseBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightStatic, String.class))) {
 			light.setStaticLight(true);
-			//System.out.println("MapManageur.MapManageur()setStaticLight"+mapObject.getProperties().get(ConfigPref.MapPointLightStatic, String.class));
 		}
 		if (Boolean.parseBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightXray, String.class))) {
 			light.setXray(true);

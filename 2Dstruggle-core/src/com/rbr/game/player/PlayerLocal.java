@@ -30,7 +30,8 @@ public class PlayerLocal extends Player{
 		spesificImpulse = 0.5f;
 		
 		Vector2 vel = getGameObject().getBody().getLinearVelocity();
-		Vector2 pos = getGameObject().getBody().getPosition();		
+		Vector2 pos = getGameObject().getBody().getPosition();	
+	//	boolean actionmove = false;
 		
 		Vector2 vectorVise = new Vector2();
 		float angleVise = 0;
@@ -115,12 +116,12 @@ public class PlayerLocal extends Player{
 	
 	
 	public void render(ScreenGame screenGame, SpriteBatch spriteBatch, ShapeRenderer shapeRenderer){
-		Vector2 vectorDirrection = getGameObject().getBody().getPosition().cpy();
+		/*Vector2 vectorDirrection = getGameObject().getBody().getPosition().cpy();
 		
 		vectorDirrection.setAngle(getGameObject().getBody().getAngle()+90);
 	
 		vectorDirrection.scl(10);
-		shapeRenderer.line(getGameObject().getBody().getPosition(), vectorDirrection);
+		shapeRenderer.line(getGameObject().getBody().getPosition(), vectorDirrection);*/
 	}
 
 	
