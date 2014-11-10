@@ -17,8 +17,17 @@ public class Projectile extends  GameObjectSprite{
 		this.playerEmeteur = playerEmeteur;
 	}
 	
-	public Projectile(GameObject go,Sprite sprite,Player playerEmeteur) {
+	private float degat;
+	public float getDegat() {
+		return degat;
+	}
+	public void setDegat(float degat) {
+		this.degat = degat;
+	}
+	
+	public Projectile(GameObject go,Sprite sprite,Player playerEmeteur,float degat) {
 		super(go, sprite);
+		this.degat = degat;
 		//super(go.getName(), go.getBodyDef(), go.getBody(), go.getFixtureDef());
 		sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
 		go.getBody().setBullet(true);
@@ -29,7 +38,15 @@ public class Projectile extends  GameObjectSprite{
 	@Override
 	public void colisionBegin(GameObject contact, final ScreenGame screenGame) {
 		super.colisionBegin(contact,screenGame);
+		infigeDegat(contact,screenGame);
 		this.setRemove(true);		
+	}
+	public void infigeDegat(GameObject contact, ScreenGame screenGame) {
+		
+		Player playerContact = screenGame.getPlayerManageur().getPlayerByGameObject(contact);
+		if (playerContact != null) {
+			playerContact.subitDegat(getDegat());
+		}
 	}
 
 

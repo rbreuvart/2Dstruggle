@@ -37,6 +37,7 @@ import com.rbr.game.manageur.PlayerManageur;
 import com.rbr.game.manageur.WorldManageur;
 import com.rbr.game.net.kryo.NetApplicationContainer;
 import com.rbr.game.net.kryo.NetKryoManageur;
+import com.rbr.game.player.PlayerIa;
 import com.rbr.game.utils.ConfigPhysics;
 import com.rbr.game.utils.ConfigPref;
 
@@ -74,7 +75,6 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	
 	private CameraManageur camManageur;
 	
-	//private NetworkManageur networkManageur;
 	private NetKryoManageur kryoManageur;
 	
 	private WorldManageur worldManageur ;
@@ -161,6 +161,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
     private Drawable touchKnob;
     private Stage stage;
     private Touchpad touchpadAim;
+    
     public Touchpad getTouchpad() {
 		return touchpad;
 	}
@@ -262,6 +263,10 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		garbageManageur = new GarbageManageur(this);
 	
+	
+		/**
+		 * 
+		 */
 		
 		Sprite s = new Sprite( screenGame.getMainGame().getManager().get(ConfigPref.File_RedCircle,Texture.class));
 		GameObject gameObject = FabriqueAll.creationGameObjectCircle(getWorldManageur(), s, 
@@ -273,6 +278,9 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 				ConfigPhysics.PlayerMulti_Group,
 				ConfigPhysics.PlayerMulti_Mask);
 		screenGame.getGameObjectManageur().getGameObjectArray().add(gameObject);
+		
+		PlayerIa iaPlayer = new PlayerIa(gameObject);
+		playerManageur.addPlayerInMap(2, iaPlayer);
 	}	
 	
 	
@@ -307,7 +315,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		//debug pour les zones de la map
 		shapeRenderer.setProjectionMatrix(screenGame.getCamManageur().getOrthographicCamera().combined);
-		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.begin(ShapeType.Filled);
 		playerManageur.render(this, getBatch(),shapeRenderer);	
 
 		for (Zone zone : getMapManageur().getListZone()) {
