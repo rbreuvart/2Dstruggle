@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.rbr.game.entity.physics.FabriqueAll;
+import com.rbr.game.entity.physics.GameObject;
 import com.rbr.game.player.Player;
 import com.rbr.game.player.PlayerLocal;
 import com.rbr.game.player.PlayerMulti;
@@ -30,12 +31,25 @@ public class PlayerManageur {
 	public void update(float delta,ScreenGame screenGame){		
 		for (Entry<Integer, Player> player : hashMapPlayer.entrySet()) {
 			player.getValue().update(screenGame,delta);
+			
+			if (player.getValue().isNeedRespawn()) {
+				player.getValue().setNeedRespawn(false);
+				player.getValue().setLife(player.getValue().getLifeMax());
+				player.getValue().getGameObject().getBody().setLinearVelocity(new Vector2());
+				player.getValue().getGameObject().getBody().setLinearDamping(0);
+				player.getValue().getGameObject().getBody().setAngularVelocity(0);
+				player.getValue().getGameObject().getBody().setTransform(screenGame.getMapManageur().getRandomSpawn().scl((float)(1f/ConfigPref.pixelMeter)), 0);
+			}
+			
 		}
 	}
 	
 	public void render(ScreenGame screenGame, SpriteBatch spriteBatch, ShapeRenderer shapeRenderer){
-		if (playerLocal!=null) {
+		/*if (playerLocal!=null) {
 			playerLocal.render(screenGame,spriteBatch,shapeRenderer);
+		}*/
+		for (Entry<Integer, Player> player : hashMapPlayer.entrySet()) {
+			player.getValue().render(screenGame,spriteBatch,shapeRenderer);
 		}
 	}
 	
@@ -45,6 +59,15 @@ public class PlayerManageur {
 	public Player getPlayerById(int id){		
 		return hashMapPlayer.get(id);		
 	}
+	public Player getPlayerByGameObject(GameObject contact) {
+		for (Entry<Integer, Player> player : hashMapPlayer.entrySet()) {
+			if (player.getValue().getGameObject().equals(contact)) {
+				return player.getValue();
+			}
+		}
+		return null;
+	}
+	
 	public void addPlayerInMap(int id,Player player){
 		hashMapPlayer.put(id, player);
 		player.setId(id);
@@ -96,4 +119,7 @@ public class PlayerManageur {
 	public void setPlayerLocal(PlayerLocal playerLocal) {
 		this.playerLocal = playerLocal;
 	}
+
+
+	
 }
