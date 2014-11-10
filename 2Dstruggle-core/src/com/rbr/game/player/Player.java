@@ -11,6 +11,10 @@ public abstract class Player {
 	
 	private int id;
 	private Connection connection;
+	private float life;
+	private float lifeMax;
+	
+	
 /*
 	
 	public enum EtatPlayer{
@@ -30,7 +34,18 @@ public abstract class Player {
 	public void setGameObject(GameObject gameObject) {
 		this.gameObject = gameObject;
 	}
-
+	public float getLife() {
+		return life;
+	}
+	public void setLife(float life) {
+		this.life = life;
+	}
+	public float getLifeMax() {
+		return lifeMax;
+	}
+	public void setLifeMax(float lifeMax) {
+		this.lifeMax = lifeMax;
+	}
 
 
 	public abstract void update(ScreenGame screenGame, float delta) ;

@@ -59,14 +59,14 @@ public class MapPropertyLoader {
 				
 				//si la tuile laise passer la lumiére ou non
 				if ("true".equals(cell.getTile().getProperties().get(ConfigPref.TilePropLightBlocage))) {
-					fdef.filter.categoryBits = ConfigPref.CATEGORY_SCENERY|ConfigPref.CATEGORY_LIGHT;
-					fdef.filter.groupIndex = ConfigPref.CATEGORY_SCENERY;
-					fdef.filter.maskBits = ConfigPref.CATEGORY_SCENERY;
+					fdef.filter.categoryBits = ConfigPhysics.SceneTileTranslucide_Category;
+					fdef.filter.groupIndex = ConfigPhysics.SceneTileTranslucide_Group;
+					fdef.filter.maskBits = ConfigPhysics.SceneTileTranslucide_Mask;
 				}else{
 					
-					fdef.filter.categoryBits = ConfigPref.CATEGORY_SCENERY;
-					fdef.filter.groupIndex = ConfigPref.CATEGORY_SCENERY;
-					fdef.filter.maskBits = ConfigPref.CATEGORY_LIGHT;
+					fdef.filter.categoryBits = ConfigPhysics.SceneTileOpaque_Category;
+					fdef.filter.groupIndex = ConfigPhysics.SceneTileOpaque_Group;
+					fdef.filter.maskBits = ConfigPhysics.SceneTileOpaque_Mask;
 				}
 				
 				fdef.isSensor = false;
@@ -74,9 +74,9 @@ public class MapPropertyLoader {
 			}
 		}
 //		Light.setContactFilter(ConfigPref.CATEGORY_SCENERY, ConfigPref.CATEGORY_LIGHT, ConfigPref.CATEGORY_SCENERY);
-		Light.setContactFilter(	(short)(ConfigPref.CATEGORY_LIGHT),
-								(short)(0),
-								(short)(ConfigPref.CATEGORY_SCENERY));
+		Light.setContactFilter(	(short)(ConfigPhysics.SceneLight_Category),
+								(short)(ConfigPhysics.SceneLight_Group),
+								(short)(ConfigPhysics.SceneLight_Mask));
 		
 	}
 	

@@ -8,7 +8,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.rbr.game.entity.physics.FabriqueAll;
 import com.rbr.game.entity.physics.GameObject;
 import com.rbr.game.entity.projectile.Projectile;
+import com.rbr.game.player.Player;
 import com.rbr.game.screen.game.ScreenGame;
+import com.rbr.game.utils.ConfigPhysics;
 import com.rbr.game.utils.ConfigPref;
 
 public class Arme {
@@ -41,13 +43,14 @@ public class Arme {
 	 * execute shooot si le cooldown et fini 
 	 * @param starposition
 	 * @param direction
+	 * @param player 
 	 */
-	public void shootUpdate(ScreenGame screenGame,Vector2 starposition,Vector2 direction){
+	public void shootUpdate(ScreenGame screenGame,Vector2 starposition,Vector2 direction, Player player){
 		long timedif = System.currentTimeMillis()-lastShootTime;
 		//System.out.println((cooldown)+" timedif:"+timedif);
 		if (cooldown<=timedif) {
 			lastShootTime = System.currentTimeMillis();
-			shoooot(screenGame,starposition, direction);		
+			shoooot(screenGame,starposition, direction,player);		
 		}
 	}
 	
@@ -55,15 +58,16 @@ public class Arme {
 	 * 
 	 * @param starposition
 	 * @param direction
+	 * @param player 
 	 */
-	public void shoooot(final ScreenGame screenGame,final Vector2 starposition,final Vector2 direction){
-		System.out.println("Shooooooot !!!");
+	public void shoooot(final ScreenGame screenGame,final Vector2 starposition,final Vector2 direction, final Player player){
+	//	System.out.println("Shooooooot !!!");
 		
 		Gdx.app.postRunnable(new Runnable() {
 			
 			@Override
 			public void run() {
-				System.out.println("starposition:"+starposition);
+			//	System.out.println("starposition:"+starposition);
 				//new FabriqueAll();
 				
 				float density = 1f;
@@ -78,15 +82,15 @@ public class Arme {
 						vecStart.x, vecStart.y,
 						0.2f, 0.2f,
 						ConfigPref.pixelMeter, BodyType.DynamicBody,density,friction,restitution,
-						(short) (ConfigPref.CATEGORY_PROJECTILE|ConfigPref.CATEGORY_LIGHT|ConfigPref.CATEGORY_ALLIER),//CATEGORY type
-						(short) (ConfigPref.CATEGORY_ALLIER),//GROUP traverse
-						(short) (0));//MASK Inverse
+						(short) (ConfigPhysics.ProjectileAllier_Category),//CATEGORY type
+						(short) (ConfigPhysics.ProjectileAllier_Group),//GROUP traverse
+						(short) (ConfigPhysics.ProjectileAllier_Mask));//MASK Inverse
 				Sprite spritebullet = new Sprite(screenGame.getMainGame().getManager().get(ConfigPref.File_Bullet1, Texture.class));
 				//float unitscale = (float)(1/ConfigPref.pixelMeter);
 				//System.out.println("unitscale"+unitscale);
 				spritebullet.setScale(0.2f/ConfigPref.pixelMeter);
 				//spritebullet.setAlpha(0.3f);
-				Projectile projectile = new Projectile(gameObject,spritebullet);
+				Projectile projectile = new Projectile(gameObject,spritebullet,player);
 				
 				projectile.getBody().applyLinearImpulse(direction.cpy().nor().scl((float) -Math.random()), projectile.getBody().getPosition(), true);
 				screenGame.getGameObjectManageur().add(projectile);

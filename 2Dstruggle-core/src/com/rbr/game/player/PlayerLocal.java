@@ -9,10 +9,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.rbr.game.entity.arme.Arme;
 import com.rbr.game.entity.physics.GameObject;
+import com.rbr.game.entity.physics.GameObjectCollisionListener;
+import com.rbr.game.entity.physics.GameObjectSprite;
+import com.rbr.game.entity.projectile.Projectile;
 import com.rbr.game.screen.game.ScreenGame;
 import com.rbr.game.utils.ConfigPref;
 
-public class PlayerLocal extends Player{
+public class PlayerLocal extends Player implements GameObjectCollisionListener{
 
 	private Arme arme;
 	
@@ -20,9 +23,32 @@ public class PlayerLocal extends Player{
 		super(gameObject);		
 		//prend en charge manuelement dans l'update de playerControle l'auto deceleration
 		getGameObject().setAutoDeceleration(false);
+		getGameObject().addCollisionObservateur(this);
 		arme = new Arme(100, 100, 5, 300, 0.99f);
+		//la rotation n'est pas appliqué
+		((GameObjectSprite)getGameObject()).getISpriteRender().setApplyRotate(true);
+	}
+	
+	@Override
+	public void colisionBegin(GameObject called,GameObject contact, ScreenGame screenGame) {
+		System.out.println("called:"+called.getName()+" contact:"+contact.getName());
+		if (called instanceof Projectile) {
+			System.out.println("projectile");
+			if (((Projectile)called).getPlayerEmeteur().equals(this)) {
+				System.out.println("le player se colisionne eavec ces balles");
+			}else{
+				System.out.println("le player local colisione avec "+called);
+			}
+		}
 	}
 
+
+	@Override
+	public void colisionEnd(GameObject called,GameObject contact, ScreenGame screenGame) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	
 	float spesificImpulse;
 	public void update(ScreenGame screenGame ,float delta){
@@ -49,8 +75,6 @@ public class PlayerLocal extends Player{
 			if (Gdx.input.isTouched(0)) {
 				shoot = true;
 			}
-			
-			
 			
 			if (Gdx.input.isKeyPressed(Keys.LEFT) && vel.x > -ConfigPref.Player_MAX_VELOCITY) {          
 				getGameObject().getBody().applyLinearImpulse(-spesificImpulse, 0, pos.x, pos.y, true);
@@ -106,22 +130,17 @@ public class PlayerLocal extends Player{
 		
 		
 		if (shoot) {
-			arme.shootUpdate(screenGame,pos, vectorVise);
+			arme.shootUpdate(screenGame,pos, vectorVise,this);
 		}
 		
 		//camera follow cette position
-		screenGame.getCamManageur().folowTarget(getGameObject().getBody().getPosition());
-			
+		screenGame.getCamManageur().folowTarget(getGameObject().getBody().getPosition(),getGameObject().getBody().getAngle());
+		
 	}
 	
 	
 	public void render(ScreenGame screenGame, SpriteBatch spriteBatch, ShapeRenderer shapeRenderer){
-		/*Vector2 vectorDirrection = getGameObject().getBody().getPosition().cpy();
-		
-		vectorDirrection.setAngle(getGameObject().getBody().getAngle()+90);
 	
-		vectorDirrection.scl(10);
-		shapeRenderer.line(getGameObject().getBody().getPosition(), vectorDirrection);*/
 	}
 
 	
@@ -135,6 +154,9 @@ public class PlayerLocal extends Player{
 	public void setArme(Arme arme) {
 		this.arme = arme;
 	}
+
+
+	
 	
 	
 }

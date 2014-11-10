@@ -27,19 +27,10 @@ public class ConfigPref {
 		Debug,ShapeRender,Batch,Controlleur,Stage
 	}
 
-	//Physics
-	public static final int	pixelMeter = 64;
-	public static final short CATEGORY_GHOST 				= 0x0000; 
-	public static final short CATEGORY_SCENERY 				= 0x0001; 		
-	public static final short CATEGORY_ALLIER				= 0x0002;
-	public static final short CATEGORY_ENEMY				= 0x0004;	
-	public static final short CATEGORY_PROJECTILE 			= 0x0008;
-	public static final short CATEGORY_LIGHT				= 0x0010;
-	
+	//Light
 	public static final Color CouleurAmbientLight = new Color(0.2f, 0.2f, 0.2f, 0.2f);
 
-	//Player
-	
+	//Player	
 	public static final float Player_MAX_VELOCITY = 3.5f;
 	
 	
@@ -49,6 +40,7 @@ public class ConfigPref {
 	public static final Color CouleurGameBackGroundGL = new Color(0.f, 0f, 0.0f, 0f);
 	
 	//Map
+	public static final int	pixelMeter = 64;
 	public static final String MapVersion = "VERSIONMAP";
 	public static final Vector2 MapTileOffsetPosition = new Vector2((float)32/pixelMeter,(float)32/pixelMeter);
 

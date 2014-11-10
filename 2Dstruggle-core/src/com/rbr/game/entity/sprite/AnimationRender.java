@@ -19,7 +19,7 @@ public class AnimationRender implements ISpriteRender{
 	private TextureRegion           currentFrame;      
 
     float stateTime;                  
-	
+    private boolean applyRotate;
 	
     public AnimationRender(Texture sheetAnimation,int framecols,int framerows,float duration,PlayMode playMode) {
     	//this.sheetAnimation = sheetAnimation;
@@ -65,6 +65,18 @@ public class AnimationRender implements ISpriteRender{
 
 	public void setAnimation(Animation animation) {
 		this.animation = animation;
+	}
+
+
+	@Override
+	public boolean getApplyRotate() {
+		return applyRotate;
+	}
+
+
+	@Override
+	public void setApplyRotate(boolean applyRotate) {
+		this.applyRotate = applyRotate;
 	}
 	
 }

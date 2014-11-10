@@ -8,6 +8,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -24,6 +25,8 @@ import com.rbr.game.CameraManageur;
 import com.rbr.game.MainGame;
 import com.rbr.game.entity.map.Zone;
 import com.rbr.game.entity.physics.ContactGameObjectListener;
+import com.rbr.game.entity.physics.FabriqueAll;
+import com.rbr.game.entity.physics.GameObject;
 import com.rbr.game.manageur.GameObjectManageur;
 import com.rbr.game.manageur.GarbageManageur;
 import com.rbr.game.manageur.HudManageur;
@@ -32,8 +35,9 @@ import com.rbr.game.manageur.LightManageur;
 import com.rbr.game.manageur.MapManageur;
 import com.rbr.game.manageur.PlayerManageur;
 import com.rbr.game.manageur.WorldManageur;
+import com.rbr.game.net.kryo.NetApplicationContainer;
 import com.rbr.game.net.kryo.NetKryoManageur;
-import com.rbr.game.net.kryo.NetKryoManageur.NetApplicationType;
+import com.rbr.game.utils.ConfigPhysics;
 import com.rbr.game.utils.ConfigPref;
 
 public class ScreenGame implements Screen,InputProcessor,GestureListener{
@@ -171,7 +175,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	}
 	
 	ScreenGame screenGame;
-	public ScreenGame(MainGame mainGame,NetApplicationType  netAppType,String mapFileAsset) {
+	public ScreenGame(MainGame mainGame,NetApplicationContainer  netApplicationContainer,String mapFileAsset) {
 		this.screenGame = this;
 		//recuperation de l'intance de MainGame
 		this.setMainGame(mainGame);
@@ -206,32 +210,28 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
             //Create TouchPad Style
             touchpadStyle = new TouchpadStyle();
             //Create Drawable's from TouchPad skin
-            touchBackground = touchpadSkin.getDrawable("touchBackground");
-            
-            touchKnob = touchpadSkin.getDrawable("touchKnob");
+            touchBackground = touchpadSkin.getDrawable("touchBackground");            
+            touchKnob = touchpadSkin.getDrawable("touchKnob");            
             //Apply the Drawables to the TouchPad Style
             touchpadStyle.background = touchBackground;
             touchpadStyle.knob = touchKnob;
+            
             //Create new TouchPad with the created style
             touchpad = new Touchpad(10, touchpadStyle);
             touchpad.setColor(0, 0, 0, .2f);
-            //setBounds(x,y,width,height)
             touchpad.setBounds(30, 40, 250, 250);
             
-            //Create a Stage and add TouchPad
-           // stage = new Stage(new StretchViewport(ConfigPref.viewPortWidth/1.2f,ConfigPref.viewPortHeight/1.2f));
+         
             stage.addActor(touchpad);      
             
             
             
             touchpadAim = new Touchpad(20, touchpadStyle);
             touchpadAim.setColor(0.5f, 0, 0, .2f);
-            //setBounds(x,y,width,height)
             touchpadAim.setBounds(960-250-30, 40, 250, 250);
             stage.addActor(touchpadAim);   
-         //   Gdx.input.setInputProcessor(stage);
 		}
-       // Gdx.input.setInputProcessor(stage);
+        
 		//Cammera
 		camManageur  = new CameraManageur(mainGame);
 		camManageur.getOrthographicCamera().zoom = 100/ConfigPref.pixelMeter;
@@ -252,19 +252,27 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		
 		//Multiplayer and player
 		playerManageur = new PlayerManageur();
-	
-
+		
 		//IA
 		iaManageur = new IaManageur();
-	
-		
-		
-		
+
 		hudManageur =  new HudManageur();
 	
-		kryoManageur = new NetKryoManageur(this, netAppType);
+		kryoManageur = new NetKryoManageur(this, netApplicationContainer);
 		
 		garbageManageur = new GarbageManageur(this);
+	
+		
+		Sprite s = new Sprite( screenGame.getMainGame().getManager().get(ConfigPref.File_RedCircle,Texture.class));
+		GameObject gameObject = FabriqueAll.creationGameObjectCircle(getWorldManageur(), s, 
+				new Vector2(20*ConfigPref.pixelMeter, 20*ConfigPref.pixelMeter),
+				"cercletest", 0.45f,
+				ConfigPref.pixelMeter,
+				1	, 0.95f, 0,
+				ConfigPhysics.PlayerMulti_Category,
+				ConfigPhysics.PlayerMulti_Group,
+				ConfigPhysics.PlayerMulti_Mask);
+		screenGame.getGameObjectManageur().getGameObjectArray().add(gameObject);
 	}	
 	
 	
@@ -307,9 +315,6 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		}
 		
 		shapeRenderer.end();
-		
-		
-		
 		
 		
 		hudManageur.update(this, delta);
@@ -376,7 +381,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	}
 	@Override
 	public boolean scrolled(int amount) {
-		System.out.println("ScreenGame.scrolled()");
+	//	System.out.println("ScreenGame.scrolled()");
 		
 		float zoom = getCamManageur().getOrthographicCamera().zoom +(amount*0.5f);
 		if (zoom>0) {

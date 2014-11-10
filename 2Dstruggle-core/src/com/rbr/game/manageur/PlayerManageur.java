@@ -14,12 +14,12 @@ import com.rbr.game.player.Player;
 import com.rbr.game.player.PlayerLocal;
 import com.rbr.game.player.PlayerMulti;
 import com.rbr.game.screen.game.ScreenGame;
+import com.rbr.game.utils.ConfigPhysics;
 import com.rbr.game.utils.ConfigPref;
 
 public class PlayerManageur {
 
-	private PlayerLocal playerLocal;
-	
+	private PlayerLocal playerLocal;	
 	private HashMap<Integer, Player>  hashMapPlayer ;
 	
 	public PlayerManageur(){
@@ -55,15 +55,16 @@ public class PlayerManageur {
 	
 	public PlayerLocal createLocalPlayer(ScreenGame screenGame,int id,Vector2 position){
 		Sprite spritePlayer = new Sprite(  screenGame.getMainGame().getManager().get(ConfigPref.File_BodyPerso,Texture.class));
+	
 		PlayerLocal playerControle = new PlayerLocal(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
 				spritePlayer,position ,"player",
 				0.45f,ConfigPref.pixelMeter,1,0.95f,0f,
-				(short)(ConfigPref.CATEGORY_ALLIER),
-				(short)(0),
-				(short)(ConfigPref.CATEGORY_ALLIER)));
-		
+				ConfigPhysics.PlayerLocal_Category,
+				ConfigPhysics.PlayerLocal_Group,
+				ConfigPhysics.PlayerLocal_Mask));		
 		screenGame.getGameObjectManageur().getGameObjectArray().add(playerControle.getGameObject());
 		screenGame.getPlayerManageur().addPlayerInMap(id,playerControle);
+		
 		return playerLocal;
 	}
 	
@@ -73,9 +74,9 @@ public class PlayerManageur {
 		PlayerMulti playerMulti =  new PlayerMulti(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
 					spritePlayerMulti,position,"playerMulti"+conection.getID(),
 					0.45f,ConfigPref.pixelMeter,1,0.95f,0f,
-					(short)(ConfigPref.CATEGORY_ENEMY),
-					(short)(0),
-					(short)(ConfigPref.CATEGORY_ENEMY)));
+					ConfigPhysics.PlayerMulti_Category,
+					ConfigPhysics.PlayerMulti_Group,
+					ConfigPhysics.PlayerMulti_Mask));
 			screenGame.getGameObjectManageur().getGameObjectArray().add(playerMulti.getGameObject());
 			playerMulti.setConnection(conection);
 			

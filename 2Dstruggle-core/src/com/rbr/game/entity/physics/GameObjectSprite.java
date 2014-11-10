@@ -10,7 +10,7 @@ public class GameObjectSprite extends GameObject{
 
 
 	private ISpriteRender iSpriteRender;
-	
+
 	public GameObjectSprite(GameObject go,Sprite sprite) {
 		super(go.getName(), go.getBodyDef(), go.getBody(), go.getFixtureDef());
 		this.iSpriteRender =  new SpriteRender(sprite, go.getBody());
@@ -35,6 +35,8 @@ public class GameObjectSprite extends GameObject{
 	public void render(ScreenGame screenGame, SpriteBatch batch) {
 		super.render(screenGame, batch);
 		//		this.iSpriteRender.render(screenGame, getBody().getPosition(),  getBody().getLinearVelocity().angle()-90, 0, batch);
+		
+		
 		this.iSpriteRender.render(screenGame, 	getBody().getPosition(),
 												getBody().getAngle(), 0, batch);
 		/*getSprite().draw(batch);*/

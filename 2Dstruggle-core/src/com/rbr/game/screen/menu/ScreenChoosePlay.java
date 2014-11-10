@@ -1,6 +1,7 @@
 package com.rbr.game.screen.menu;
 
 import java.lang.reflect.Field;
+import java.net.InetAddress;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -11,16 +12,20 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.rbr.game.MainGame;
+import com.rbr.game.net.client.NetKryoClientManageur;
+import com.rbr.game.net.kryo.NetApplicationContainer;
 import com.rbr.game.net.kryo.NetKryoManageur.NetApplicationType;
 import com.rbr.game.screen.AbsctactScreen;
 import com.rbr.game.screen.game.ScreenGame;
@@ -29,21 +34,31 @@ import com.rbr.game.utils.ConfigPref.TypeMsg;
 
 public class ScreenChoosePlay extends AbsctactScreen{
 	
+	private String mapFileAssetChoisie;
+	private String ip ;
 	
 	
 	Window windowMap;
 	Table tableWindow;
-	
-	private String mapFileAssetChoisie;
-	
+	SplitPane splitPane;
+		
 	TextButton buttonStartClient;	
 	TextButton buttonStartServer;
+	TextButton buttonRefrechServer;
+	
+	
+	Window windowServeur;
+	@SuppressWarnings("rawtypes")
+	List listServeur ;
+	//Label IpLabel ;
+	TextField textfieldIp;
 	
 	public ScreenChoosePlay(MainGame mainGame) {
 		super(mainGame);
 		setBackGroundColor(Color.NAVY);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void create() {		
 		super.create();
@@ -56,7 +71,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 	    tableCornerRight.setFillParent(false);
 	    tableCornerRight.setPosition(885, 520);
 	    getStage().addActor(tableCornerRight);
-	    
+	  
 	    TextButton buttonRetour = new TextButton("Retour ", skin);
 	    buttonRetour.addCaptureListener(new InputListener(){
 	    		@Override
@@ -68,6 +83,8 @@ public class ScreenChoosePlay extends AbsctactScreen{
 	    tableCornerRight.add(buttonRetour).width(150).height(40);
 	    tableCornerRight.row();
 		
+	    
+	    
 		
 		/*
 		 * Bouton de Start
@@ -78,6 +95,20 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		tableCornerbotRight.align(Align.bottom+Align.right);
 		tableCornerbotRight.setPosition(960, 0);
 	    getStage().addActor(tableCornerbotRight);
+	   
+	    
+	    this.buttonRefrechServer =  new TextButton("Refrech Serveur", skin);
+		buttonRefrechServer.addCaptureListener(new InputListener(){
+			@Override
+    		public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {	
+				Array<String> items = new Array<String>();
+				items.add(" Recherche Serveur ... ");
+				listServeur.setItems(items);
+				rechercheServeurs();
+				return super.touchDown(event, x, y, pointer, button);	
+			}
+		});
+		tableCornerbotRight.add(buttonRefrechServer).width(100).height(50);	
 		
 	    this.buttonStartClient = new TextButton("Start Client", skin,"default");
 	    buttonStartClient.addCaptureListener(new InputListener(){
@@ -89,18 +120,15 @@ public class ScreenChoosePlay extends AbsctactScreen{
 	    			sequenceAction.addAction(Actions.run(new Runnable() {
 						@Override
 						public void run() {
-							getMainGame().setScreen(new ScreenGame(getMainGame(),NetApplicationType.Client,mapFileAssetChoisie));
+							getMainGame().setScreen(new ScreenGame(getMainGame(),new NetApplicationContainer(ip, NetApplicationType.Client),mapFileAssetChoisie));
 						}
 					}));
 	    			getStage().addAction(sequenceAction);
 	    			
-	    			return super.touchDown(event, x, y, pointer, button);	    			
+	    			return super.touchDown(event, x, y, pointer, button);	    			  
 	    		}
 	    });	    
 	    tableCornerbotRight.add(buttonStartClient).width(100).height(50);	
-		
-	    
-	    
 	    
 	    this.buttonStartServer = new TextButton("Start Server", skin,"default");
 	    buttonStartServer.addCaptureListener(new InputListener(){
@@ -112,7 +140,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		    			sequenceAction.addAction(Actions.run(new Runnable() {
 							@Override
 							public void run() {
-								getMainGame().setScreen(new ScreenGame(getMainGame(),NetApplicationType.Serveur,mapFileAssetChoisie));
+								getMainGame().setScreen(new ScreenGame(getMainGame(),new NetApplicationContainer("127.0.0.1", NetApplicationType.Serveur),mapFileAssetChoisie));
 							}
 						}));
 		    			getStage().addAction(sequenceAction);
@@ -121,11 +149,12 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		});
 		tableCornerbotRight.add(buttonStartServer).width(100).height(50);	
 		
-		buttonStartClient.setVisible(false);
-		buttonStartServer.setVisible(false);
+		
+		
+		
 	
 		/*
-		 * 
+		 * defini la fenetre avec la liste des maps et le visuel de la map
 		 */
 		
 		Table tableMap = new Table(skin);
@@ -172,65 +201,36 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		TextureRegion image2 = new TextureRegion(texture2);
 		Image imageActor = new Image(image2);
 		final ScrollPane scrollPane = new ScrollPane(imageActor);
+	
 		
-		@SuppressWarnings("rawtypes")
-		final List list = new List(skin);					
-		list.setItems(listEntries);
-		list.getSelection().setMultiple(false);
-		list.getSelection().setRequired(false);	
+		final List listMap = new List(skin);					
+		listMap.setItems(listEntries);
+		listMap.getSelection().setMultiple(false);
+		listMap.getSelection().setRequired(true);	
 		
-		ScrollPane scrollPane2 = new ScrollPane(list, skin);
+		ScrollPane scrollPane2 = new ScrollPane(listMap, skin);
 		scrollPane2.setFlickScroll(false);
 		
-		final SplitPane splitPane = new SplitPane(scrollPane, scrollPane2, false, skin, "default-horizontal");
-		
-		list.addCaptureListener(new InputListener(){
+		splitPane = new SplitPane(scrollPane, scrollPane2, false, skin, "default-horizontal");
+	
+		listMap.addCaptureListener(new InputListener(){
+			/*
+			 * 
+			 */
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				Gdx.app.postRunnable(new Runnable() {						
 					@Override
 					public void run() {							
-						int index = list.getSelectedIndex();
+						int index = listMap.getSelectedIndex();
 						if (index>=0) {
-							
 							//recup la chaine de l'item selectionné
-							String nameObjectlist = (String) list.getItems().get(index);
-					
-							/*
-							 * defini l'image a coté de  
-							 */
-							Class<ConfigPref> c = ConfigPref.class;
-							Field[] fields = c.getDeclaredFields();
-						
-							String minmap = ConfigPref.File_MapMiniature;
-							for (int i = 0; i < fields.length; i++) {
-								if (fields[i].getName().contains(nameObjectlist)) {
-									try {
-										minmap = (String) fields[i].get(ConfigPref.class);
-									} catch (IllegalArgumentException e) {e.printStackTrace();} catch (IllegalAccessException e) {e.printStackTrace();}
-								}
-							}
-							
-							Texture textureMiniature = getMainGame().getManager().get(minmap, Texture.class);
-						
-							TextureRegion imageMin = new TextureRegion(textureMiniature);
-							final Image imageActorMin = new Image(imageMin);
-							
-							ScrollPane spane = (ScrollPane) splitPane.getChildren().get(0);
-							spane.setWidget(new ScrollPane(imageActorMin));
-							
-								
-							/*
-							 * definie la carte a chargé
-							 */
-						
-							setMapFileAssetChoisie(getPathfileFormItemName(nameObjectlist));
+							String nameObjectlist = (String) listMap.getItems().get(index);					
+							defineTextureMap(nameObjectlist);
 										
 						}else {
 							setMapFileAssetChoisie("");
 						}
-						
-						
 					}
 				});
 				return super.touchDown(event, x, y, pointer, button);
@@ -239,9 +239,29 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		tableWindow.add(splitPane).fill().expand().colspan(4).maxHeight(470);
 		
 		
+		
+		
+		
+		
 		/*
 		 * Option interface
 		 */
+		Table tableOption = new Table(skin);
+		tableOption.setFillParent(false);
+		tableOption.setPosition(650, 470);
+		getStage().addActor(tableOption);
+		
+		textfieldIp = new TextField("", skin);
+		textfieldIp.addCaptureListener(new InputListener(){
+			@Override
+			public boolean keyTyped(InputEvent event, char character) {
+				setIp(textfieldIp.getText());
+				return super.keyTyped(event, character);
+			}
+		});
+		tableOption.add(new Label("IP ", skin));
+		tableOption.add(textfieldIp);
+		tableOption.row();
 		
 		
 		
@@ -250,20 +270,120 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		
 		
 		
+		/*
+		 * Liste des Serveurs
+		 */		
+		Table tableServeur = new Table(skin);
+		tableServeur.align(Align.bottom+Align.left);
+		tableServeur.setFillParent(false);
+		tableServeur.moveBy(10, 10);
+		getStage().addActor(tableServeur);
+				
+		windowServeur = new Window("Liste des Serveurs", skin);
+		windowServeur.setVisible(true);
+		windowServeur.align(Align.center);
+		windowServeur.setMovable(false);
+		windowServeur.defaults().space(0);
+		tableServeur.add(windowServeur).width(550).height(240);
 		
 		
+		Array<String> listEntriesServeur = new Array<String>();
+		listEntriesServeur.add(" Recherche Serveur ... ");
+	
+		listServeur = new List(skin);					
+		listServeur.setItems(listEntriesServeur);
+		listServeur.getSelection().setMultiple(false);
+		listServeur.getSelection().setRequired(true);	
+		listServeur.addCaptureListener(new InputListener(){
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				int index = listServeur.getSelectedIndex() ;
+				if (index>=0) {					
+					setIp((String)listServeur.getItems().get(index));
+				//	System.out.println(getIp());
+				}else{
+					setIp("");
+				}
+				return super.touchDown(event, x, y, pointer, button);			
+			}
+		});
+		ScrollPane scrollPaneServeur = new ScrollPane(listServeur, skin);
+		scrollPaneServeur.setFlickScroll(false);
+		windowServeur.add(scrollPaneServeur).expand().fill();
 		
-		
-		
-		
-		
-		
+		//recherche des serveur
+		rechercheServeurs();
 		
 		
 		
 		//map par default
-		setMapFileAssetChoisie(getPathfileFormItemName((String)list.getItems().first()));
+		String nameObjectlist = (String) listMap.getItems().first();		
+		defineTextureMap(nameObjectlist);
+		actualiseBTN();
+		//FIXME
+		//getStage().setDebugAll(true);
 	}
+
+	
+	
+	private void rechercheServeurs() {
+		new Thread(new Runnable() {			
+			@Override
+			public void run() {
+				listServeur.setItems(listLanServeur());
+			}
+		}).start();;
+	}
+
+	private Array<String> listLanServeur(){		
+		java.util.List<InetAddress> addressList = NetKryoClientManageur.getLanDiscovery();
+		//System.out.println(""+addressList.size()+" Serveur Trouvé");
+		Array<String> listEntriesServeur = new Array<String>();
+		
+		for (InetAddress address : addressList) {
+		//	System.out.println(address);
+			
+			listEntriesServeur.add(address.getHostAddress());
+		}
+		
+		
+		return  listEntriesServeur;		
+	}
+	
+	
+	
+	/**
+	 * defini l'image a coté de la liste des map grace au nom dans  listMap
+	 * @param nameObjectlist
+	 */
+	private void defineTextureMap(String nameObjectlist){
+		/*
+		 * defini l'image a coté de  
+		 */
+		Class<ConfigPref> cd = ConfigPref.class;
+		Field[] fieldsd = cd.getDeclaredFields();
+	
+		String minmap = ConfigPref.File_MapMiniature;
+		for (int i = 0; i < fieldsd.length; i++) {
+			if (fieldsd[i].getName().contains(nameObjectlist)) {
+				try {
+					minmap = (String) fieldsd[i].get(ConfigPref.class);
+				} catch (IllegalArgumentException e) {e.printStackTrace();} catch (IllegalAccessException e) {e.printStackTrace();}
+			}
+		}
+		
+		Texture textureMiniature = getMainGame().getManager().get(minmap, Texture.class);
+	
+		TextureRegion imageMin = new TextureRegion(textureMiniature);
+		final Image imageActorMin = new Image(imageMin);
+		
+		ScrollPane spane = (ScrollPane) splitPane.getChildren().get(0);
+		spane.setWidget(new ScrollPane(imageActorMin));
+		
+		setMapFileAssetChoisie(getPathfileFormItemName(nameObjectlist));
+	}
+	
+	
 	private String getPathfileFormItemName(String nameObjectlist){
 		/*
 		 * definie la carte a chargé
@@ -287,22 +407,52 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		return nameObjectlist;
 		
 	}
-	public String getMapFileAssetChoisie() {
-		return mapFileAssetChoisie;
-	}
-
+	public String getMapFileAssetChoisie() {return mapFileAssetChoisie;}
 	public void setMapFileAssetChoisie(String mapFileAssetChoisie) {
 		this.mapFileAssetChoisie = mapFileAssetChoisie;
-		if (!"".equals(mapFileAssetChoisie)) {
-		//	System.out.println("il y a du text");
-			buttonStartClient.setVisible(true);
-			buttonStartServer.setVisible(true);
+		actualiseBTN();
+	}
+	public String getIp() {	return ip;	}
+	public void setIp(String ip) {
+		this.ip = ip;
+		textfieldIp.setText(getIp());
+		actualiseBTN();
+	}
+	
+	
+	private void actualiseBTN(){
+		
+		if (!"".equals(getMapFileAssetChoisie())) {
+			if (!"".equals(getIp())) {
+				buttonStartClient.setVisible(true);
+			}else{
+				buttonStartClient.setVisible(false);
+			}
+			
+			if (serveurLocalActif()) {
+				buttonStartServer.setVisible(false);
+			}else{
+				buttonStartServer.setVisible(true);
+			}
+			
+			
 		}else {
-		//	System.out.println("il y a pas de text");
 			buttonStartClient.setVisible(false);
 			buttonStartServer.setVisible(false);
 		}
 	}
+
+	private boolean serveurLocalActif(){
+		boolean serveurLocal = false;
+		for (int i = 0; i < listServeur.getItems().size; i++) {
+			if (listServeur.getItems().get(i).equals("127.0.0.1")) {
+				serveurLocal = true;
+				return serveurLocal;
+			}
+		}
+		return serveurLocal;
+	}
+	
 	
 	
 	

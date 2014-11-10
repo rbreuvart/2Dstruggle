@@ -40,13 +40,10 @@ public class NetKryoServerManageur extends Listener{
 		
 		server.bind(ConfigPref.Net_CommunicationPortTCP,ConfigPref.Net_CommunicationPortUDP);
 	
-		
 		server.start();
 		
 		//creation du player pour le serveur
 		screenGame.getPlayerManageur().createLocalPlayer(screenGame,0,screenGame.getMapManageur().getRandomSpawn());
-		
-		
 		
 	}
 	
@@ -58,14 +55,10 @@ public class NetKryoServerManageur extends Listener{
 			packetUpdateGameObjectPlayer.positionX = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().x;
 			packetUpdateGameObjectPlayer.positionY = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().y;
 			packetUpdateGameObjectPlayer.angle = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getAngle();
-			
-			
+				
 			screenGame.getKryoManageur().getKryoServerManageur().getServer().sendToAllTCP( packetUpdateGameObjectPlayer);
 		}
 		
-	
-		
-	
 	}
 	
 	public void connected(Connection c){
@@ -74,7 +67,6 @@ public class NetKryoServerManageur extends Listener{
 	
 		Vector2 position = screenGame.getMapManageur().getRandomSpawn();
 		PlayerMulti playerMulti = screenGame.getPlayerManageur().createMultiPlayer(screenGame,c, position);
-		
 		
 		//envoie a tout le monde qui est connecté l'id de la connection et la position du joueur 
 		PacketAddPlayer packetAddPlayer = new PacketAddPlayer();
@@ -91,7 +83,6 @@ public class NetKryoServerManageur extends Listener{
 			packet2.positionSpawny = p.getGameObject().getBody().getPosition().y;			
 			c.sendTCP(packet2);
 		}
-		
 		
 		//ajout a la MAp des joueurs
 		screenGame.getPlayerManageur().addPlayerInMap(idConnectionPlayer, playerMulti);
@@ -117,8 +108,7 @@ public class NetKryoServerManageur extends Listener{
 		}
 	}
 	
-	public void disconnected(final Connection c){
-		
+	public void disconnected(final Connection c){		
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
@@ -137,20 +127,9 @@ public class NetKryoServerManageur extends Listener{
 		
 	}
 
-	public Server getServer() {
-		return server;
-	}
-
-	public void setServer(Server server) {
-		this.server = server;
-	}
-
-	public Kryo getKryo() {
-		return kryo;
-	}
-
-	public void setKryo(Kryo kryo) {
-		this.kryo = kryo;
-	}
+	public Server getServer() {return server;	}
+	public void setServer(Server server) {this.server = server;	}
+	public Kryo getKryo() {return kryo;	}
+	public void setKryo(Kryo kryo) {this.kryo = kryo;	}
 
 }

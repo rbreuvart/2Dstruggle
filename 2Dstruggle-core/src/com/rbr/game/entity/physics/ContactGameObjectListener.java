@@ -17,8 +17,9 @@ public class ContactGameObjectListener implements ContactListener{
 	@Override
 	public void beginContact(Contact contact) {
 	//	System.out.println("ContactGameObjectListener.beginContact()");
-		GameObject go1 = screenGame.getGameObjectManageur().getGObyBody(contact.getFixtureB().getBody());
+		GameObject go1 = screenGame.getGameObjectManageur().getGObyBody(contact.getFixtureA().getBody());
 		GameObject go2 = screenGame.getGameObjectManageur().getGObyBody(contact.getFixtureB().getBody());
+		//System.out.println("go1"+go1.getName()+" go2"+go2.getName());
 		try {
 			go1.colisionBegin(go2,screenGame);
 			go2.colisionBegin(go1,screenGame);
@@ -31,7 +32,7 @@ public class ContactGameObjectListener implements ContactListener{
 	@Override
 	public void endContact(Contact contact) {
 	//	System.out.println("ContactGameObjectListener.endContact()");
-		GameObject go1 = screenGame.getGameObjectManageur().getGObyBody(contact.getFixtureB().getBody());
+		GameObject go1 = screenGame.getGameObjectManageur().getGObyBody(contact.getFixtureA().getBody());
 		GameObject go2 = screenGame.getGameObjectManageur().getGObyBody(contact.getFixtureB().getBody());
 		try {
 			go1.colisionEnd(go2,screenGame);
