@@ -90,7 +90,7 @@ public class Arme {
 				//System.out.println("unitscale"+unitscale);
 				spritebullet.setScale(0.2f/ConfigPref.pixelMeter);
 				//spritebullet.setAlpha(0.3f);
-				Projectile projectile = new Projectile(gameObject,spritebullet,player);
+				Projectile projectile = new Projectile(gameObject,spritebullet,player,getDegat());
 				
 				projectile.getBody().applyLinearImpulse(direction.cpy().nor().scl((float) -Math.random()), projectile.getBody().getPosition(), true);
 				screenGame.getGameObjectManageur().add(projectile);

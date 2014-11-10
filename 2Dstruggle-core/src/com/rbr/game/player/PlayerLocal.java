@@ -140,7 +140,7 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 	
 	
 	public void render(ScreenGame screenGame, SpriteBatch spriteBatch, ShapeRenderer shapeRenderer){
-	
+		getLifeBarRender().render(screenGame, spriteBatch, shapeRenderer,getGameObject().getBody().getPosition().cpy().add(0, -0.45f), getLife(), getLifeMax());
 	}
 
 	
