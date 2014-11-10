@@ -14,6 +14,9 @@ public class NetKryoManageur {
 		Client,Serveur;
 	}
 	
+	
+	                                     
+	
 	private NetKryoServerManageur kryoServerManageur;
 	private NetKryoClientManageur kryoClientManageur;
 	
@@ -21,13 +24,17 @@ public class NetKryoManageur {
 	
 	private NetApplicationType netApplicationType;
 	
-	public NetKryoManageur(ScreenGame screenGame, NetApplicationType type) {
-		netApplicationType = type;
-		if (NetApplicationType.Client.equals(type)) {
-			kryoClientManageur = new NetKryoClientManageur(screenGame);
+	public NetKryoManageur(ScreenGame screenGame, NetApplicationContainer netApplicationContainer) {
+		netApplicationType = netApplicationContainer.getApplicationType();
+		if (NetApplicationType.Client.equals(netApplicationType)) {
+			
+			if (!"".equals(netApplicationContainer.getIp())) {
+				
+			}
+			kryoClientManageur = new NetKryoClientManageur(screenGame,netApplicationContainer.getIp());
 			System.err.println("Creation Client");
 		}
-		if (NetApplicationType.Serveur.equals(type)) {		
+		if (NetApplicationType.Serveur.equals(netApplicationType)) {		
 			try {
 				kryoServerManageur = new NetKryoServerManageur(screenGame);
 			} catch (IOException e) {

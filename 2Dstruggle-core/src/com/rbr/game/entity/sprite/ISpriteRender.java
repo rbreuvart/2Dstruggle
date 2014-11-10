@@ -6,6 +6,8 @@ import com.rbr.game.screen.game.ScreenGame;
 
 public interface ISpriteRender {
 
+	public boolean getApplyRotate();
+	public void setApplyRotate(boolean applyRotate);
 	
 	public void update(ScreenGame screenGame, float delta) ;
 	

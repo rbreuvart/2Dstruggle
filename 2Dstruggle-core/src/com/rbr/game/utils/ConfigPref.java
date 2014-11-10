@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class ConfigPref {
 	//Vertion
-	public static final String Version = "0.0.0.2";
-	public static final int VertionNum = 2;
+	public static final String Version = "0.0.0.3";
+	public static final int VertionNum = 3;
 	
 	//Camera
 	public static final Float viewPortWidth = 960f;
@@ -21,23 +21,16 @@ public class ConfigPref {
 	public static final boolean debugMsg = true;
 	public static final boolean debugMsgErr = true;
 	public static final boolean debugStage = true;	
+	
+	public static boolean debugWorld = false;
 	public enum TypeMsg {
 		Debug,ShapeRender,Batch,Controlleur,Stage
 	}
 
-	//Physics
-	public static final int	pixelMeter = 64;
-	public static final short CATEGORY_GHOST 				= 0x0000; 
-	public static final short CATEGORY_SCENERY 				= 0x0001; 		
-	public static final short CATEGORY_JOUEUR				= 0x0002;
-	public static final short CATEGORY_MONSTER				= 0x0004;	
-	public static final short CATEGORY_PROJECTILE 			= 0x0008;
-	public static final short CATEGORY_LIGHT				= 0x0010;
-	
+	//Light
 	public static final Color CouleurAmbientLight = new Color(0.2f, 0.2f, 0.2f, 0.2f);
 
-	//Player
-	
+	//Player	
 	public static final float Player_MAX_VELOCITY = 3.5f;
 	
 	
@@ -47,8 +40,10 @@ public class ConfigPref {
 	public static final Color CouleurGameBackGroundGL = new Color(0.f, 0f, 0.0f, 0f);
 	
 	//Map
+	public static final int	pixelMeter = 64;
 	public static final String MapVersion = "VERSIONMAP";
-	
+	public static final Vector2 MapTileOffsetPosition = new Vector2((float)32/pixelMeter,(float)32/pixelMeter);
+
 	//Layer
 	public static final String MapLayerBlockage = "blockage";
 	public static final String MapLayerDecor = "decor";
@@ -57,12 +52,13 @@ public class ConfigPref {
 	
 	//spawn
 	public static final String MapTypeSpawn = "SPAWN";
-	public static final Vector2 MapTypeSpawnOffsetPosition = new Vector2((float)32/pixelMeter,(float)32/pixelMeter);
+
+	public static final Vector2 MapTypeSpawnOffsetPosition = MapTileOffsetPosition;
 	
 	//light
 	//pointLight
 	public static final String MapTypePointLight = "POINTLIGHT";
-	public static final Vector2 MapPointLightOffsetPosition = new Vector2((float)32/pixelMeter,(float)32/pixelMeter);
+	public static final Vector2 MapPointLightOffsetPosition = MapTileOffsetPosition;
 	public static final String MapPointLightColorRed 	= "ColorR";
 	public static final String MapPointLightColorGreen	= "ColorG";
 	public static final String MapPointLightColorBlue	= "ColorB";
@@ -76,6 +72,14 @@ public class ConfigPref {
 	
 	//Tile
 	public static final String TilePropLightBlocage = "TRANSPARENT";
+	
+	//Teleport les teleport sont des zonnes
+	public static final String MapTeleporteurType = "TELEPORT";
+	public static final String MapTeleporteurTarget = "TargetName";
+	
+	
+	//Target
+	public static final String MapTargetType = "TARGET";
 	
 	
 	//network
@@ -114,6 +118,7 @@ public class ConfigPref {
 	
 	public static final String File_MapMiniature 	= 	"data/map/minmap.png";
 	
+	public static final String File_Bullet1 = "data/body/bullet/shoot_1.png";
 	
 	//pattern pour fichier
 	public static final String Pattern_Map 			=	".tmx";
@@ -122,6 +127,8 @@ public class ConfigPref {
 	
 	public static final String PatternField_Skin =	"Skin";
 	public static final String PatternField_File =	"File_";
+	
+
 	
 	
 }

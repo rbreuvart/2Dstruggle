@@ -31,9 +31,9 @@ public class HudManageur {
 		bitmapFont.draw(batch, "FPS:"+Gdx.graphics.getFramesPerSecond(), 10, 24);
 		if (screenGame.getKryoManageur()!=null) {		
 			if (screenGame.getKryoManageur().getNetApplicationType().equals(NetApplicationType.Client)) {
-				bitmapFont.draw(batch, "Type : "+"Client",50, 24);
+				bitmapFont.draw(batch, "Type : "+"Client",60, 24);
 			}else {
-				bitmapFont.draw(batch, "Type : "+"Serveur",50, 24);
+				bitmapFont.draw(batch, "Type : "+"Serveur",60, 24);
 			}
 		}
 		int i = 0;
@@ -45,7 +45,7 @@ public class HudManageur {
 		}
 		
 			
-		
+		bitmapFont.draw(batch, "nbZone : "+screenGame.getMapManageur().getListZone().size,160, 24);
 			
 		
 	/*

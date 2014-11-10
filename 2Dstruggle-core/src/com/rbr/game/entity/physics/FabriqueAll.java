@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -19,13 +18,16 @@ import com.rbr.game.utils.ConfigPref;
 public class FabriqueAll {
 
 	
-	public static GameObject2dCircle creationGameObjectCircle(WorldManageur worldManageur, Sprite s,Vector2 position,String name, float radius,int pixelmeter) {
+	public static GameObject2dCircle creationGameObjectCircle(WorldManageur worldManageur, Sprite s,Vector2 position,String name, float radius,int pixelmeter,
+			float density,float friction,float restitution,short CATEGORY,short GROUP,short MASK) {
 		BodyDef Def;
 		Body Body;
 		CircleShape DynamicShape;
 		FixtureDef fixtureDef;
+		
 		Sprite sprite = new Sprite(s);
 		sprite.scale(pixelmeter);
+		
 		Def = new BodyDef();	
 		Def.type = BodyType.DynamicBody;
 		Def.position.set(position.x/pixelmeter, position.y/pixelmeter);
@@ -37,17 +39,25 @@ public class FabriqueAll {
 	
 		fixtureDef = new FixtureDef();
 		fixtureDef.shape = DynamicShape;
-		fixtureDef.density = 1f;
+		fixtureDef.density = density;
+		fixtureDef.friction = friction;
+		fixtureDef.restitution = restitution;
+		/*
+		 * 		fixtureDef.density = 1f;
 		fixtureDef.friction = 0.95f;
-		fixtureDef.restitution = 0.01f;
-		fixtureDef.filter.categoryBits = ConfigPref.CATEGORY_SCENERY+ConfigPref.CATEGORY_LIGHT;
+		fixtureDef.restitution = 0.01f;*/
+		//fixtureDef.filter.categoryBits = ConfigPhysics.GameObjectCircle_Category;
+		fixtureDef.filter.categoryBits = CATEGORY;
+		fixtureDef.filter.groupIndex = GROUP;
+		fixtureDef.filter.maskBits = MASK;
+		
 		//fixtureDef.filter.maskBits = ;
 		Body.createFixture(fixtureDef);
 		DynamicShape.dispose();
 		
 		return new GameObject2dCircle(new GameObject(name,Def, Body, fixtureDef), sprite,radius/pixelmeter);
 	}
-	
+	/*
 	public static GameObjectWall creationStaticWall(World w, Sprite s, float x, float y,float width, float height,String name,int pixelMeter) {
 		
 		
@@ -70,15 +80,15 @@ public class FabriqueAll {
 		fixtureDef.shape = wallShape;
 		fixtureDef.friction = 1;
 		fixtureDef.restitution = 0;
-		fixtureDef.filter.categoryBits = ConfigPref.CATEGORY_SCENERY;
+		fixtureDef.filter.categoryBits = ConfigPhysics.GameObjectWall_Category;
 		wallBody.createFixture(fixtureDef);
 		
 		//GameObjectWall wa = new GameObjectWall("wall",new Sprite(sprite),wallDef, wallBody,fixtureDef, (width/2)/pixelMeter,(height/2)/pixelMeter);
 		GameObjectWall wa = new GameObjectWall(new GameObject(name, wallDef, wallBody, fixtureDef),sprite);
 		wallShape.dispose();
 		return wa;
-	}
-	
+	}*/
+	/*
 	public static GameObjectChaineShape creationStaticChaineShape(World w,	float x, float y,String name, Vector2[] veclist,int pixelMeter) {
 		
 		BodyDef def;
@@ -95,13 +105,13 @@ public class FabriqueAll {
 		
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
-		fixtureDef.filter.categoryBits = ConfigPref.CATEGORY_SCENERY;
+		fixtureDef.filter.categoryBits = ConfigPhysics.GameObjectChaineShape_Category;
 		
 		body.createFixture(fixtureDef);
 		shape.dispose();
 		return new GameObjectChaineShape(name,def, body,fixtureDef);
 	}
-
+*//*
 	public static GameObject2dSquare creationGameObjectSquare(World w,String name,Sprite s,float x,float y,float forcedwidth,float forcedheight,int pixelMeter,BodyType bodyType) {
 		
 		BodyDef squareBodyDef;
@@ -129,14 +139,69 @@ public class FabriqueAll {
 		fixtureDef.density = 2.5f;
 		fixtureDef.friction = 0.25f;
 		fixtureDef.restitution = 0.1f;
-		fixtureDef.filter.categoryBits = ConfigPref.CATEGORY_SCENERY;
+		fixtureDef.filter.categoryBits = ConfigPhysics.GameObjectSquare_Category;
 		
 		squareBody = w.createBody(squareBodyDef);
 		squareBody.createFixture(fixtureDef);
 		
 		squareDynamicShape.dispose();
 		return new GameObject2dSquare(new GameObject(name,squareBodyDef, squareBody, fixtureDef),sprite);
+	}*/
+	
+	/**
+	 * utiliser pour les projectiles
+	 * @param w
+	 * @param name
+	 * @param x
+	 * @param y
+	 * @param wi
+	 * @param h
+	 * @param pixelMeter
+	 * @param bodyType
+	 * @return
+	 */
+    public static GameObject creationGameObjectSquare(World w,String name,
+    		float x,float y,float wi,float h,
+    		int pixelMeter,
+    		BodyType bodyType,float density,float friction,float restitution,
+    		short CATEGORY,short GROUP,short MASK) {
+		
+		BodyDef squareBodyDef;
+		Body squareBody ;
+		PolygonShape squareDynamicShape;
+		FixtureDef fixtureDef;
+		squareBodyDef = new BodyDef();
+		squareBodyDef.type = bodyType;
+		squareBodyDef.position.set(x, y);
+		
+		squareDynamicShape = new PolygonShape();
+	
+		squareDynamicShape.setAsBox((wi/2),(h/2));
+		
+		
+		fixtureDef = new FixtureDef();
+		fixtureDef.shape = squareDynamicShape;
+		fixtureDef.density = density;
+		fixtureDef.friction = friction;
+		fixtureDef.restitution = restitution;
+		
+		fixtureDef.filter.categoryBits = CATEGORY;
+		if (GROUP!=0) {
+			fixtureDef.filter.groupIndex = GROUP;
+		}
+		if (MASK!=0) {
+			fixtureDef.filter.maskBits = MASK;
+		}
+		
+		
+				
+		squareBody = w.createBody(squareBodyDef);
+		squareBody.createFixture(fixtureDef);
+		
+		squareDynamicShape.dispose();
+		return new GameObject(name,squareBodyDef, squareBody, fixtureDef);
 	}
+	
 	
 	//FIXME le jSon reader ne marche pas
 	public static GameObjectSprite creationBody(String name,World world,FileHandle fileHandle ,Vector2 position,Sprite sprite,short CATEGORY,short GROUP,short MASK){		
@@ -161,6 +226,7 @@ public class FabriqueAll {
 	    GameObjectSprite gameObjSp = new GameObjectSprite(new GameObject(name, bd, body, fd), sprite) ;	 
 		return gameObjSp ;		
 	}
+
 	
 
 }

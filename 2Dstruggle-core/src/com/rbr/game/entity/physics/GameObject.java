@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.utils.Array;
 import com.rbr.game.screen.game.ScreenGame;
 
 public  class GameObject {
@@ -17,6 +18,9 @@ public  class GameObject {
 	private float ratioDeceleration;
 	private boolean autoDeceleration ;
 	
+	private boolean remove;
+	
+	private Array<GameObjectCollisionListener> listObservables;
 	
 	//get/set
 	public BodyDef getBodyDef() {
@@ -54,13 +58,16 @@ public  class GameObject {
 		
 		this.ratioDeceleration = 0.95f;
 		autoDeceleration = true;
+		remove = false;
+		
+		listObservables = null;
 	}
-	public  void colisionBegin(GameObject contact){
+	/*public  void colisionBegin(GameObject contact, ScreenGame screenGame){
 		
 	}
-	public  void colisionEnd(GameObject contact){
+	public  void colisionEnd(GameObject contact, ScreenGame screenGame){
 		
-	}
+	}*/
 	
 	public  void render(ScreenGame screenGame , SpriteBatch batch){};
 	public  void update(ScreenGame screenGame , float delta){
@@ -102,30 +109,51 @@ public  class GameObject {
 	public void setAutoDeceleration(boolean autoDeceleration) {
 		this.autoDeceleration = autoDeceleration;
 	}
+	public boolean isRemove() {
+		return remove;
+	}
+	public void setRemove(boolean remove) {
+		this.remove = remove;
+	}
 	
 	
-	/*
-	public  void colisionBegin(GameObject contact){
+	
+	public  void colisionBegin(GameObject contact, ScreenGame screenGame){
+		
 		if (listObservables != null) {
+			//System.out.println("called:"+this.getName()+" contact:"+contact.getName());
 			for (GameObjectCollisionListener gameObjectCollisionListener : listObservables) {
-				System.out.println("GameObject.colisionBegin()"+listObservables.size());
-				gameObjectCollisionListener.colisionBegin(contact);
+				//System.out.println("GameObject.colisionBegin()"+listObservables.size);
+				if (gameObjectCollisionListener!=null) {
+					gameObjectCollisionListener.colisionBegin(this,contact,screenGame);
+				}				
 			}
 		}
 		
 	}
-	public  void colisionEnd(GameObject contact){
+	public  void colisionEnd(GameObject contact, ScreenGame screenGame){
 		if (listObservables != null) {
 			for (GameObjectCollisionListener gameObjectCollisionListener : listObservables) {
-				System.out.println("GameObject.colisionEnd()"+listObservables.size());
-				gameObjectCollisionListener.colisionEnd(contact);
+			//	System.out.println("GameObject.colisionEnd()"+listObservables.size);
+				if (gameObjectCollisionListener!=null) {
+					gameObjectCollisionListener.colisionEnd(this,contact,screenGame);
+				}				
 			}
 		}
 	}
 	
-*/
-  
-	
 
+	public void addCollisionObservateur(GameObjectCollisionListener observeur){
+		if (listObservables == null) {
+			listObservables = new Array<GameObjectCollisionListener>();
+		}
+		listObservables.add(observeur);
+	}
+	
+	public void removeCollisionObservateur(GameObjectCollisionListener observeur){
+		if (listObservables != null) {
+			listObservables.removeValue(observeur, false);
+		}
+	}
 	
 }

@@ -1,6 +1,5 @@
 package com.rbr.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.rbr.game.screen.game.ScreenGame;
@@ -29,7 +28,7 @@ public class CameraManageur {
 	float velX, velY;
 	
 	public void update(ScreenGame screenGame, float delta/*boolean flinging,float velX,float velY*/){
-		if (flinging) {
+		/*if (flinging) {
 			velX *= 0.80f;// vitesse de deceleation de la gesture
 			velY *= 0.80f;
 			getOrthographicCamera().position.add(
@@ -38,16 +37,14 @@ public class CameraManageur {
 			if (Math.abs(velX) < 0.1f)
 				velX = 0;
 			if (Math.abs(velY) < 0.1f)
-				velY = 0;
+				velY = 0;	
 		}
 		/*
 		if (screenGame.getPlayerManageur().getPlayerLocal()!=null) {
 			folowTarget(screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition());
 		}
 		*/
-		
-		getOrthographicCamera().update();
-		
+		getOrthographicCamera().update();		
 	}
 	
 	public boolean fling(float velocityX, float velocityY, int button) {
@@ -57,9 +54,9 @@ public class CameraManageur {
 		return false;
 	}
 
-	public void folowTarget(Vector2 position) {
-		
+	public void folowTarget(Vector2 position,float angle) {		
 		getOrthographicCamera().position.set(position, 0);
+		//getOrthographicCamera().rotate(angle);
 	}
 	
 }

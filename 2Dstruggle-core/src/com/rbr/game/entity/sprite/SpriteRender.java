@@ -11,9 +11,12 @@ public class SpriteRender implements ISpriteRender{
 	private Sprite sprite;	
 	Body body;
 	
+	private boolean applyRotate;
+	
 	public SpriteRender(Sprite sprite,Body body) {
 		this.body = body;
 		this.sprite = sprite;
+		this.applyRotate  = true;
 	}
 	
 	@Override
@@ -24,8 +27,9 @@ public class SpriteRender implements ISpriteRender{
 
 	@Override
 	public void render(ScreenGame screenGame, Vector2 position, float angle, float scale, SpriteBatch batch) {
-		sprite.setRotation(angle);	
-		
+		if (applyRotate) {
+			sprite.setRotation(angle);		
+		}
 		sprite.scale(scale);
 		sprite.draw(batch);
 	}
@@ -36,6 +40,16 @@ public class SpriteRender implements ISpriteRender{
 	}
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	@Override
+	public boolean getApplyRotate() {		
+		return applyRotate;
+	}
+
+	@Override
+	public void setApplyRotate(boolean applyRotate) {
+		this.applyRotate = applyRotate;
 	}
 
 
