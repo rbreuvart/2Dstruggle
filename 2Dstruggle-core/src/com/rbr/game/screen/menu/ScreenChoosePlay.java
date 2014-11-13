@@ -24,7 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.rbr.game.MainGame;
-import com.rbr.game.net.client.NetKryoClientManageur;
+import com.rbr.game.net.client.NetKryoNewClientManageur;
 import com.rbr.game.net.kryo.NetApplicationContainer;
 import com.rbr.game.net.kryo.NetKryoManageur.NetApplicationType;
 import com.rbr.game.screen.AbsctactScreen;
@@ -336,7 +336,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 	}
 
 	private Array<String> listLanServeur(){		
-		java.util.List<InetAddress> addressList = NetKryoClientManageur.getLanDiscovery();
+		java.util.List<InetAddress> addressList = NetKryoNewClientManageur.getLanDiscovery();
 		//System.out.println(""+addressList.size()+" Serveur Trouvé");
 		Array<String> listEntriesServeur = new Array<String>();
 		

@@ -10,7 +10,6 @@ import com.rbr.game.entity.physics.GameObject;
 import com.rbr.game.entity.projectile.Projectile;
 import com.rbr.game.player.Player;
 import com.rbr.game.screen.game.ScreenGame;
-import com.rbr.game.utils.ConfigPhysics;
 import com.rbr.game.utils.ConfigPref;
 
 public class Arme {
@@ -82,9 +81,9 @@ public class Arme {
 						vecStart.x, vecStart.y,
 						0.2f, 0.2f,
 						ConfigPref.pixelMeter, BodyType.DynamicBody,density,friction,restitution,
-						(short) (ConfigPhysics.ProjectileAllier_Category),//CATEGORY type
-						(short) (ConfigPhysics.ProjectileAllier_Group),//GROUP traverse
-						(short) (ConfigPhysics.ProjectileAllier_Mask));//MASK Inverse
+						(short) (player.getProjectileFilterCategory()),//CATEGORY type
+						(short) (player.getProjectileFilterGroup()),//GROUP traverse
+						(short) (player.getProjectileFilterMask()));//MASK Inverse
 				Sprite spritebullet = new Sprite(screenGame.getMainGame().getManager().get(ConfigPref.File_Bullet1, Texture.class));
 				//float unitscale = (float)(1/ConfigPref.pixelMeter);
 				//System.out.println("unitscale"+unitscale);

@@ -14,9 +14,9 @@ public class ConfigPhysics {
 	public static final short CATEGORY_LIGHT				= 0x0010;
 
 	//Scene Light
-	public static final short SceneLight_Category = CATEGORY_LIGHT;
-	public static final short SceneLight_Group = 0;
-	public static final short SceneLight_Mask = CATEGORY_SCENERY;
+	public static final short SceneLight_Category = CATEGORY_LIGHT;//definitiond e la categori
+	public static final short SceneLight_Group = 0;//de meme category que
+	public static final short SceneLight_Mask = CATEGORY_SCENERY|CATEGORY_ALLIER|CATEGORY_ENEMY;//colitionne avec
 	
 	//Scene TileTranslucide
 	public static final short SceneTileTranslucide_Category = CATEGORY_SCENERY|CATEGORY_LIGHT;
@@ -32,12 +32,12 @@ public class ConfigPhysics {
 	//Player Local (Allier)
 	public static final short PlayerLocal_Category = CATEGORY_ALLIER;
 	public static final short PlayerLocal_Group = 0;
-	public static final short PlayerLocal_Mask = CATEGORY_ENEMY|CATEGORY_SCENERY;
+	public static final short PlayerLocal_Mask = CATEGORY_ENEMY|CATEGORY_SCENERY|CATEGORY_LIGHT;
 			
 	//Player Multi (Enemy)	
 	public static final short PlayerMulti_Category = CATEGORY_ENEMY;
 	public static final short PlayerMulti_Group = 0;
-	public static final short PlayerMulti_Mask = CATEGORY_ALLIER|CATEGORY_SCENERY;
+	public static final short PlayerMulti_Mask = CATEGORY_ALLIER|CATEGORY_SCENERY|CATEGORY_LIGHT;
 	
 	
 	//ProjectileAllier
@@ -45,6 +45,11 @@ public class ConfigPhysics {
 	public static final short ProjectileAllier_Group = CATEGORY_ALLIER;
 	public static final short ProjectileAllier_Mask = 0;
 		
+	//Projectile Enemy
+	public static final short ProjectileEnemy_Category = CATEGORY_PROJECTILE|CATEGORY_ENEMY;
+	public static final short ProjectileEnemy_Group = CATEGORY_ENEMY;
+	public static final short ProjectileEnemy_Mask = 0;
+	
 	//GameObject Circle
 //	public static final short GameObjectCircle_Category = CATEGORY_SCENERY|CATEGORY_LIGHT;
 	

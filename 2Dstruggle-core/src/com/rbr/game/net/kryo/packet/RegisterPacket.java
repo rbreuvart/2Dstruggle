@@ -1,11 +1,19 @@
 package com.rbr.game.net.kryo.packet;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.rbr.game.net.kryo.packet.lobby.PacketMessageLobby;
+import com.rbr.game.net.kryo.packet.player.PacketAddMultiPlayer;
+import com.rbr.game.net.kryo.packet.player.PacketRemovePlayer;
+import com.rbr.game.net.kryo.packet.player.PacketUpdateGameObjectPlayer;
 
 public class RegisterPacket {
 
 	public static void definitionPacket(Kryo kryo){
-		kryo.register(PacketAddPlayer.class);
+		kryo.register(PacketInfoServeur.class);	
+
+		kryo.register(PacketMessageLobby.class);
+		
+		//kryo.register(PacketAddPlayer.class);
 		kryo.register(PacketAddMultiPlayer.class);
 		kryo.register(PacketRemovePlayer.class);
 		kryo.register(PacketUpdateGameObjectPlayer.class);	
