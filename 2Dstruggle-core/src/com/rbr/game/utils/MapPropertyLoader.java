@@ -49,7 +49,7 @@ public class MapPropertyLoader {
 				v[0] = new Vector2(  tileSize / 2 / ConfigPref.pixelMeter,  -tileSize / 2 / ConfigPref.pixelMeter);
 				v[1] = new Vector2(	 tileSize / 2 / ConfigPref.pixelMeter,  tileSize / 2 / ConfigPref.pixelMeter);
 				v[2] = new Vector2(  -tileSize / 2 / ConfigPref.pixelMeter,  tileSize / 2 / ConfigPref.pixelMeter);
-				v[3] = new Vector2(	-tileSize / 2 / ConfigPref.pixelMeter, -tileSize / 2 / ConfigPref.pixelMeter);
+				v[3] = new Vector2(	 -tileSize / 2 / ConfigPref.pixelMeter, -tileSize / 2 / ConfigPref.pixelMeter);
 				v[4] = new Vector2(  tileSize / 2 / ConfigPref.pixelMeter,  -tileSize / 2 / ConfigPref.pixelMeter);
 				
 				cs.createChain(v);
@@ -62,18 +62,19 @@ public class MapPropertyLoader {
 					fdef.filter.categoryBits = ConfigPhysics.SceneTileTranslucide_Category;
 					fdef.filter.groupIndex = ConfigPhysics.SceneTileTranslucide_Group;
 					fdef.filter.maskBits = ConfigPhysics.SceneTileTranslucide_Mask;
-				}else{
-					
+				}else{					
 					fdef.filter.categoryBits = ConfigPhysics.SceneTileOpaque_Category;
 					fdef.filter.groupIndex = ConfigPhysics.SceneTileOpaque_Group;
 					fdef.filter.maskBits = ConfigPhysics.SceneTileOpaque_Mask;
 				}
 				
 				fdef.isSensor = false;
-				screenGame.getWorldManageur().getWorld().createBody(bdef).createFixture(fdef);
+				screenGame.getWorldManageur().getWorld().createBody(bdef)
+														.createFixture(fdef)
+														.setUserData("Mur");;
 			}
 		}
-//		Light.setContactFilter(ConfigPref.CATEGORY_SCENERY, ConfigPref.CATEGORY_LIGHT, ConfigPref.CATEGORY_SCENERY);
+
 		Light.setContactFilter(	(short)(ConfigPhysics.SceneLight_Category),
 								(short)(ConfigPhysics.SceneLight_Group),
 								(short)(ConfigPhysics.SceneLight_Mask));
@@ -83,11 +84,8 @@ public class MapPropertyLoader {
 	
 	public static void loadElement(ScreenGame screenGame, MapLayer layerElement, Array<Vector2> listVectorSpawn, Array<Zone> listZone){
 		
-		for (int j = 0; j <layerElement.getObjects().getCount(); j++) {
-			
-			MapObject mapObject = layerElement.getObjects().get(j);
-		
-		
+		for (int j = 0; j <layerElement.getObjects().getCount(); j++) {			
+			MapObject mapObject = layerElement.getObjects().get(j);		
 			if (ConfigPref.MapTypeSpawn.equals(mapObject.getProperties().get("type"))) {
 				loadSpawn(screenGame,mapObject,listVectorSpawn);
 			}else if(ConfigPref.MapTypePointLight.equals(mapObject.getProperties().get("type"))){
@@ -138,6 +136,9 @@ public class MapPropertyLoader {
 		light.setColor(r,g,b,a);
 		if (Boolean.parseBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightStatic, String.class))) {
 			light.setStaticLight(true);
+		}else{
+			//System.out.println("light static false");
+			light.setStaticLight(false);
 		}
 		if (Boolean.parseBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightXray, String.class))) {
 			light.setXray(true);

@@ -8,7 +8,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -25,20 +24,15 @@ import com.rbr.game.CameraManageur;
 import com.rbr.game.MainGame;
 import com.rbr.game.entity.map.Zone;
 import com.rbr.game.entity.physics.ContactGameObjectListener;
-import com.rbr.game.entity.physics.FabriqueAll;
-import com.rbr.game.entity.physics.GameObject;
 import com.rbr.game.manageur.GameObjectManageur;
 import com.rbr.game.manageur.GarbageManageur;
 import com.rbr.game.manageur.HudManageur;
-import com.rbr.game.manageur.IaManageur;
 import com.rbr.game.manageur.LightManageur;
 import com.rbr.game.manageur.MapManageur;
 import com.rbr.game.manageur.PlayerManageur;
 import com.rbr.game.manageur.WorldManageur;
 import com.rbr.game.net.kryo.NetApplicationContainer;
 import com.rbr.game.net.kryo.NetKryoManageur;
-import com.rbr.game.player.PlayerIa;
-import com.rbr.game.utils.ConfigPhysics;
 import com.rbr.game.utils.ConfigPref;
 
 public class ScreenGame implements Screen,InputProcessor,GestureListener{
@@ -85,7 +79,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	
 	private PlayerManageur playerManageur;
 	
-	private IaManageur iaManageur;	
+	//private IaManageur iaManageur;	
 	
 	private LightManageur lightManageur;
 	
@@ -117,12 +111,12 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 	public void setPlayerManageur(PlayerManageur playerManageur) {
 		this.playerManageur = playerManageur;
 	}
-	public IaManageur getIaManageur() {
+	/*public IaManageur getIaManageur() {
 		return iaManageur;
 	}
 	public void setIaManageur(IaManageur iaManageur) {
 		this.iaManageur = iaManageur;
-	}	
+	}	*/
 	public MapManageur getMapManageur() {
 		return mapManageur;
 	}
@@ -255,9 +249,9 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		playerManageur = new PlayerManageur();
 		
 		//IA
-		iaManageur = new IaManageur();
+		//iaManageur = new IaManageur();
 
-		hudManageur =  new HudManageur();
+		hudManageur =  new HudManageur(this);
 	
 		kryoManageur = new NetKryoManageur(this, netApplicationContainer);
 		
@@ -267,7 +261,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		/**
 		 * 
 		 */
-		
+		/*
 		Sprite s = new Sprite( screenGame.getMainGame().getManager().get(ConfigPref.File_RedCircle,Texture.class));
 		GameObject gameObject = FabriqueAll.creationGameObjectCircle(getWorldManageur(), s, 
 				new Vector2(20*ConfigPref.pixelMeter, 20*ConfigPref.pixelMeter),
@@ -280,7 +274,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 		screenGame.getGameObjectManageur().getGameObjectArray().add(gameObject);
 		
 		PlayerIa iaPlayer = new PlayerIa(gameObject);
-		playerManageur.addPlayerInMap(2, iaPlayer);
+		playerManageur.addPlayerInMap(2, iaPlayer);*/
 	}	
 	
 	
@@ -291,7 +285,7 @@ public class ScreenGame implements Screen,InputProcessor,GestureListener{
 					
 		worldManageur.update(delta,camManageur);		
 		gameObjectManageur.update(this, delta);		
-		iaManageur.update(this,delta);
+		//iaManageur.update(this,delta);
 		playerManageur.update(delta, this);
 		
 		camManageur.update(this,delta);

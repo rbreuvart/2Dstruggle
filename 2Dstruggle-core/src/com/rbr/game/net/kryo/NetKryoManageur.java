@@ -3,8 +3,8 @@ package com.rbr.game.net.kryo;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.rbr.game.net.client.NetKryoClientManageur;
-import com.rbr.game.net.server.NetKryoServerManageur;
+import com.rbr.game.net.client.NetKryoNewClientManageur;
+import com.rbr.game.net.server.NetKryoNewServerManageur;
 import com.rbr.game.screen.game.ScreenGame;
 
 
@@ -12,13 +12,10 @@ public class NetKryoManageur {
 
 	public enum NetApplicationType{
 		Client,Serveur;
-	}
+	}                            
 	
-	
-	                                     
-	
-	private NetKryoServerManageur kryoServerManageur;
-	private NetKryoClientManageur kryoClientManageur;
+	private NetKryoNewServerManageur kryoServerManageur;
+	private NetKryoNewClientManageur kryoClientManageur;
 	
 	ArrayList<String>addressesInterface;
 	
@@ -27,23 +24,16 @@ public class NetKryoManageur {
 	public NetKryoManageur(ScreenGame screenGame, NetApplicationContainer netApplicationContainer) {
 		netApplicationType = netApplicationContainer.getApplicationType();
 		if (NetApplicationType.Client.equals(netApplicationType)) {
-			
-			if (!"".equals(netApplicationContainer.getIp())) {
-				
-			}
-			kryoClientManageur = new NetKryoClientManageur(screenGame,netApplicationContainer.getIp());
-			System.err.println("Creation Client");
+			kryoClientManageur = new NetKryoNewClientManageur(screenGame,netApplicationContainer.getIp());
+			//System.err.println("Creation Client");
 		}
 		if (NetApplicationType.Serveur.equals(netApplicationType)) {		
 			try {
-				kryoServerManageur = new NetKryoServerManageur(screenGame);
+				kryoServerManageur = new NetKryoNewServerManageur(screenGame);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("Creation Serveur");
 		}
-		
 	}
 	
 	public void update(ScreenGame screenGame, float delta) {
@@ -63,19 +53,19 @@ public class NetKryoManageur {
 		this.netApplicationType = netApplicationType;
 	}
 
-	public NetKryoServerManageur getKryoServerManageur() {
+	public NetKryoNewServerManageur getKryoServerManageur() {
 		return kryoServerManageur;
 	}
 
-	public void setKryoServerManageur(NetKryoServerManageur kryoServerManageur) {
+	public void setKryoServerManageur(NetKryoNewServerManageur kryoServerManageur) {
 		this.kryoServerManageur = kryoServerManageur;
 	}
 
-	public NetKryoClientManageur getKryoClientManageur() {
+	public NetKryoNewClientManageur getKryoClientManageur() {
 		return kryoClientManageur;
 	}
 
-	public void setKryoClientManageur(NetKryoClientManageur kryoClientManageur) {
+	public void setKryoClientManageur(NetKryoNewClientManageur kryoClientManageur) {
 		this.kryoClientManageur = kryoClientManageur;
 	}
 

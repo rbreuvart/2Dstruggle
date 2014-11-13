@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.rbr.game.entity.physics.GameObject;
 import com.rbr.game.net.kryo.NetKryoManageur.NetApplicationType;
 import com.rbr.game.player.Player;
 import com.rbr.game.screen.game.ScreenGame;
@@ -15,7 +16,7 @@ public class HudManageur {
 	Matrix4 normalProjection;
 	BitmapFont bitmapFont;
 	BitmapFontCache  bfc ;
-	public HudManageur() {
+	public HudManageur(ScreenGame screenGame) {
 		normalProjection = new Matrix4();
 		normalProjection.setToOrtho2D(0, 0, Gdx.graphics.getWidth()/1.5f,Gdx.graphics.getHeight()/1.5f);	
 		bitmapFont = new BitmapFont();
@@ -38,8 +39,9 @@ public class HudManageur {
 		}
 		int i = 0;
 		for (Entry<Integer, Player> entry : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
+			bitmapFont.draw(batch, "PlayerManageur idMap:"+entry.getKey()+" name:"+entry.getValue().getGameObject().getName()+" position"+entry.getValue().getGameObject().getBody().getPosition(), 10,36+(i*12));
 			
-			bitmapFont.draw(batch, "PlayerManageur id"+entry.getValue().getId()+" name"+entry.getValue().getGameObject().getName()+" key"+entry.getKey()+" position"+entry.getValue().getGameObject().getBody().getPosition(), 10,36+(i*12));
+			//bitmapFont.draw(batch, "PlayerManageur id"+entry.getValue().getId()+" name"+entry.getValue().getGameObject().getName()+" key"+entry.getKey()+" position"+entry.getValue().getGameObject().getBody().getPosition(), 10,36+(i*12));
 			i++;
 			
 		}
@@ -47,6 +49,17 @@ public class HudManageur {
 			
 		bitmapFont.draw(batch, "nbZone : "+screenGame.getMapManageur().getListZone().size,160, 24);
 			
+		int y = 70;
+		for (GameObject go : screenGame.getGameObjectManageur().getGameObjectArray()) {
+		/*if (go instanceof Projectile) {
+			
+		}*/
+			bitmapFont.draw(batch, 	go.getName()+" "+
+									go.isRemove()+" "+
+									go.getBody().getPosition(), 10, y);
+			y = y+10;
+		}
+		
 		
 	/*
 			int compt = 0;

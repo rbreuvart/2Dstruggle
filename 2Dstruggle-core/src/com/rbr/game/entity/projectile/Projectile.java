@@ -37,10 +37,16 @@ public class Projectile extends  GameObjectSprite{
 	
 	@Override
 	public void colisionBegin(GameObject contact, final ScreenGame screenGame) {
+		//System.out.println("Contact ");
 		super.colisionBegin(contact,screenGame);
-		infigeDegat(contact,screenGame);
-		this.setRemove(true);		
+		if (contact!=null) {			
+			infigeDegat(contact,screenGame);
+		}		
+	//	setRemove(true);		
+		
 	}
+	
+	
 	public void infigeDegat(GameObject contact, ScreenGame screenGame) {
 		
 		Player playerContact = screenGame.getPlayerManageur().getPlayerByGameObject(contact);

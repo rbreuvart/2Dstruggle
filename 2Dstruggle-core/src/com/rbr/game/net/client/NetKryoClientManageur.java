@@ -1,5 +1,5 @@
 package com.rbr.game.net.client;
-
+/*
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
@@ -11,11 +11,11 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.rbr.game.net.kryo.packet.PacketAddMultiPlayer;
-import com.rbr.game.net.kryo.packet.PacketAddPlayer;
-import com.rbr.game.net.kryo.packet.PacketRemovePlayer;
-import com.rbr.game.net.kryo.packet.PacketUpdateGameObjectPlayer;
 import com.rbr.game.net.kryo.packet.RegisterPacket;
+import com.rbr.game.net.kryo.packet.player.PacketAddMultiPlayer;
+import com.rbr.game.net.kryo.packet.player.PacketAddPlayer;
+import com.rbr.game.net.kryo.packet.player.PacketRemovePlayer;
+import com.rbr.game.net.kryo.packet.player.PacketUpdateGameObjectPlayer;
 import com.rbr.game.player.PlayerMulti;
 import com.rbr.game.screen.game.ScreenGame;
 import com.rbr.game.utils.ConfigPref;
@@ -39,7 +39,6 @@ public class NetKryoClientManageur extends Listener{
 		this.screenGame = screenGame;
 		client = new Client();
 		registerPackets();
-		//address = client.discoverHost(ConfigPref.Net_CommunicationPortUDP,  ConfigPref.Net_CommunicationPortUDP);
 		client.addListener(this);
 		
 		new Thread (client).start();
@@ -180,3 +179,4 @@ public class NetKryoClientManageur extends Listener{
 
 	
 }
+*/

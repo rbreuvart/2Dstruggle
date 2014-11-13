@@ -13,6 +13,7 @@ import com.rbr.game.entity.physics.GameObjectCollisionListener;
 import com.rbr.game.entity.physics.GameObjectSprite;
 import com.rbr.game.entity.projectile.Projectile;
 import com.rbr.game.screen.game.ScreenGame;
+import com.rbr.game.utils.ConfigPhysics;
 import com.rbr.game.utils.ConfigPref;
 
 public class PlayerLocal extends Player implements GameObjectCollisionListener{
@@ -72,9 +73,7 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 			vectorVise = new Vector2(souriePos.x, souriePos.y);
 			vectorVise = pos.cpy().sub(vectorVise);
 			angleVise = vectorVise.angle()+90;
-			if (Gdx.input.isTouched(0)) {
-				shoot = true;
-			}
+			
 			
 			if (Gdx.input.isKeyPressed(Keys.LEFT) && vel.x > -ConfigPref.Player_MAX_VELOCITY) {          
 				getGameObject().getBody().applyLinearImpulse(-spesificImpulse, 0, pos.x, pos.y, true);
@@ -94,7 +93,9 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 		
 			getGameObject().deceleration(getGameObject().getRatioDeceleration());
 			
-		
+			if (Gdx.input.isTouched(0)) {
+				shoot = true;
+			}
 			
 		}
 		if (Gdx.app.getType().equals(ApplicationType.Android)) {
@@ -153,6 +154,21 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 
 	public void setArme(Arme arme) {
 		this.arme = arme;
+	}
+
+	@Override
+	public short getProjectileFilterCategory() {		
+		return ConfigPhysics.ProjectileAllier_Category;
+	}
+
+	@Override
+	public short getProjectileFilterGroup() {
+		return ConfigPhysics.ProjectileAllier_Group;
+	}
+
+	@Override
+	public short getProjectileFilterMask() {
+		return ConfigPhysics.ProjectileAllier_Mask;
 	}
 
 

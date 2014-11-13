@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.rbr.game.entity.physics.FabriqueAll;
 import com.rbr.game.entity.physics.GameObject;
+import com.rbr.game.net.kryo.packet.player.PacketAddMultiPlayer;
 import com.rbr.game.player.Player;
 import com.rbr.game.player.PlayerLocal;
 import com.rbr.game.player.PlayerMulti;
@@ -76,37 +77,48 @@ public class PlayerManageur {
 		}
 	}
 	
-	public PlayerLocal createLocalPlayer(ScreenGame screenGame,int id,Vector2 position){
+	public void spawnPlayer(ScreenGame screenGame,int id,Vector2 position){		
+		Player player = getPlayerById(id);
+		player.getGameObject().getBody().setTransform(position, 0);
+		screenGame.getGameObjectManageur().getGameObjectArray().add(player.getGameObject());
+	}
+	
+	
+	public PlayerLocal createLocalPlayer(ScreenGame screenGame,int id){
 		Sprite spritePlayer = new Sprite(  screenGame.getMainGame().getManager().get(ConfigPref.File_BodyPerso,Texture.class));
 	
-		PlayerLocal playerControle = new PlayerLocal(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
-				spritePlayer,position ,"player",
+		PlayerLocal playerLocal= new PlayerLocal(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
+				spritePlayer,getDefaultPlayerPosition() ,"player:"+id,
 				0.45f,ConfigPref.pixelMeter,1,0.95f,0f,
 				ConfigPhysics.PlayerLocal_Category,
 				ConfigPhysics.PlayerLocal_Group,
 				ConfigPhysics.PlayerLocal_Mask));		
-		screenGame.getGameObjectManageur().getGameObjectArray().add(playerControle.getGameObject());
-		screenGame.getPlayerManageur().addPlayerInMap(id,playerControle);
-		
+	
+		//screenGame.getGameObjectManageur().getGameObjectArray().add(playerControle.getGameObject());
+	//	System.out.println("Ajout du joueur local dans la map id:"+id);
+		screenGame.getPlayerManageur().addPlayerInMap(id,playerLocal);
 		return playerLocal;
 	}
 	
-	public PlayerMulti createMultiPlayer(ScreenGame screenGame,Connection conection,Vector2 position){
+	public PlayerMulti createMultiPlayer(ScreenGame screenGame,Connection connection, int id){
 		Sprite spritePlayerMulti = new Sprite( screenGame.getMainGame().getManager().get(ConfigPref.File_RedCircle,Texture.class));
 		
 		PlayerMulti playerMulti =  new PlayerMulti(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
-					spritePlayerMulti,position,"playerMulti"+conection.getID(),
+					spritePlayerMulti,getDefaultPlayerPosition(),"playerMulti:"+id,
 					0.45f,ConfigPref.pixelMeter,1,0.95f,0f,
 					ConfigPhysics.PlayerMulti_Category,
 					ConfigPhysics.PlayerMulti_Group,
 					ConfigPhysics.PlayerMulti_Mask));
-			screenGame.getGameObjectManageur().getGameObjectArray().add(playerMulti.getGameObject());
-			playerMulti.setConnection(conection);
-			
+			//screenGame.getGameObjectManageur().getGameObjectArray().add(playerMulti.getGameObject());
+		playerMulti.setConnection(connection);
+		//System.out.println("Ajout du joueur Multi dans la map id:"+connection.getID());
+		screenGame.getPlayerManageur().addPlayerInMap(id,playerMulti);
 		return playerMulti;
 	}
 	
-	
+	public Vector2 getDefaultPlayerPosition(){
+		return new Vector2(0, 0);
+	}
 	public void removePlayerById(int id){
 		hashMapPlayer.remove(id);
 	}
