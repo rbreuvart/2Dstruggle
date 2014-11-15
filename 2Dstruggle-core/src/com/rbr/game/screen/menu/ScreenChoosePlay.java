@@ -120,7 +120,9 @@ public class ScreenChoosePlay extends AbsctactScreen{
 	    			sequenceAction.addAction(Actions.run(new Runnable() {
 						@Override
 						public void run() {
-							getMainGame().setScreen(new ScreenGame(getMainGame(),new NetApplicationContainer(ip, NetApplicationType.Client),mapFileAssetChoisie));
+							ScreenGame screenGame = new ScreenGame(getMainGame(),new NetApplicationContainer(ip, NetApplicationType.Client),"");
+							screenGame.getKryoManageur().getKryoClientManageur().update(screenGame);
+							getMainGame().setScreen(screenGame);
 						}
 					}));
 	    			getStage().addAction(sequenceAction);

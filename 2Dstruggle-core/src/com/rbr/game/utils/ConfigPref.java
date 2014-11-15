@@ -1,5 +1,7 @@
 package com.rbr.game.utils;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
@@ -129,6 +131,15 @@ public class ConfigPref {
 	public static final String PatternField_File =	"File_";
 	
 
+	//Performance
+	public static  boolean Performance_DynamiqueLight = getDynamiqueLightByApplicationType();
 	
+	public static boolean getDynamiqueLightByApplicationType(){
+		if (Gdx.app.getType().equals(ApplicationType.Android)) {
+			return false;
+		}else{
+			return true;
+		}
+	}
 	
 }

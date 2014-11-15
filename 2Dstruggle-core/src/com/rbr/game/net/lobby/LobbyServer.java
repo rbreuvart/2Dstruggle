@@ -2,27 +2,24 @@ package com.rbr.game.net.lobby;
 
 import java.util.Map.Entry;
 
-import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
 import com.rbr.game.net.kryo.packet.lobby.PacketMessageLobby;
+import com.rbr.game.net.kryo.packet.lobby.PacketUpdateLobby;
 import com.rbr.game.net.server.NetKryoNewServerManageur;
 import com.rbr.game.player.Player;
 import com.rbr.game.screen.game.ScreenGame;
 import com.rbr.game.utils.ConfigLobby;
 
-public class LobbyServer {
+public class LobbyServer extends Lobby {
 	
-	private Array<PacketMessageLobby> arrayMessage;
-	private boolean roundStart;
 
 	NetKryoNewServerManageur netNewServerManageur;
 	ScreenGame screenGame;
 	
 	public LobbyServer(ScreenGame screenGame,NetKryoNewServerManageur netNewServerManageur) {
-		setArrayMessage(new Array<PacketMessageLobby>());
 		this.netNewServerManageur = netNewServerManageur;
 		this.screenGame = screenGame;
-		setRoundStart(false);
+	
 	}
 
 	public boolean receivedMessage(Connection c, Object o){
@@ -52,7 +49,7 @@ public class LobbyServer {
 				
 				
 				//actualise a tout les Clients les joueurs Connecté
-				netNewServerManageur.actualisePlayersForAll();
+				netNewServerManageur.actualiseListPlayersForAll();
 				
 			}else if(ConfigLobby.TypeMessageConnectionValideLobby.equals(messageLobby.type)){
 				System.err.println("Message de TypeMessageConnectionValideLobby non conforme");
@@ -60,6 +57,12 @@ public class LobbyServer {
 				addMessageInLobby(c,messageLobby);
 			}
 			
+			return true;
+		}
+		if (o instanceof PacketUpdateLobby) {
+			PacketUpdateLobby updateLobby = (PacketUpdateLobby)o;
+			screenGame.getPlayerManageur().getPlayerById(updateLobby.id).setReadyToPlay(updateLobby.localPlayerReady);
+			netNewServerManageur.getServer().sendToAllExceptTCP(updateLobby.id,updateLobby);
 			return true;
 		}
 		return false;
@@ -88,18 +91,16 @@ public class LobbyServer {
 			}
 		}
 	}
+
+	@Override
+	public void eventPlayerLocalReadyToPlay() {
+		PacketUpdateLobby packetUpdateLobby = new PacketUpdateLobby();
+		packetUpdateLobby.id = screenGame.getPlayerManageur().getPlayerLocal().getId();
+		packetUpdateLobby.localPlayerReady = screenGame.getPlayerManageur().getPlayerLocal().isReadyToPlay();
+		netNewServerManageur.getServer().sendToAllTCP(packetUpdateLobby);
+	}
 	
-	public boolean isRoundStart() {
-		return roundStart;
-	}
-	public void setRoundStart(boolean roundStart) {
-		this.roundStart = roundStart;
-	}
-	public Array<PacketMessageLobby> getArrayMessage() {
-		return arrayMessage;
-	}
-	public void setArrayMessage(Array<PacketMessageLobby> arrayMessage) {
-		this.arrayMessage = arrayMessage;
-	}
+	
+	
 	
 }

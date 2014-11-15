@@ -11,7 +11,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.rbr.game.entity.physics.FabriqueAll;
 import com.rbr.game.entity.physics.GameObject;
-import com.rbr.game.net.kryo.packet.player.PacketAddMultiPlayer;
 import com.rbr.game.player.Player;
 import com.rbr.game.player.PlayerLocal;
 import com.rbr.game.player.PlayerMulti;
@@ -31,28 +30,24 @@ public class PlayerManageur {
 	
 	public void update(float delta,ScreenGame screenGame){		
 		for (Entry<Integer, Player> player : hashMapPlayer.entrySet()) {
-			player.getValue().update(screenGame,delta);
-			
-			if (player.getValue().isNeedRespawn()) {
-				player.getValue().setNeedRespawn(false);
-				player.getValue().setLife(player.getValue().getLifeMax());
-				player.getValue().getGameObject().getBody().setLinearVelocity(new Vector2());
-				player.getValue().getGameObject().getBody().setLinearDamping(0);
-				player.getValue().getGameObject().getBody().setAngularVelocity(0);
-				player.getValue().getGameObject().getBody().setTransform(screenGame.getMapManageur().getRandomSpawn().scl((float)(1f/ConfigPref.pixelMeter)), 0);
+		
+			if (player.getValue().isSpawn()) {
+				player.getValue().update(screenGame,delta);	
 			}
+		}
+		
+	}
+	
+	
+	public void render(ScreenGame screenGame, SpriteBatch spriteBatch, ShapeRenderer shapeRenderer){
+		for (Entry<Integer, Player> player : hashMapPlayer.entrySet()) {
 			
+			if (player.getValue().isSpawn()) {
+				player.getValue().render(screenGame,spriteBatch,shapeRenderer);		
+			}
 		}
 	}
 	
-	public void render(ScreenGame screenGame, SpriteBatch spriteBatch, ShapeRenderer shapeRenderer){
-		/*if (playerLocal!=null) {
-			playerLocal.render(screenGame,spriteBatch,shapeRenderer);
-		}*/
-		for (Entry<Integer, Player> player : hashMapPlayer.entrySet()) {
-			player.getValue().render(screenGame,spriteBatch,shapeRenderer);
-		}
-	}
 	
 	/**
 	 * retourne le player Cité
@@ -80,7 +75,14 @@ public class PlayerManageur {
 	public void spawnPlayer(ScreenGame screenGame,int id,Vector2 position){		
 		Player player = getPlayerById(id);
 		player.getGameObject().getBody().setTransform(position, 0);
-		screenGame.getGameObjectManageur().getGameObjectArray().add(player.getGameObject());
+		player.setSpawn(true);
+		player.setLife(player.getLifeMax());
+		
+		player.getGameObject().getBody().setLinearVelocity(new Vector2());
+		player.getGameObject().getBody().setLinearDamping(0);
+		player.getGameObject().getBody().setAngularVelocity(0);
+		player.getGameObject().getBody().setTransform(screenGame.getMapManageur().getRandomSpawn(), 0);
+
 	}
 	
 	
@@ -96,7 +98,9 @@ public class PlayerManageur {
 	
 		//screenGame.getGameObjectManageur().getGameObjectArray().add(playerControle.getGameObject());
 	//	System.out.println("Ajout du joueur local dans la map id:"+id);
+		screenGame.getGameObjectManageur().add(id,playerLocal.getGameObject());
 		screenGame.getPlayerManageur().addPlayerInMap(id,playerLocal);
+		
 		return playerLocal;
 	}
 	
@@ -112,6 +116,7 @@ public class PlayerManageur {
 			//screenGame.getGameObjectManageur().getGameObjectArray().add(playerMulti.getGameObject());
 		playerMulti.setConnection(connection);
 		//System.out.println("Ajout du joueur Multi dans la map id:"+connection.getID());
+		screenGame.getGameObjectManageur().add(id,playerMulti.getGameObject());
 		screenGame.getPlayerManageur().addPlayerInMap(id,playerMulti);
 		return playerMulti;
 	}

@@ -9,11 +9,18 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.rbr.game.entity.physics.FabriqueAll;
+import com.rbr.game.entity.physics.GameObject;
+import com.rbr.game.entity.projectile.Projectile;
 import com.rbr.game.net.kryo.packet.PacketInfoServeur;
 import com.rbr.game.net.kryo.packet.RegisterPacket;
+import com.rbr.game.net.kryo.packet.lobby.PacketUpdateLobby;
 import com.rbr.game.net.kryo.packet.player.PacketAddMultiPlayer;
 import com.rbr.game.net.kryo.packet.player.PacketRemovePlayer;
+import com.rbr.game.net.kryo.packet.player.PacketSpawnPlayer;
 import com.rbr.game.net.kryo.packet.player.PacketUpdateGameObjectPlayer;
+import com.rbr.game.net.kryo.packet.projectile.PacketAddProjectile;
+import com.rbr.game.net.kryo.packet.projectile.PacketRemoveProjectile;
 import com.rbr.game.net.lobby.LobbyServer;
 import com.rbr.game.player.Player;
 import com.rbr.game.screen.game.ScreenGame;
@@ -31,7 +38,7 @@ public class NetKryoNewServerManageur extends Listener{
 	
 	private String mapServeur;//Maya
 	private String serveurType;//Lan ,....
-	private String mapType;//deathMatch
+	private String mapType;//FFA,2TEAM,COOP
 	private int maxPlayerSlot;//64
 	private int currentPlayerSlot;//2	
 	private String serveurPassword;
@@ -51,10 +58,10 @@ public class NetKryoNewServerManageur extends Listener{
 	public NetKryoNewServerManageur(ScreenGame screenGame) throws IOException {
 		this.screenGame = screenGame;
 		System.out.println("------SERVEUR------");
-		mapServeur = "maya";
-		mapType = "deathmatch";
+		mapServeur = screenGame.getMapManageur().getFileMapAsset();
+		mapType = screenGame.getMapManageur().getTypeMap();
 		serveurType = "LAN";
-		maxPlayerSlot = 32;
+		maxPlayerSlot = 9999;
 		currentPlayerSlot = 0;
 		serveurPassword = "";
 		
@@ -79,17 +86,83 @@ public class NetKryoNewServerManageur extends Listener{
 		if (getLobbyServer().isRoundStart()) {
 			//Maj des joueurs
 			if (screenGame.getPlayerManageur().getPlayerLocal()!=null) {
-				PacketUpdateGameObjectPlayer packetUpdateGameObjectPlayer = new PacketUpdateGameObjectPlayer();
-				packetUpdateGameObjectPlayer.id = screenGame.getPlayerManageur().getPlayerLocal().getId();
-				packetUpdateGameObjectPlayer.positionX = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().x;
-				packetUpdateGameObjectPlayer.positionY = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().y;
-				packetUpdateGameObjectPlayer.angle = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getAngle();
+				
+				
+				for (Entry<Integer,Player> playerEntryConnection : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
+				
 					
-				screenGame.getKryoManageur().getKryoServerManageur().getServer().sendToAllTCP( packetUpdateGameObjectPlayer);
+					
+					if (playerEntryConnection.getValue().getLife()<=0) {
+						System.out.println("a respawn "+playerEntryConnection.getValue());
+						//playerEntryConnection.getValue().setNeedRespawn(false);
+						playerEntryConnection.getValue().setLife(playerEntryConnection.getValue().getLifeMax());
+						playerEntryConnection.getValue().getGameObject().getBody().setLinearVelocity(new Vector2());
+						playerEntryConnection.getValue().getGameObject().getBody().setLinearDamping(0);
+						playerEntryConnection.getValue().getGameObject().getBody().setAngularVelocity(0);
+						playerEntryConnection.getValue().getGameObject().getBody().setTransform(screenGame.getMapManageur().getRandomSpawn(), 0);
+						
+						PacketSpawnPlayer spawnPlayer = new PacketSpawnPlayer();
+						spawnPlayer.id = playerEntryConnection.getValue().getId();
+						spawnPlayer.positionX = playerEntryConnection.getValue().getGameObject().getBody().getPosition().x;
+						spawnPlayer.positionY = playerEntryConnection.getValue().getGameObject().getBody().getPosition().y;
+						spawnPlayer.spawn = true;
+						server.sendToTCP(spawnPlayer.id, spawnPlayer);
+					}
+					
+					PacketUpdateGameObjectPlayer packetUpdateGameObjectPlayer = new PacketUpdateGameObjectPlayer();
+					packetUpdateGameObjectPlayer.id =	playerEntryConnection.getValue().getId();
+					packetUpdateGameObjectPlayer.positionX = playerEntryConnection.getValue().getGameObject().getBody().getPosition().x;
+					packetUpdateGameObjectPlayer.positionY = playerEntryConnection.getValue().getGameObject().getBody().getPosition().y;
+					packetUpdateGameObjectPlayer.angle = playerEntryConnection.getValue().getGameObject().getBody().getAngle();
+					packetUpdateGameObjectPlayer.life = playerEntryConnection.getValue().getLife();
+					
+					server.sendToAllUDP(packetUpdateGameObjectPlayer);
+				}
+					
+				
 			}
-			
-			//Maj des Projectiles
-			
+				//Maj des Projectiles
+			for (GameObject go : screenGame.getGameObjectManageur().getGameObjectArray()) {
+				if (go instanceof Projectile) {
+					Projectile proj =  (Projectile)go;
+					if (!proj.isEnvoyerToClient()) {
+						
+						PacketAddProjectile packetAddProjectile = new PacketAddProjectile();
+						packetAddProjectile.idConnection = proj.getPlayerEmeteur().getId();
+						packetAddProjectile.idEmeteur = proj.getPlayerEmeteur().getId();
+						packetAddProjectile.idGameObject = proj.getIdArray();
+						packetAddProjectile.classProjectile = proj.getClass().getName();
+						
+						packetAddProjectile.degat = proj.getDegat();
+						
+						packetAddProjectile.positionX = proj.getBody().getPosition().x;
+						packetAddProjectile.positionY = proj.getBody().getPosition().y;
+						packetAddProjectile.velocityX = proj.getBody().getLinearVelocity().x;
+						packetAddProjectile.velocotyY = proj.getBody().getLinearVelocity().y;
+						
+						for (Entry<Integer,Player> playerEntryConnection : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {				
+							if (playerEntryConnection.getValue().getId()!=packetAddProjectile.idConnection) {
+								server.sendToTCP(playerEntryConnection.getValue().getId(),packetAddProjectile);							
+							}
+						}
+						proj.setEnvoyerToClient(true);
+						proj.setEnvoyerToServer(true);
+					}
+					/*if (proj.isEnvoyerToServeur()) {
+						
+						//TODO update
+						break;
+					}*/
+					if (proj.isRemove()) {
+						PacketRemoveProjectile packetRemoveProjectile = new PacketRemoveProjectile();
+						packetRemoveProjectile.idConnection = screenGame.getPlayerManageur().getPlayerLocal().getId();
+						packetRemoveProjectile.idEmeteur = screenGame.getPlayerManageur().getPlayerLocal().getId();
+						packetRemoveProjectile.idGameObject = proj.getIdArray();
+						server.sendToAllExceptTCP(packetRemoveProjectile.idConnection,packetRemoveProjectile);
+					}
+				
+				}		
+			}
 			
 		}
 		
@@ -150,12 +223,18 @@ public class NetKryoNewServerManageur extends Listener{
 			final PacketUpdateGameObjectPlayer packet = (PacketUpdateGameObjectPlayer) o;
 			Gdx.app.postRunnable(new Runnable() {
 				@Override
-				public void run() {
-					screenGame.getPlayerManageur().getPlayerById(packet.id).getGameObject().getBody().setTransform(new Vector2(packet.positionX, packet.positionY), packet.angle);
-				
-					for (Entry<Integer,Player> entry : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
-						if (entry.getKey()!=packet.id && entry.getKey() != screenGame.getPlayerManageur().getPlayerLocal().getId()) {
-							server.sendToUDP(packet.id, packet);
+				public void run() {					
+					screenGame.getPlayerManageur().getPlayerById(packet.id)
+													.getGameObject()
+													.getBody()
+													.setTransform(new Vector2(packet.positionX, packet.positionY), packet.angle);
+					for (Entry<Integer,Player> entry : screenGame.getPlayerManageur()
+																.getHashMapPlayer()
+																.entrySet()) {
+						if (entry.getKey()!=packet.id && entry.getKey() != screenGame.getPlayerManageur()
+																						.getPlayerLocal()
+																						.getId()) {
+							server.sendToAllUDP( packet);
 						}
 					}					
 				}
@@ -168,6 +247,25 @@ public class NetKryoNewServerManageur extends Listener{
 	
 	private boolean projectileHandler(Connection c, Object o){
 		
+		if (o instanceof PacketAddProjectile) {
+			final PacketAddProjectile addProjectile = (PacketAddProjectile)o;
+			Gdx.app.postRunnable(new Runnable() {
+				@Override
+				public void run() {	
+					Projectile projectile = FabriqueAll.creationProjectile(screenGame, new Vector2(addProjectile.positionX, addProjectile.positionY), new Vector2(addProjectile.velocityX,addProjectile.velocotyY), screenGame.getPlayerManageur().getPlayerById(addProjectile.idEmeteur), addProjectile.degat);
+					projectile.setEnvoyerToServer(true);
+					projectile.setEnvoyerToClient(false);
+					screenGame.getGameObjectManageur().add(addProjectile.idConnection,projectile);
+				}
+			});
+			return true;
+		}
+		if (o instanceof PacketRemoveProjectile) {
+			//TODO
+			
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -178,7 +276,8 @@ public class NetKryoNewServerManageur extends Listener{
 			public void run() {
 				int id = c.getID();
 				screenGame.getWorldManageur().getWorld().destroyBody(screenGame.getPlayerManageur().getPlayerById(id).getGameObject().getBody());
-				screenGame.getGameObjectManageur().getGameObjectArray().removeValue(screenGame.getPlayerManageur().getPlayerById(id).getGameObject(), false);
+				//FIXME ont ne suppique les Objets de la GameOject que si la partie a commencé
+				screenGame.getGameObjectManageur().removeByGameObject(screenGame.getPlayerManageur().getPlayerById(id).getGameObject());
 			
 				screenGame.getPlayerManageur().removePlayerById(id);
 				
@@ -192,10 +291,10 @@ public class NetKryoNewServerManageur extends Listener{
 	}
 
 	/**
-	 * parcout tout les jouer pour definir tout les joueur sur le serveur
+	 * parcours tout les joueurs pour definir tout les joueurs connecté sur le serveur
 	 * sauf pour le serveur lui meme
 	 */
-	public void actualisePlayersForAll(){
+	public void actualiseListPlayersForAll(){
 		System.out.println(" ---- actualisePlayersForAll ---- ");
 		for (Entry<Integer,Player> playerEntryConnection : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
 			for (Entry<Integer,Player> playerEntryPlayer : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
@@ -207,10 +306,65 @@ public class NetKryoNewServerManageur extends Listener{
 				}
 			}
 		}
+		System.out.println(" ---- --------------------- ---- ");
+	}
+	/**
+	 * appelé quand les joueurs sont pret et que le bouton est appuillé
+	 */
+	public void startGame() {
+		//FIXME pour debug SOLO
+		if (screenGame.getPlayerManageur().getPlayerLocal()==null) {
+			screenGame.getPlayerManageur().createLocalPlayer(screenGame, 0);
+		}
+		
+		//Definition des boolean Game Start
+		screenGame.getPlayerManageur().getPlayerLocal().setReadyToPlay(true);
+		lobbyServer.setRoundStart(true);
+		lobbyServer.setGameStart(true);
+		
+		//envoie a tout le monde l'information que la partie Commence
+		PacketUpdateLobby packetUpdateLobby = new PacketUpdateLobby();
+		packetUpdateLobby.id = screenGame.getPlayerManageur().getPlayerLocal().getId();
+		packetUpdateLobby.gameStart = true;
+		packetUpdateLobby.roundStart = true;	
+		packetUpdateLobby.localPlayerReady = true;
+		server.sendToAllTCP(packetUpdateLobby);
+		
+		
+		
+		//cache l'interface du HUD
+		screenGame.getHudManageur().getTableStartGame().setVisible(false);
+		screenGame.getHudManageur().getWindowListPlayer().setVisible(false);
+
+		
+		spawnAllPlayer();
 	}
 	
-	
-	
+	public void spawnAllPlayer(){
+		if ("FFA".equals(mapType)) {
+			System.out.println("SERVEUR:  Spawn for FFA");
+			//Definition des Spawn pour tout les Joueurs
+			for (Entry<Integer,Player> playerEntry : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
+				Vector2 position = screenGame.getMapManageur().getRandomSpawn();
+				screenGame.getPlayerManageur().spawnPlayer(screenGame, playerEntry.getValue().getId(), position);
+				//playerEntry.getValue().getGameObject().getBody().setTransform(position, 0);
+				
+			}
+			
+			for (Entry<Integer,Player> playerEntryPlayer : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
+				
+				PacketSpawnPlayer packetSpawnPlayer = new PacketSpawnPlayer();
+				packetSpawnPlayer.id = playerEntryPlayer.getKey();
+				packetSpawnPlayer.positionX = playerEntryPlayer.getValue().getGameObject().getBody().getPosition().x;
+				packetSpawnPlayer.positionY = playerEntryPlayer.getValue().getGameObject().getBody().getPosition().y;
+				packetSpawnPlayer.spawn = true;
+				server.sendToAllExceptTCP(0, packetSpawnPlayer);//ne pas envoie au serveur lui meme
+			}				
+		}else{
+			System.out.println("Server: Mode de Heu non Pris en Charge");
+		}
+	}
+		
 	public Server getServer() {return server;	}
 	public void setServer(Server server) {this.server = server;	}
 	public Kryo getKryo() {return kryo;	}
@@ -229,5 +383,5 @@ public class NetKryoNewServerManageur extends Listener{
 	public void setServeurPassword(String serveurPassword) {this.serveurPassword = serveurPassword;}
 	public LobbyServer getLobbyServer() {return lobbyServer;}
 	public void setLobbyServer(LobbyServer lobbyServer) {this.lobbyServer = lobbyServer;}
-	
+
 }

@@ -2,7 +2,6 @@ package com.rbr.game.player;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.rbr.game.entity.arme.Arme;
 import com.rbr.game.entity.physics.GameObject;
 import com.rbr.game.entity.physics.GameObjectCollisionListener;
@@ -18,7 +17,7 @@ public class PlayerIa extends Player implements GameObjectCollisionListener{
 		
 		getGameObject().setAutoDeceleration(false);
 				
-		arme = new Arme(100, 100, 5, 300, 0.99f);
+		setArme(new Arme(100, 100, 5, 300, 0.99f));
 		
 	}
 	
@@ -58,5 +57,17 @@ public class PlayerIa extends Player implements GameObjectCollisionListener{
 	@Override
 	public short getProjectileFilterMask() {	
 		return ConfigPhysics.ProjectileEnemy_Mask;
+	}
+
+
+
+	public Arme getArme() {
+		return arme;
+	}
+
+
+
+	public void setArme(Arme arme) {
+		this.arme = arme;
 	}
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.rbr.game.screen.game.ScreenGame;
 
 public  class GameObject {
+	private String idArray;
 	
 	private String name;	
 	private BodyDef bodyDef;
@@ -20,6 +21,8 @@ public  class GameObject {
 	
 	private boolean remove;
 	
+	private boolean envoyerToServer;
+	private boolean envoyerToClient;
 	private Array<GameObjectCollisionListener> listObservables;
 	
 	//get/set
@@ -61,6 +64,9 @@ public  class GameObject {
 		remove = false;
 		
 		listObservables = null;
+		
+		envoyerToServer = false;
+		envoyerToClient = false;
 	}
 	/*public  void colisionBegin(GameObject contact, ScreenGame screenGame){
 		
@@ -155,5 +161,36 @@ public  class GameObject {
 			listObservables.removeValue(observeur, false);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "GameObject [name=" + name + ", bodyDef=" + bodyDef + ", body="
+				+ body + ", fixtureDef=" + fixtureDef + ", ratioDeceleration="
+				+ ratioDeceleration + ", autoDeceleration=" + autoDeceleration
+				+ ", remove=" + remove + ", listObservables=" + listObservables
+				+ "]";
+	}
+	public String getIdArray() {
+		return idArray;
+	}
+	public void setIdArray(String idArray) {
+		this.idArray = idArray;
+	}
+	
+
+	public boolean isEnvoyerToServer() {
+		return envoyerToServer;
+	}
+
+	public void setEnvoyerToServer(boolean envoyerToServer) {
+		this.envoyerToServer = envoyerToServer;
+	}
+	public boolean isEnvoyerToClient() {
+		return envoyerToClient;
+	}
+	public void setEnvoyerToClient(boolean envoyerToClient) {
+		this.envoyerToClient = envoyerToClient;
+	}
+	
 	
 }

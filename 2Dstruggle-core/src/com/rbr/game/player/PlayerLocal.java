@@ -32,11 +32,11 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 	
 	@Override
 	public void colisionBegin(GameObject called,GameObject contact, ScreenGame screenGame) {
-		System.out.println("called:"+called.getName()+" contact:"+contact.getName());
+		//System.out.println("called:"+called.getName()+" contact:"+contact.getName());
 		if (called instanceof Projectile) {
 			System.out.println("projectile");
 			if (((Projectile)called).getPlayerEmeteur().equals(this)) {
-				System.out.println("le player se colisionne eavec ces balles");
+				System.out.println("le player se colisionne avec ces balles");
 			}else{
 				System.out.println("le player local colisione avec "+called);
 			}
@@ -47,18 +47,14 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 	@Override
 	public void colisionEnd(GameObject called,GameObject contact, ScreenGame screenGame) {
 		// TODO Auto-generated method stub
-		
 	}
-	
 	
 	float spesificImpulse;
 	public void update(ScreenGame screenGame ,float delta){
-		
 		spesificImpulse = 0.5f;
 		
 		Vector2 vel = getGameObject().getBody().getLinearVelocity();
 		Vector2 pos = getGameObject().getBody().getPosition();	
-	//	boolean actionmove = false;
 		
 		Vector2 vectorVise = new Vector2();
 		float angleVise = 0;
@@ -74,25 +70,19 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 			vectorVise = pos.cpy().sub(vectorVise);
 			angleVise = vectorVise.angle()+90;
 			
-			
 			if (Gdx.input.isKeyPressed(Keys.LEFT) && vel.x > -ConfigPref.Player_MAX_VELOCITY) {          
 				getGameObject().getBody().applyLinearImpulse(-spesificImpulse, 0, pos.x, pos.y, true);
 			}
-	
 			if (Gdx.input.isKeyPressed(Keys.RIGHT) && vel.x < ConfigPref.Player_MAX_VELOCITY) {
 				getGameObject().getBody().applyLinearImpulse(spesificImpulse, 0, pos.x, pos.y, true);
 			}
-			
 			if (Gdx.input.isKeyPressed(Keys.DOWN) && vel.y > -ConfigPref.Player_MAX_VELOCITY) {          
 				getGameObject().getBody().applyLinearImpulse(0, -spesificImpulse, pos.x, pos.y, true);
 			}
-	
 			if (Gdx.input.isKeyPressed(Keys.UP) && vel.y < ConfigPref.Player_MAX_VELOCITY) {
 				getGameObject().getBody().applyLinearImpulse(0,spesificImpulse, pos.x, pos.y, true);
 			}
-		
-			getGameObject().deceleration(getGameObject().getRatioDeceleration());
-			
+			getGameObject().deceleration(getGameObject().getRatioDeceleration());	
 			if (Gdx.input.isTouched(0)) {
 				shoot = true;
 			}
@@ -101,7 +91,7 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 		if (Gdx.app.getType().equals(ApplicationType.Android)) {
 			
 			//touchPad	aim		
-			vectorVise = new Vector2(screenGame.getTouchpadAim().getKnobPercentX(),screenGame.getTouchpadAim().getKnobPercentY());
+			vectorVise = new Vector2(screenGame.getHudManageur().getTouchpadAim().getKnobPercentX(),screenGame.getHudManageur().getTouchpadAim().getKnobPercentY());
 			vectorVise = vectorVise.nor().scl(-1, -1);
 			angleVise = -vectorVise.angle(pos)+90f;
 			
@@ -112,7 +102,7 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 			
 			
 			//touch pad position
-			Vector2 touchpadVec = new Vector2(screenGame.getTouchpad().getKnobPercentX(),screenGame.getTouchpad().getKnobPercentY());
+			Vector2 touchpadVec = new Vector2(screenGame.getHudManageur().getTouchpad().getKnobPercentX(),screenGame.getHudManageur().getTouchpad().getKnobPercentY());
 			touchpadVec = touchpadVec.nor().scl(spesificImpulse);
 			
 			if (vel.y < ConfigPref.Player_MAX_VELOCITY  && vel.y > -ConfigPref.Player_MAX_VELOCITY) {
@@ -123,12 +113,10 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 				getGameObject().getBody().applyLinearImpulse(touchpadVec.x,0, pos.x, pos.y, true);
 			}
 			
-			getGameObject().deceleration(getGameObject().getRatioDeceleration());
-	
+			getGameObject().deceleration(getGameObject().getRatioDeceleration());	
 		}
-		//
-		getGameObject().getBody().setTransform(pos,angleVise);
 		
+		getGameObject().getBody().setTransform(pos,angleVise);
 		
 		if (shoot) {
 			arme.shootUpdate(screenGame,pos, vectorVise,this);
