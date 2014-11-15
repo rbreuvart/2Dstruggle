@@ -10,20 +10,9 @@ public class Projectile extends  GameObjectSprite{
 
 	
 	private Player playerEmeteur;
-	public Player getPlayerEmeteur() {
-		return playerEmeteur;
-	}
-	public void setPlayerEmeteur(Player playerEmeteur) {
-		this.playerEmeteur = playerEmeteur;
-	}
-	
 	private float degat;
-	public float getDegat() {
-		return degat;
-	}
-	public void setDegat(float degat) {
-		this.degat = degat;
-	}
+	
+	
 	
 	public Projectile(GameObject go,Sprite sprite,Player playerEmeteur,float degat) {
 		super(go, sprite);
@@ -33,6 +22,7 @@ public class Projectile extends  GameObjectSprite{
 		go.getBody().setBullet(true);
 		go.getBody().setGravityScale(0);
 		setAutoDeceleration(false);
+		
 	}
 	
 	@Override
@@ -42,8 +32,7 @@ public class Projectile extends  GameObjectSprite{
 		if (contact!=null) {			
 			infigeDegat(contact,screenGame);
 		}		
-	//	setRemove(true);		
-		
+		//setRemove(true);
 	}
 	
 	
@@ -51,11 +40,22 @@ public class Projectile extends  GameObjectSprite{
 		
 		Player playerContact = screenGame.getPlayerManageur().getPlayerByGameObject(contact);
 		if (playerContact != null) {
-			playerContact.subitDegat(getDegat());
+			playerContact.subitDegat(screenGame,getDegat());
 		}
 	}
 
 
+	public Player getPlayerEmeteur() {
+		return playerEmeteur;
+	}
+	public void setPlayerEmeteur(Player playerEmeteur) {
+		this.playerEmeteur = playerEmeteur;
+	}	
+	public float getDegat() {
+		return degat;
+	}
+	public void setDegat(float degat) {
+		this.degat = degat;
+	}
 
-	
 }

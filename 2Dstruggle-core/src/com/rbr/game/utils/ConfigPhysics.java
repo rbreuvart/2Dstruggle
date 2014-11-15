@@ -37,7 +37,7 @@ public class ConfigPhysics {
 	//Player Multi (Enemy)	
 	public static final short PlayerMulti_Category = CATEGORY_ENEMY;
 	public static final short PlayerMulti_Group = 0;
-	public static final short PlayerMulti_Mask = CATEGORY_ALLIER|CATEGORY_SCENERY|CATEGORY_LIGHT;
+	public static final short PlayerMulti_Mask = CATEGORY_ALLIER|CATEGORY_SCENERY|CATEGORY_LIGHT|CATEGORY_PROJECTILE;
 	
 	
 	//ProjectileAllier

@@ -3,6 +3,7 @@ package com.rbr.game.net.kryo;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.rbr.game.entity.projectile.Projectile;
 import com.rbr.game.net.client.NetKryoNewClientManageur;
 import com.rbr.game.net.server.NetKryoNewServerManageur;
 import com.rbr.game.screen.game.ScreenGame;
@@ -45,34 +46,44 @@ public class NetKryoManageur {
 		}
 	}
 
+	public void addLocalProjectile(Projectile projectile){
+		if (kryoServerManageur !=null) {
+		//	kryoServerManageur.update(screenGame);
+			
+		}
+		if (kryoClientManageur !=null) {
+		//	kryoClientManageur.update(screenGame);
+		//	PacketAddProjectile ad
+			
+			
+		}
+	}
+	
+	
+	
+	
+	
 	public NetApplicationType getNetApplicationType() {
 		return netApplicationType;
 	}
-
 	public void setNetApplicationType(NetApplicationType netApplicationType) {
 		this.netApplicationType = netApplicationType;
 	}
-
 	public NetKryoNewServerManageur getKryoServerManageur() {
 		return kryoServerManageur;
 	}
-
 	public void setKryoServerManageur(NetKryoNewServerManageur kryoServerManageur) {
 		this.kryoServerManageur = kryoServerManageur;
 	}
-
 	public NetKryoNewClientManageur getKryoClientManageur() {
 		return kryoClientManageur;
 	}
-
 	public void setKryoClientManageur(NetKryoNewClientManageur kryoClientManageur) {
 		this.kryoClientManageur = kryoClientManageur;
 	}
-
 	public ArrayList<String> getAddressesInterface() {
 		return addressesInterface;
 	}
-
 	public void setAddressesInterface(ArrayList<String> addressesInterface) {
 		this.addressesInterface = addressesInterface;
 	}

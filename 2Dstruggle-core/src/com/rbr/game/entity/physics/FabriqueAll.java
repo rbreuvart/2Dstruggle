@@ -2,6 +2,7 @@ package com.rbr.game.entity.physics;
 
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -11,7 +12,10 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.rbr.game.entity.projectile.Projectile;
 import com.rbr.game.manageur.WorldManageur;
+import com.rbr.game.player.Player;
+import com.rbr.game.screen.game.ScreenGame;
 import com.rbr.game.utils.BodyEditorLoader;
 import com.rbr.game.utils.ConfigPref;
 
@@ -228,5 +232,36 @@ public class FabriqueAll {
 	}
 
 	
+	
+	
+	public static Projectile creationProjectile(final ScreenGame screenGame,final Vector2 starposition,final Vector2 direction,final Player player,float degat){
+		
+		float density = 1f;
+		float friction =0.01f;
+		float restitution =0f;
+		
+		Vector2 vecStart = starposition.cpy().sub(direction.cpy().nor().scl(0.05f));
+	
+		GameObject gameObject = FabriqueAll.creationGameObjectSquare(screenGame.getWorldManageur().getWorld(),
+				"bulletShoot",
+				vecStart.x, vecStart.y,
+				0.2f, 0.2f,
+				ConfigPref.pixelMeter, BodyType.DynamicBody,density,friction,restitution,
+				(short) (player.getProjectileFilterCategory()),//CATEGORY type
+				(short) (player.getProjectileFilterGroup()),//GROUP traverse
+				(short) (player.getProjectileFilterMask()));//MASK Inverse
+		
+		Sprite spritebullet = new Sprite(screenGame.getMainGame().getManager().get(ConfigPref.File_Bullet1, Texture.class));
+		spritebullet.setScale(0.2f/ConfigPref.pixelMeter);
+		
+		Projectile proj =  new Projectile(gameObject, spritebullet, player, degat);
+		proj.setPlayerEmeteur(player);
+		
+		//Defini la Vitesse de Deplacement
+		proj.getBody().applyLinearImpulse(direction.cpy().nor().scl((float) 1), proj.getBody().getPosition(), true);
+		
+		
+		return proj;
+	}
 
 }

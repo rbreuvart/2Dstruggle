@@ -1,16 +1,11 @@
 package com.rbr.game.entity.arme;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.rbr.game.entity.physics.FabriqueAll;
-import com.rbr.game.entity.physics.GameObject;
 import com.rbr.game.entity.projectile.Projectile;
 import com.rbr.game.player.Player;
 import com.rbr.game.screen.game.ScreenGame;
-import com.rbr.game.utils.ConfigPref;
 
 public class Arme {
 
@@ -66,33 +61,11 @@ public class Arme {
 			
 			@Override
 			public void run() {
-			//	System.out.println("starposition:"+starposition);
-				//new FabriqueAll();
+				direction.scl(-1);
+				Projectile projectile = FabriqueAll.creationProjectile(screenGame, starposition, direction, player, degat);
+				screenGame.getGameObjectManageur().add(player.getId(),projectile);
 				
-				float density = 1f;
-				float friction =0.01f;
-				float restitution =0f;
 				
-				Vector2 vecStart = starposition.cpy().sub(direction.cpy().nor().scl(0.05f));
-				
-								
-				GameObject gameObject = FabriqueAll.creationGameObjectSquare(screenGame.getWorldManageur().getWorld(),
-						"bulletShoot",
-						vecStart.x, vecStart.y,
-						0.2f, 0.2f,
-						ConfigPref.pixelMeter, BodyType.DynamicBody,density,friction,restitution,
-						(short) (player.getProjectileFilterCategory()),//CATEGORY type
-						(short) (player.getProjectileFilterGroup()),//GROUP traverse
-						(short) (player.getProjectileFilterMask()));//MASK Inverse
-				Sprite spritebullet = new Sprite(screenGame.getMainGame().getManager().get(ConfigPref.File_Bullet1, Texture.class));
-				//float unitscale = (float)(1/ConfigPref.pixelMeter);
-				//System.out.println("unitscale"+unitscale);
-				spritebullet.setScale(0.2f/ConfigPref.pixelMeter);
-				//spritebullet.setAlpha(0.3f);
-				Projectile projectile = new Projectile(gameObject,spritebullet,player,getDegat());
-				
-				projectile.getBody().applyLinearImpulse(direction.cpy().nor().scl((float) -1), projectile.getBody().getPosition(), true);
-				screenGame.getGameObjectManageur().add(projectile);
 			}
 		});
 		
@@ -145,6 +118,32 @@ public class Arme {
 	public void setLastShootTime(long lastShootTime) {
 		this.lastShootTime = lastShootTime;
 	}
+//	System.out.println("starposition:"+starposition);
+	//new FabriqueAll();
+	/*
+	float density = 1f;
+	float friction =0.01f;
+	float restitution =0f;
 	
+	Vector2 vecStart = starposition.cpy().sub(direction.cpy().nor().scl(0.05f));
+	
+					
+	GameObject gameObject = FabriqueAll.creationGameObjectSquare(screenGame.getWorldManageur().getWorld(),
+			"bulletShoot",
+			vecStart.x, vecStart.y,
+			0.2f, 0.2f,
+			ConfigPref.pixelMeter, BodyType.DynamicBody,density,friction,restitution,
+			(short) (player.getProjectileFilterCategory()),//CATEGORY type
+			(short) (player.getProjectileFilterGroup()),//GROUP traverse
+			(short) (player.getProjectileFilterMask()));//MASK Inverse
+	Sprite spritebullet = new Sprite(screenGame.getMainGame().getManager().get(ConfigPref.File_Bullet1, Texture.class));
+	//float unitscale = (float)(1/ConfigPref.pixelMeter);
+	//System.out.println("unitscale"+unitscale);
+	spritebullet.setScale(0.2f/ConfigPref.pixelMeter);
+	//spritebullet.setAlpha(0.3f);
+	Projectile projectile = new Projectile(gameObject,spritebullet,player,getDegat());
+	
+	projectile.getBody().applyLinearImpulse(direction.cpy().nor().scl((float) -1), projectile.getBody().getPosition(), true);
+	*/
 	
 }

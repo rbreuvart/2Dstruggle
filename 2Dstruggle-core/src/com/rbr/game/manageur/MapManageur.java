@@ -7,11 +7,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.rbr.game.MainGame;
 import com.rbr.game.entity.map.Zone;
 import com.rbr.game.entity.map.ZoneTeleport;
 import com.rbr.game.screen.game.ScreenGame;
 import com.rbr.game.utils.ConfigPref;
 import com.rbr.game.utils.MapPropertyLoader;
+import com.rbr.game.utils.ConfigPref.TypeMsg;
 
 public class MapManageur {
 	
@@ -23,6 +25,7 @@ public class MapManageur {
 	
 	private Array<Zone> listZone;
 	
+	private String fileMapAsset;
 	
 	public Array<Vector2> getListVectorSpawn() {
 		return listVectorSpawn;
@@ -42,12 +45,33 @@ public class MapManageur {
 	public void setListZone(Array<Zone> listZone) {
 		this.listZone = listZone;
 	}
+	public String getVersionMap(){
+		return tileMap.getProperties().get("VERSIONMAP", String.class);
+	}
+	public String getNameMap(){
+		return tileMap.getProperties().get("NAMEMAP", String.class);
+	}
+	public String getTypeMap(){
+		return tileMap.getProperties().get("TYPEMAP", String.class);
+	}
+	public String getFileMapAsset(){
+		return fileMapAsset;
+	}
+	
+	ScreenGame screenGame;
+	float unitScale;
+	
+	public MapManageur(ScreenGame screenGame) {
+		this.screenGame = screenGame;
+		this.unitScale = (float)1/ConfigPref.pixelMeter;
+	}
 	
 	
-	
-	public MapManageur(ScreenGame screenGame,String fileMapAsset) {
+	public void loadMap(String fileMapAsset){
+		this.fileMapAsset = fileMapAsset;
+
 		this.tileMap = screenGame.getMainGame().getManager().get(fileMapAsset);
-		float unitScale = (float)1/ConfigPref.pixelMeter;
+		
 		renderer = new OrthogonalTiledMapRenderer(tileMap, unitScale);
 		
 		listVectorSpawn = new Array<Vector2>();
@@ -64,12 +88,11 @@ public class MapManageur {
 		MapPropertyLoader.loadElement(screenGame,layerElement,listVectorSpawn,listZone);	
 	}
 	
-	
 	public Vector2 getRandomSpawn(){
 		int lower = 0;
 		int higher = listVectorSpawn.size;
 		int random = (int) (Math.random() * (higher - lower)) + lower;		
-		return listVectorSpawn.get(random).cpy();
+		return listVectorSpawn.get(random).cpy().scl((float)(unitScale));
 	}
 	
 	
@@ -95,8 +118,13 @@ public class MapManageur {
 	}
 	
 	public void render(ScreenGame screenGame){	
-		renderer.setView(screenGame.getCamManageur().getOrthographicCamera());
-		renderer.render();
+		if (renderer!=null) {
+			renderer.setView(screenGame.getCamManageur().getOrthographicCamera());
+			renderer.render();
+		}else{
+			MainGame.printErr("map non Chargé", TypeMsg.ShapeRender);
+		}
+		
 	}
 
 	

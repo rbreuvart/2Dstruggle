@@ -134,12 +134,17 @@ public class MapPropertyLoader {
 		float b = Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightColorBlue, String.class));
 		float a = Float.parseFloat(mapObject.getProperties().get(ConfigPref.MapPointLightColorAlpha, String.class));
 		light.setColor(r,g,b,a);
-		if (Boolean.parseBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightStatic, String.class))) {
+		if (ConfigPref.Performance_DynamiqueLight) {
+			if (Boolean.parseBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightStatic, String.class))) {
+				light.setStaticLight(true);
+			}else{
+				//System.out.println("light static false");
+				light.setStaticLight(false);
+			}
+		}else{//si android toujour static light
 			light.setStaticLight(true);
-		}else{
-			//System.out.println("light static false");
-			light.setStaticLight(false);
 		}
+		
 		if (Boolean.parseBoolean(mapObject.getProperties().get(ConfigPref.MapPointLightXray, String.class))) {
 			light.setXray(true);
 		}
