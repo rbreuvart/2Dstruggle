@@ -5,14 +5,17 @@ public class PacketUpdateGameObjectPlayer {
 	public int id;
 	public float positionX,positionY,angle;
 	public float life;
+	public boolean spawn;
 	public PacketUpdateGameObjectPlayer() {
 	}
 	@Override
 	public String toString() {
 		return "PacketUpdateGameObjectPlayer [id=" + id + ", positionX="
 				+ positionX + ", positionY=" + positionY + ", angle=" + angle
-				+ ", life=" + life + "]";
+				+ ", life=" + life + ", spawn=" + spawn + "]";
 	}
+
+	
 	
 	
 	

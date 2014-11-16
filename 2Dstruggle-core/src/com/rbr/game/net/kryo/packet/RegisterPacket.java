@@ -8,7 +8,6 @@ import com.rbr.game.net.kryo.packet.player.PacketRemovePlayer;
 import com.rbr.game.net.kryo.packet.player.PacketSpawnPlayer;
 import com.rbr.game.net.kryo.packet.player.PacketUpdateGameObjectPlayer;
 import com.rbr.game.net.kryo.packet.projectile.PacketAddProjectile;
-import com.rbr.game.net.kryo.packet.projectile.PacketRemoveProjectile;
 
 public class RegisterPacket {
 
@@ -27,7 +26,7 @@ public class RegisterPacket {
 		
 		
 		kryo.register(PacketAddProjectile.class);
-		kryo.register(PacketRemoveProjectile.class);
+		//kryo.register(PacketRemoveProjectile.class);
 	}
 	
 }

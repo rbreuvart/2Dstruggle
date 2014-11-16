@@ -33,7 +33,7 @@ public class GameObjectSprite extends GameObject{
 	
 	@Override
 	public void render(ScreenGame screenGame, SpriteBatch batch) {
-		super.render(screenGame, batch);
+		//super.render(screenGame, batch);
 		//		this.iSpriteRender.render(screenGame, getBody().getPosition(),  getBody().getLinearVelocity().angle()-90, 0, batch);
 		
 		

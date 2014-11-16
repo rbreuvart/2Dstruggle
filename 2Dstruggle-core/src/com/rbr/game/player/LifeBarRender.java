@@ -1,29 +1,31 @@
 package com.rbr.game.player;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.rbr.game.screen.game.ScreenGame;
 
 public class LifeBarRender {
-
+	
 	private float height;
 	private float width;
-	
+	BitmapFont bitmapFont ;
 	public LifeBarRender(float width , float height ) {
 		this.height = height;
 		this.width = width;
+		bitmapFont= new BitmapFont();
 	}
 	
 	
-	public void render(ScreenGame screenGame, SpriteBatch spriteBatch,	ShapeRenderer shapeRenderer,Vector2 positionBar,float life, float lifeMax) {
+	public void render(ScreenGame screenGame, SpriteBatch spriteBatch,	ShapeRenderer shapeRenderer,Vector2 positionBar,Player player) {
 		//System.out.println("LifeBarRender.render()");
 		//System.out.println(positionBar+" "+life+"/"+lifeMax);
 		float centreX = (float)width/2f;
 		Vector2 position = positionBar.cpy();
 		//position.add(-5, 5);
 		//float lenght = 40f;
-		float ratiovie = life/lifeMax;
+		float ratiovie = player.getLife()/player.getLifeMax();
 		shapeRenderer.setColor(0,0,0, 1);
 		shapeRenderer.rectLine(position.x-centreX-(0.02f),
 					position.y,
@@ -38,8 +40,7 @@ public class LifeBarRender {
 	
 		//shapeRenderer.rectLine(new Vector2(10, 10), new Vector2(50, 50), 5);
 		shapeRenderer.setColor(1,1,1, 1);
-		
-		
+	
 	}
 
 	public float getHeight() {

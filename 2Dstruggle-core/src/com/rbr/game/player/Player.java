@@ -1,5 +1,6 @@
 package com.rbr.game.player;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.esotericsoftware.kryonet.Connection;
@@ -17,7 +18,6 @@ public abstract class Player {
 	private float life;
 	private float lifeMax;	
 	
-	//private boolean needRespawn;
 
 	private boolean spawn;
 	
@@ -33,17 +33,19 @@ public abstract class Player {
 	private boolean readyToPlay;	
 	private TeamPlayer teamPlayer;
 	
+	private String name;
+	private Color color;
 	
-	
-	public Player(GameObject gameObject) {
+	public Player(GameObject gameObject,String name) {
 		this.gameObject = gameObject;
 		lifeBarRender = new LifeBarRender( (float)(50f/ConfigPref.pixelMeter), (float)(5f/ConfigPref.pixelMeter));
 		life = 100;
 		lifeMax = 100;
-		//needRespawn = false;
 		setSpawn(false);
 		setReadyToPlay(false);
 		setTeamPlayer(TeamPlayer.FFA);
+		setName(name);
+		//color = Color.WHITE;
 	}
 	
 	
@@ -51,8 +53,7 @@ public abstract class Player {
 		if(screenGame.getKryoManageur().getNetApplicationType().equals(NetApplicationType.Serveur)){
 			if (getLife()-degat<=0) {
 				setLife(0);
-				//setNeedRespawn(true);
-				//FIXME faire respawn Reseaux
+
 			}else{
 				setLife(getLife()-degat);
 			}	
@@ -130,4 +131,17 @@ public abstract class Player {
 	public void setSpawn(boolean spawn) {
 		this.spawn = spawn;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
 }

@@ -22,12 +22,12 @@ import com.rbr.game.net.kryo.packet.player.PacketRemovePlayer;
 import com.rbr.game.net.kryo.packet.player.PacketSpawnPlayer;
 import com.rbr.game.net.kryo.packet.player.PacketUpdateGameObjectPlayer;
 import com.rbr.game.net.kryo.packet.projectile.PacketAddProjectile;
-import com.rbr.game.net.kryo.packet.projectile.PacketRemoveProjectile;
 import com.rbr.game.net.lobby.LobbyClient;
 import com.rbr.game.player.Player;
 import com.rbr.game.screen.game.ScreenGame;
 import com.rbr.game.utils.ConfigLobby;
 import com.rbr.game.utils.ConfigPref;
+import com.rbr.game.utils.GameCodeTools;
 
 public class NetKryoNewClientManageur extends Listener{
 	private  Client client;
@@ -59,18 +59,26 @@ public class NetKryoNewClientManageur extends Listener{
 		}
 	}
 	
-	public void update(ScreenGame screenGame ){
+	public void update(ScreenGame screenGame ,float delta){
 		
 		if (!lobbyClient.isConnectedToLobby()) {
+			
 			if (infoServeur!=null) {
+				/*
+				 * PreMiére Etape du Processus de Connection
+				 */
+				
+				
 				PacketMessageLobby packetMessageLobby = new PacketMessageLobby();
 				packetMessageLobby.idConnection = infoServeur.id;
-				packetMessageLobby.name = "Client";
+				packetMessageLobby.name = "Client:"+infoServeur.id;//ici definir Nom
 				packetMessageLobby.type = ConfigLobby.TypeMessageConnectionLobby;
 				packetMessageLobby.message = "";
 				packetMessageLobby.heure = 0;
 				packetMessageLobby.minute = 0;
 				packetMessageLobby.seconde = 0;
+				packetMessageLobby.color = GameCodeTools.getRandomColor();
+				System.out.println(packetMessageLobby);
 				client.sendTCP(packetMessageLobby);
 			}else{
 				System.out.println("Client :Wait - infoServer non Recu");
@@ -86,8 +94,7 @@ public class NetKryoNewClientManageur extends Listener{
 				packetUpdateGameObjectPlayer.angle = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getAngle();
 				packetUpdateGameObjectPlayer.positionX = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().x;
 				packetUpdateGameObjectPlayer.positionY = screenGame.getPlayerManageur().getPlayerLocal().getGameObject().getBody().getPosition().y;
-				client.sendUDP(packetUpdateGameObjectPlayer);
-				//System.out.println("Client sendPosition");
+				client.sendTCP(packetUpdateGameObjectPlayer);
 		
 				//Maj Projectile
 				for (GameObject go : screenGame.getGameObjectManageur().getGameObjectArray()) {
@@ -112,18 +119,14 @@ public class NetKryoNewClientManageur extends Listener{
 							proj.setEnvoyerToServer(true);
 							proj.setEnvoyerToClient(true);
 						}
-						/*if (proj.isEnvoyerToServeur()) {
-							
-							//TODO update
-							break;
-						}*/
+					/*
 						if (proj.isRemove()) {
 							PacketRemoveProjectile packetRemoveProjectile = new PacketRemoveProjectile();
 							packetRemoveProjectile.idConnection = screenGame.getPlayerManageur().getPlayerLocal().getId();
 							packetRemoveProjectile.idEmeteur = screenGame.getPlayerManageur().getPlayerLocal().getId();
 							packetRemoveProjectile.idGameObject = proj.getIdArray();
 							client.sendTCP(packetRemoveProjectile);
-						}
+						}*/
 						
 						
 					}
@@ -168,7 +171,7 @@ public class NetKryoNewClientManageur extends Listener{
 			Gdx.app.postRunnable(new Runnable() {
 				@Override
 				public void run() {
-					screenGame.getMapManageur().loadMap(packet.mapServeur);
+					screenGame.getMapManageur().loadMap(screenGame,packet.mapServeur);
 				}
 			});
 			
@@ -178,6 +181,43 @@ public class NetKryoNewClientManageur extends Listener{
 	}
 	
 	private boolean playerHandler(final Connection c, Object o){
+		if(o instanceof PacketUpdateGameObjectPlayer){			
+			final PacketUpdateGameObjectPlayer packet = (PacketUpdateGameObjectPlayer) o;
+			//System.out.println("CLIENT "+packet);
+			Gdx.app.postRunnable(new Runnable() {
+				@Override
+				public void run() {
+					Vector2 newPosition = new Vector2(packet.positionX, packet.positionY);
+					Player player  = screenGame.getPlayerManageur().getPlayerById(packet.id);
+					if (player!=null) {
+						//pour tout les Player
+						player.setLife(packet.life);
+						if (player.equals(screenGame.getPlayerManageur().getPlayerLocal())) {
+							//pour le localPlayer
+							
+						}else{//pour les JoueursMulti
+							Body bodyPlayer = player.getGameObject().getBody();
+							Vector2 correctPosition = new Vector2(bodyPlayer.getPosition());
+							if (newPosition.x != bodyPlayer.getPosition().x ) {
+								correctPosition.x = newPosition.x;
+							}
+							if (newPosition.y != bodyPlayer.getPosition().y) {
+								correctPosition.y = newPosition.y;
+							}
+							bodyPlayer.setTransform(correctPosition, packet.angle);
+						}
+					
+					}else{
+						System.out.println("Client : Player non present dans la map des joueurs");
+					}
+				}
+			});
+			
+					
+				
+			
+			return true;
+		}
 		
 		if(o instanceof PacketAddMultiPlayer){	
 			final PacketAddMultiPlayer packet = (PacketAddMultiPlayer) o;
@@ -189,7 +229,7 @@ public class NetKryoNewClientManageur extends Listener{
 							//	System.out.println("Client : Ce player et deja dans ma map de player "+packet);
 						}else{
 							//	System.out.println("Client : Ce player n'etait pas dans la map de player :"+packet+" Connection"+c.getID());
-							screenGame.getPlayerManageur().createMultiPlayer(screenGame, c,packet.id);
+							screenGame.getPlayerManageur().createMultiPlayer(screenGame, c,packet.id,packet.name,packet.color);
 						}
 					}
 			});
@@ -220,42 +260,8 @@ public class NetKryoNewClientManageur extends Listener{
 			});		
 			return true;
 		}
-		
-		if(o instanceof PacketUpdateGameObjectPlayer){			
-			final PacketUpdateGameObjectPlayer packet = (PacketUpdateGameObjectPlayer) o;
-			//System.out.println(packet);
-			Gdx.app.postRunnable(new Runnable() {
-				@Override
-				public void run() {
-					Vector2 newPosition = new Vector2(packet.positionX, packet.positionY);
-					Player player  = screenGame.getPlayerManageur().getPlayerById(packet.id);
-					if (player!=null) {
-						//pour tout les Player
-						player.setLife(packet.life);
-						if (player.equals(screenGame.getPlayerManageur().getPlayerLocal())) {
-							//pour le localPlayer
-							
-						}else{//pour les JoueursMulti
-							Body bodyPlayer = player.getGameObject().getBody();
-							Vector2 correctPosition = new Vector2(bodyPlayer.getPosition());
-							if (newPosition.x != bodyPlayer.getPosition().x ) {
-								correctPosition.x = newPosition.x;
-							}
-							if (newPosition.y != bodyPlayer.getPosition().y) {
-								correctPosition.y = newPosition.y;
-							}
-							bodyPlayer.setTransform(correctPosition, packet.angle);
-						}
-					
-					}else{
-						System.out.println("Client : Player non present dans la map des joueurs");
-					}
-					
-				}
-			});
-			return true;
-		}
 		return false;
+		
 	}
 	
 	

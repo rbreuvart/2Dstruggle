@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.rbr.game.CameraManageur;
 import com.rbr.game.MainGame;
 import com.rbr.game.entity.physics.ContactGameObjectListener;
@@ -166,7 +167,7 @@ public class ScreenGame implements Screen{
 		//map
 		mapManageur = new MapManageur(this);
 		if (!"".equals(mapFileAsset)) {
-			mapManageur.loadMap(mapFileAsset);
+			mapManageur.loadMap(this,mapFileAsset);
 		}
 				
 		//Multiplayer and player
@@ -189,7 +190,7 @@ public class ScreenGame implements Screen{
 	public void render(float delta) {		
 		Gdx.gl.glClearColor(getBackGroundColor().r, getBackGroundColor().g, getBackGroundColor().b, getBackGroundColor().a);
 		Gdx.gl20.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
-					
+				
 		worldManageur.update(delta,camManageur);		
 		gameObjectManageur.update(this, delta);		
 		//iaManageur.update(this,delta);
@@ -204,6 +205,7 @@ public class ScreenGame implements Screen{
 		}
 		
 		mapManageur.render(this);
+	
 		worldManageur.render(delta,camManageur);
 		
 		getBatch().setProjectionMatrix(camManageur.getOrthographicCamera().combined);
@@ -214,7 +216,12 @@ public class ScreenGame implements Screen{
 		
 		lightManageur.render(this);
 		
+		//OverLayer
+		mapManageur.renderOverLayer(screenGame);
 		
+		//mapManageur.getRenderer().setView(camManageur.getOrthographicCamera());
+		//mapManageur.getRenderer().renderTileLayer((TiledMapTileLayer) mapManageur.getTileMap().getLayers().get(ConfigPref.MapLayerOverLayer));
+
 		//debug pour les zones de la map
 		shapeRenderer.setProjectionMatrix(screenGame.getCamManageur().getOrthographicCamera().combined);
 		shapeRenderer.begin(ShapeType.Filled);
@@ -263,5 +270,11 @@ public class ScreenGame implements Screen{
 	public void dispose() {
 		// TODO Auto-generated method stub		
 	}
+	
+	
+	
+	
+	
+	
 	
 }

@@ -13,7 +13,7 @@ public class PlayerIa extends Player implements GameObjectCollisionListener{
 	private Arme arme;
 	
 	public PlayerIa(GameObject gameObject) {
-		super(gameObject);	
+		super(gameObject,"IA");	
 		
 		getGameObject().setAutoDeceleration(false);
 				
@@ -31,7 +31,7 @@ public class PlayerIa extends Player implements GameObjectCollisionListener{
 	
 	@Override
 	public void render(ScreenGame screenGame, SpriteBatch spriteBatch,	ShapeRenderer shapeRenderer) {
-		getLifeBarRender().render(screenGame, spriteBatch, shapeRenderer,getGameObject().getBody().getPosition().cpy().add(0, -0.45f), getLife(), getLifeMax());
+		getLifeBarRender().render(screenGame, spriteBatch, shapeRenderer,getGameObject().getBody().getPosition().cpy().add(0, -0.45f), this);
 
 	}
 

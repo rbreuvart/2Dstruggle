@@ -34,6 +34,7 @@ public class GarbageManageur {
 			    }
 			    // actual remove
 			    screenGame.getWorldManageur().getWorld().destroyBody(go.getBody());
+			    
 			    screenGame.getGameObjectManageur().getGameObjectArray().removeValue(go,false);
 			}
 			

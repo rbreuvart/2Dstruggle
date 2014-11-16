@@ -121,7 +121,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 						@Override
 						public void run() {
 							ScreenGame screenGame = new ScreenGame(getMainGame(),new NetApplicationContainer(ip, NetApplicationType.Client),"");
-							screenGame.getKryoManageur().getKryoClientManageur().update(screenGame);
+							screenGame.getKryoManageur().getKryoClientManageur().update(screenGame,0);
 							getMainGame().setScreen(screenGame);
 						}
 					}));
@@ -373,8 +373,13 @@ public class ScreenChoosePlay extends AbsctactScreen{
 				} catch (IllegalArgumentException e) {e.printStackTrace();} catch (IllegalAccessException e) {e.printStackTrace();}
 			}
 		}
+		Texture textureMiniature;
+		try {
+			textureMiniature = getMainGame().getManager().get(minmap, Texture.class);
+		} catch (Exception e) {
+			textureMiniature = getMainGame().getManager().get(ConfigPref.File_MapMiniature,Texture.class);
+		}
 		
-		Texture textureMiniature = getMainGame().getManager().get(minmap, Texture.class);
 	
 		TextureRegion imageMin = new TextureRegion(textureMiniature);
 		final Image imageActorMin = new Image(imageMin);

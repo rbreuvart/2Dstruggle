@@ -9,8 +9,8 @@ import com.rbr.game.utils.ConfigPhysics;
 
 public class PlayerMulti extends Player implements GameObjectCollisionListener{
 
-	public PlayerMulti(GameObject gameObject) {
-		super(gameObject);		
+	public PlayerMulti(GameObject gameObject,String name) {
+		super(gameObject,name);		
 	}
 
 	@Override
@@ -19,8 +19,8 @@ public class PlayerMulti extends Player implements GameObjectCollisionListener{
 	}
 	@Override
 	public void render(ScreenGame screenGame, SpriteBatch spriteBatch,	ShapeRenderer shapeRenderer) {	
-		getLifeBarRender().render(screenGame, spriteBatch, shapeRenderer,getGameObject().getBody().getPosition().cpy().add(0, -0.45f), getLife(), getLifeMax());
-
+		getLifeBarRender().render(screenGame, spriteBatch, shapeRenderer,getGameObject().getBody().getPosition().cpy().add(0, -0.45f), this);
+		
 	}
 	
 	@Override
