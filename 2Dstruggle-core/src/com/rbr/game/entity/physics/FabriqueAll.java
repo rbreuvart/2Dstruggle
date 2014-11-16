@@ -1,7 +1,12 @@
 package com.rbr.game.entity.physics;
 
 
+import box2dLight.PointLight;
+
+import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -259,7 +264,21 @@ public class FabriqueAll {
 		
 		//Defini la Vitesse de Deplacement
 		proj.getBody().applyLinearImpulse(direction.cpy().nor().scl((float) 1), proj.getBody().getPosition(), true);
+		/*
+		PointLight pointLight =  null;
+		if (Gdx.app.getType().equals(ApplicationType.Android)) {
+			pointLight = new PointLight(screenGame.getLightManageur().getRayHandler(), 5);
+			pointLight.setXray(true);
 		
+		}else{
+			pointLight = new PointLight(screenGame.getLightManageur().getRayHandler(), 50);
+		}
+		
+		pointLight.attachToBody(proj.getBody(), 0, 0);
+		pointLight.setDistance(1);
+		pointLight.setColor(Color.valueOf("ff6a00"));
+	*/
+			//pointLight.setStaticLight(true);
 		
 		return proj;
 	}

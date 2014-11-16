@@ -9,6 +9,7 @@ public class PacketMessageLobby {
 	public int heure;
 	public int minute;
 	public int seconde;
+	public String color;
 	
 	public PacketMessageLobby() {
 		

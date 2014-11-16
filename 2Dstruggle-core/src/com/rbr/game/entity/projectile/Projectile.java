@@ -1,6 +1,7 @@
 package com.rbr.game.entity.projectile;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rbr.game.entity.physics.GameObject;
 import com.rbr.game.entity.physics.GameObjectSprite;
 import com.rbr.game.player.Player;
@@ -35,6 +36,15 @@ public class Projectile extends  GameObjectSprite{
 		//setRemove(true);
 	}
 	
+	public void render(ScreenGame screenGame, SpriteBatch batch) {
+		super.render(screenGame, batch);
+		//		this.iSpriteRender.render(screenGame, getBody().getPosition(),  getBody().getLinearVelocity().angle()-90, 0, batch);
+		
+		
+		getISpriteRender().render(screenGame, 	getBody().getPosition(),
+												getBody().getLinearVelocity().angle()-90, 0, batch);
+		/*getSprite().draw(batch);*/
+	}
 	
 	public void infigeDegat(GameObject contact, ScreenGame screenGame) {
 		

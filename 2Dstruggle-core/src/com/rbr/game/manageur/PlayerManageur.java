@@ -3,6 +3,7 @@ package com.rbr.game.manageur;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -86,7 +87,7 @@ public class PlayerManageur {
 	}
 	
 	
-	public PlayerLocal createLocalPlayer(ScreenGame screenGame,int id){
+	public PlayerLocal createLocalPlayer(ScreenGame screenGame,int id,String name, String color){
 		Sprite spritePlayer = new Sprite(  screenGame.getMainGame().getManager().get(ConfigPref.File_BodyPerso,Texture.class));
 	
 		PlayerLocal playerLocal= new PlayerLocal(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
@@ -94,8 +95,10 @@ public class PlayerManageur {
 				0.45f,ConfigPref.pixelMeter,1,0.95f,0f,
 				ConfigPhysics.PlayerLocal_Category,
 				ConfigPhysics.PlayerLocal_Group,
-				ConfigPhysics.PlayerLocal_Mask));		
+				ConfigPhysics.PlayerLocal_Mask),name);		
 	
+		playerLocal.setColor(Color.valueOf(color));
+		
 		//screenGame.getGameObjectManageur().getGameObjectArray().add(playerControle.getGameObject());
 	//	System.out.println("Ajout du joueur local dans la map id:"+id);
 		screenGame.getGameObjectManageur().add(id,playerLocal.getGameObject());
@@ -104,15 +107,18 @@ public class PlayerManageur {
 		return playerLocal;
 	}
 	
-	public PlayerMulti createMultiPlayer(ScreenGame screenGame,Connection connection, int id){
-		Sprite spritePlayerMulti = new Sprite( screenGame.getMainGame().getManager().get(ConfigPref.File_RedCircle,Texture.class));
+	public PlayerMulti createMultiPlayer(ScreenGame screenGame,Connection connection, int id,String name, String color){
+		Sprite spritePlayerMulti = new Sprite( screenGame.getMainGame().getManager().get(ConfigPref.File_BodyPerso,Texture.class));
+		spritePlayerMulti.setColor(Color.valueOf(color));
 		
 		PlayerMulti playerMulti =  new PlayerMulti(FabriqueAll.creationGameObjectCircle(screenGame.getWorldManageur(), 
 					spritePlayerMulti,getDefaultPlayerPosition(),"playerMulti:"+id,
 					0.45f,ConfigPref.pixelMeter,1,0.95f,0f,
 					ConfigPhysics.PlayerMulti_Category,
 					ConfigPhysics.PlayerMulti_Group,
-					ConfigPhysics.PlayerMulti_Mask));
+					ConfigPhysics.PlayerMulti_Mask),name);
+		playerMulti.setColor(Color.valueOf(color));
+		
 			//screenGame.getGameObjectManageur().getGameObjectArray().add(playerMulti.getGameObject());
 		playerMulti.setConnection(connection);
 		//System.out.println("Ajout du joueur Multi dans la map id:"+connection.getID());

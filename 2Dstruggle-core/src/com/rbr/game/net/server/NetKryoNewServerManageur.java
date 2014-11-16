@@ -20,7 +20,6 @@ import com.rbr.game.net.kryo.packet.player.PacketRemovePlayer;
 import com.rbr.game.net.kryo.packet.player.PacketSpawnPlayer;
 import com.rbr.game.net.kryo.packet.player.PacketUpdateGameObjectPlayer;
 import com.rbr.game.net.kryo.packet.projectile.PacketAddProjectile;
-import com.rbr.game.net.kryo.packet.projectile.PacketRemoveProjectile;
 import com.rbr.game.net.lobby.LobbyServer;
 import com.rbr.game.player.Player;
 import com.rbr.game.screen.game.ScreenGame;
@@ -82,92 +81,104 @@ public class NetKryoNewServerManageur extends Listener{
 	//	screenGame.getPlayerManageur().createLocalPlayer(screenGame,0,screenGame.getMapManageur().getRandomSpawn());
 		
 	}
-	public void update(ScreenGame screenGame) {
+	
+	
+	public void update(ScreenGame screenGame,float delta) {
 		if (getLobbyServer().isRoundStart()) {
-			//Maj des joueurs
-			if (screenGame.getPlayerManageur().getPlayerLocal()!=null) {
-				
-				
-				for (Entry<Integer,Player> playerEntryConnection : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
-				
-					
-					
-					if (playerEntryConnection.getValue().getLife()<=0) {
-						System.out.println("a respawn "+playerEntryConnection.getValue());
-						//playerEntryConnection.getValue().setNeedRespawn(false);
-						playerEntryConnection.getValue().setLife(playerEntryConnection.getValue().getLifeMax());
-						playerEntryConnection.getValue().getGameObject().getBody().setLinearVelocity(new Vector2());
-						playerEntryConnection.getValue().getGameObject().getBody().setLinearDamping(0);
-						playerEntryConnection.getValue().getGameObject().getBody().setAngularVelocity(0);
-						playerEntryConnection.getValue().getGameObject().getBody().setTransform(screenGame.getMapManageur().getRandomSpawn(), 0);
-						
-						PacketSpawnPlayer spawnPlayer = new PacketSpawnPlayer();
-						spawnPlayer.id = playerEntryConnection.getValue().getId();
-						spawnPlayer.positionX = playerEntryConnection.getValue().getGameObject().getBody().getPosition().x;
-						spawnPlayer.positionY = playerEntryConnection.getValue().getGameObject().getBody().getPosition().y;
-						spawnPlayer.spawn = true;
-						server.sendToTCP(spawnPlayer.id, spawnPlayer);
-					}
-					
-					PacketUpdateGameObjectPlayer packetUpdateGameObjectPlayer = new PacketUpdateGameObjectPlayer();
-					packetUpdateGameObjectPlayer.id =	playerEntryConnection.getValue().getId();
-					packetUpdateGameObjectPlayer.positionX = playerEntryConnection.getValue().getGameObject().getBody().getPosition().x;
-					packetUpdateGameObjectPlayer.positionY = playerEntryConnection.getValue().getGameObject().getBody().getPosition().y;
-					packetUpdateGameObjectPlayer.angle = playerEntryConnection.getValue().getGameObject().getBody().getAngle();
-					packetUpdateGameObjectPlayer.life = playerEntryConnection.getValue().getLife();
-					
-					server.sendToAllUDP(packetUpdateGameObjectPlayer);
-				}
-					
-				
-			}
-				//Maj des Projectiles
-			for (GameObject go : screenGame.getGameObjectManageur().getGameObjectArray()) {
-				if (go instanceof Projectile) {
-					Projectile proj =  (Projectile)go;
-					if (!proj.isEnvoyerToClient()) {
-						
-						PacketAddProjectile packetAddProjectile = new PacketAddProjectile();
-						packetAddProjectile.idConnection = proj.getPlayerEmeteur().getId();
-						packetAddProjectile.idEmeteur = proj.getPlayerEmeteur().getId();
-						packetAddProjectile.idGameObject = proj.getIdArray();
-						packetAddProjectile.classProjectile = proj.getClass().getName();
-						
-						packetAddProjectile.degat = proj.getDegat();
-						
-						packetAddProjectile.positionX = proj.getBody().getPosition().x;
-						packetAddProjectile.positionY = proj.getBody().getPosition().y;
-						packetAddProjectile.velocityX = proj.getBody().getLinearVelocity().x;
-						packetAddProjectile.velocotyY = proj.getBody().getLinearVelocity().y;
-						
-						for (Entry<Integer,Player> playerEntryConnection : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {				
-							if (playerEntryConnection.getValue().getId()!=packetAddProjectile.idConnection) {
-								server.sendToTCP(playerEntryConnection.getValue().getId(),packetAddProjectile);							
-							}
-						}
-						proj.setEnvoyerToClient(true);
-						proj.setEnvoyerToServer(true);
-					}
-					/*if (proj.isEnvoyerToServeur()) {
-						
-						//TODO update
-						break;
-					}*/
-					if (proj.isRemove()) {
-						PacketRemoveProjectile packetRemoveProjectile = new PacketRemoveProjectile();
-						packetRemoveProjectile.idConnection = screenGame.getPlayerManageur().getPlayerLocal().getId();
-						packetRemoveProjectile.idEmeteur = screenGame.getPlayerManageur().getPlayerLocal().getId();
-						packetRemoveProjectile.idGameObject = proj.getIdArray();
-						server.sendToAllExceptTCP(packetRemoveProjectile.idConnection,packetRemoveProjectile);
-					}
-				
-				}		
-			}
 			
+			updatePlayer(screenGame, delta);
+			updateProjectile(screenGame, delta);
 		}
 		
-		
+		lobbyServer.updateLobby(screenGame,delta);
 	}
+	
+	public void updatePlayer(ScreenGame screenGame,float delta){
+		//Maj des joueurs
+		if (screenGame.getPlayerManageur().getPlayerLocal()!=null) {
+			
+			for (Entry<Integer,Player> playerEntryConnection : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {
+				
+				if (playerEntryConnection.getValue().getLife()<=0) {
+					System.out.println("a respawn "+playerEntryConnection.getValue());
+					//playerEntryConnection.getValue().setNeedRespawn(false);
+					playerEntryConnection.getValue().setLife(playerEntryConnection.getValue().getLifeMax());
+					playerEntryConnection.getValue().getGameObject().getBody().setLinearVelocity(new Vector2());
+					playerEntryConnection.getValue().getGameObject().getBody().setLinearDamping(0);
+					playerEntryConnection.getValue().getGameObject().getBody().setAngularVelocity(0);
+					playerEntryConnection.getValue().getGameObject().getBody().setTransform(screenGame.getMapManageur().getRandomSpawn(), 0);
+					
+					PacketSpawnPlayer spawnPlayer = new PacketSpawnPlayer();
+					spawnPlayer.id = playerEntryConnection.getValue().getId();
+					spawnPlayer.positionX = playerEntryConnection.getValue().getGameObject().getBody().getPosition().x;
+					spawnPlayer.positionY = playerEntryConnection.getValue().getGameObject().getBody().getPosition().y;
+					spawnPlayer.spawn = true;
+					server.sendToTCP(spawnPlayer.id, spawnPlayer);
+				}
+				
+				PacketUpdateGameObjectPlayer packetUpdateGameObjectPlayer = new PacketUpdateGameObjectPlayer();
+				packetUpdateGameObjectPlayer.id =	playerEntryConnection.getValue().getId();
+				packetUpdateGameObjectPlayer.positionX = playerEntryConnection.getValue().getGameObject().getBody().getPosition().x;
+				packetUpdateGameObjectPlayer.positionY = playerEntryConnection.getValue().getGameObject().getBody().getPosition().y;
+				packetUpdateGameObjectPlayer.angle = playerEntryConnection.getValue().getGameObject().getBody().getAngle();
+				packetUpdateGameObjectPlayer.life = playerEntryConnection.getValue().getLife();
+				packetUpdateGameObjectPlayer.spawn = playerEntryConnection.getValue().isSpawn();
+				server.sendToAllTCP(packetUpdateGameObjectPlayer);
+			}
+				
+			
+		}
+	}
+	public void updateProjectile(ScreenGame screenGame,float delta){
+		//Maj des Projectiles
+		for (GameObject go : screenGame.getGameObjectManageur().getGameObjectArray()) {
+			if (go instanceof Projectile) {
+				Projectile proj =  (Projectile)go;
+				if (!proj.isEnvoyerToClient()) {
+					
+					PacketAddProjectile packetAddProjectile = new PacketAddProjectile();
+					packetAddProjectile.idConnection = proj.getPlayerEmeteur().getId();
+					packetAddProjectile.idEmeteur = proj.getPlayerEmeteur().getId();
+					packetAddProjectile.idGameObject = proj.getIdArray();
+					packetAddProjectile.classProjectile = proj.getClass().getName();
+					
+					packetAddProjectile.degat = proj.getDegat();
+					
+					packetAddProjectile.positionX = proj.getBody().getPosition().x;
+					packetAddProjectile.positionY = proj.getBody().getPosition().y;
+					packetAddProjectile.velocityX = proj.getBody().getLinearVelocity().x;
+					packetAddProjectile.velocotyY = proj.getBody().getLinearVelocity().y;
+					
+					for (Entry<Integer,Player> playerEntryConnection : screenGame.getPlayerManageur().getHashMapPlayer().entrySet()) {				
+						if (playerEntryConnection.getValue().getId()!=packetAddProjectile.idConnection) {
+							server.sendToTCP(playerEntryConnection.getValue().getId(),packetAddProjectile);							
+						}
+					}
+					proj.setEnvoyerToClient(true);
+					proj.setEnvoyerToServer(true);
+				}
+				/*if (proj.isEnvoyerToServeur()) {
+					
+					//TODO update
+					break;
+				}*//*
+				if (proj.isRemove()) {
+					PacketRemoveProjectile packetRemoveProjectile = new PacketRemoveProjectile();
+					packetRemoveProjectile.idConnection = screenGame.getPlayerManageur().getPlayerLocal().getId();
+					packetRemoveProjectile.idEmeteur = screenGame.getPlayerManageur().getPlayerLocal().getId();
+					packetRemoveProjectile.idGameObject = proj.getIdArray();
+					server.sendToAllExceptTCP(packetRemoveProjectile.idConnection,packetRemoveProjectile);
+				}*/
+			
+			}		
+		}
+	}
+	
+	
+
+
+	
+	
 	
 	public void connected(Connection c){
 		
@@ -259,12 +270,12 @@ public class NetKryoNewServerManageur extends Listener{
 				}
 			});
 			return true;
-		}
+		}/*
 		if (o instanceof PacketRemoveProjectile) {
 			//TODO
 			
 			return true;
-		}
+		}*/
 		
 		return false;
 	}
@@ -274,6 +285,7 @@ public class NetKryoNewServerManageur extends Listener{
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
+				try {
 				int id = c.getID();
 				screenGame.getWorldManageur().getWorld().destroyBody(screenGame.getPlayerManageur().getPlayerById(id).getGameObject().getBody());
 				//FIXME ont ne suppique les Objets de la GameOject que si la partie a commencé
@@ -285,6 +297,11 @@ public class NetKryoNewServerManageur extends Listener{
 				packet.id = c.getID();
 				server.sendToAllExceptTCP(c.getID(), packet);
 				System.out.println("Connection dropped.");
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
 			}
 		});
 		
@@ -301,6 +318,9 @@ public class NetKryoNewServerManageur extends Listener{
 				if (playerEntryConnection.getKey()!=0) {//ne pas envoie au serveur lui meme
 					PacketAddMultiPlayer addMultiPlayer = new PacketAddMultiPlayer();
 					addMultiPlayer.id = playerEntryPlayer.getKey();
+					addMultiPlayer.name = playerEntryPlayer.getValue().getName();
+					addMultiPlayer.color = playerEntryPlayer.getValue().getColor().toString().toUpperCase();
+					
 					System.out.println("Serveur : envoie a CLIENT["+playerEntryConnection.getKey()+"] ca "+addMultiPlayer);
 					playerEntryConnection.getValue().getConnection().sendTCP(addMultiPlayer);
 				}
@@ -314,7 +334,7 @@ public class NetKryoNewServerManageur extends Listener{
 	public void startGame() {
 		//FIXME pour debug SOLO
 		if (screenGame.getPlayerManageur().getPlayerLocal()==null) {
-			screenGame.getPlayerManageur().createLocalPlayer(screenGame, 0);
+			screenGame.getPlayerManageur().createLocalPlayer(screenGame, 0,"SERVEUR TEST SOLO","FFFFFF");
 		}
 		
 		//Definition des boolean Game Start
@@ -364,7 +384,20 @@ public class NetKryoNewServerManageur extends Listener{
 			System.out.println("Server: Mode de Heu non Pris en Charge");
 		}
 	}
+	
+	public void spawnPlayer(Player player) {
+		Vector2 position = screenGame.getMapManageur().getRandomSpawn();
+		screenGame.getPlayerManageur().spawnPlayer(screenGame, player.getId(), position);
 		
+		PacketSpawnPlayer packetSpawnPlayer = new PacketSpawnPlayer();
+		packetSpawnPlayer.id = player.getId();
+		packetSpawnPlayer.positionX = player.getGameObject().getBody().getPosition().x;
+		packetSpawnPlayer.positionY = player.getGameObject().getBody().getPosition().y;
+		packetSpawnPlayer.spawn = true;
+		server.sendToAllExceptTCP(0, packetSpawnPlayer);
+	}
+	
+	
 	public Server getServer() {return server;	}
 	public void setServer(Server server) {this.server = server;	}
 	public Kryo getKryo() {return kryo;	}
@@ -383,5 +416,7 @@ public class NetKryoNewServerManageur extends Listener{
 	public void setServeurPassword(String serveurPassword) {this.serveurPassword = serveurPassword;}
 	public LobbyServer getLobbyServer() {return lobbyServer;}
 	public void setLobbyServer(LobbyServer lobbyServer) {this.lobbyServer = lobbyServer;}
+
+	
 
 }

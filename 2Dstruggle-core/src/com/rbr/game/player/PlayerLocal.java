@@ -3,6 +3,7 @@ package com.rbr.game.player;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -20,12 +21,12 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 
 	private Arme arme;
 	
-	public PlayerLocal(GameObject gameObject) {
-		super(gameObject);		
+	public PlayerLocal(GameObject gameObject,String name) {
+		super(gameObject,name);		
 		//prend en charge manuelement dans l'update de playerControle l'auto deceleration
 		getGameObject().setAutoDeceleration(false);
 		getGameObject().addCollisionObservateur(this);
-		arme = new Arme(100, 100, 5, 300, 0.99f);
+		arme = new Arme(100, 100, 10, 300, 0.99f);
 		//la rotation n'est pas appliqué
 		((GameObjectSprite)getGameObject()).getISpriteRender().setApplyRotate(true);
 	}
@@ -129,7 +130,7 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 	
 	
 	public void render(ScreenGame screenGame, SpriteBatch spriteBatch, ShapeRenderer shapeRenderer){
-		getLifeBarRender().render(screenGame, spriteBatch, shapeRenderer,getGameObject().getBody().getPosition().cpy().add(0, -0.45f), getLife(), getLifeMax());
+		getLifeBarRender().render(screenGame, spriteBatch, shapeRenderer,getGameObject().getBody().getPosition().cpy().add(0, -0.45f),this);
 	}
 
 	
@@ -158,6 +159,8 @@ public class PlayerLocal extends Player implements GameObjectCollisionListener{
 	public short getProjectileFilterMask() {
 		return ConfigPhysics.ProjectileAllier_Mask;
 	}
+
+	
 
 
 	

@@ -3,6 +3,7 @@ package com.rbr.game.manageur;
 import box2dLight.ChainLight;
 import box2dLight.RayHandler;
 
+import com.badlogic.gdx.graphics.Color;
 import com.rbr.game.screen.game.ScreenGame;
 import com.rbr.game.utils.ConfigPref;
 
@@ -25,7 +26,8 @@ public class LightManageur {
 		RayHandler.setGammaCorrection(true);
 		RayHandler.useDiffuseLight(true);
 		this.rayHandler = new RayHandler(screenGame.getWorldManageur().getWorld());
-		rayHandler.setAmbientLight(ConfigPref.CouleurAmbientLight.r	, ConfigPref.CouleurAmbientLight.g	, ConfigPref.CouleurAmbientLight.b, ConfigPref.CouleurAmbientLight.a);
+		//rayHandler.setAmbientLight(ConfigPref.CouleurAmbientLight.r	, ConfigPref.CouleurAmbientLight.g	, ConfigPref.CouleurAmbientLight.b, ConfigPref.CouleurAmbientLight.a);
+		rayHandler.setAmbientLight(Color.valueOf(ConfigPref.CouleurAmbientLight));
 		rayHandler.setCulling(true);	
 		rayHandler.setBlurNum(1);
 		

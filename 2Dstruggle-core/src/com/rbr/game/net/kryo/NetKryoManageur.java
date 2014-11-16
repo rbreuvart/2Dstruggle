@@ -39,10 +39,10 @@ public class NetKryoManageur {
 	
 	public void update(ScreenGame screenGame, float delta) {
 		if (kryoServerManageur !=null) {
-			kryoServerManageur.update(screenGame);
+			kryoServerManageur.update(screenGame,delta);
 		}
 		if (kryoClientManageur !=null) {
-			kryoClientManageur.update(screenGame);
+			kryoClientManageur.update(screenGame,delta);
 		}
 	}
 

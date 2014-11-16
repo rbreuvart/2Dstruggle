@@ -30,7 +30,7 @@ public class ConfigPref {
 	}
 
 	//Light
-	public static final Color CouleurAmbientLight = new Color(0.2f, 0.2f, 0.2f, 0.2f);
+	public static final String CouleurAmbientLight = "50505050";
 
 	//Player	
 	public static final float Player_MAX_VELOCITY = 3.5f;
@@ -47,6 +47,9 @@ public class ConfigPref {
 	public static final Vector2 MapTileOffsetPosition = new Vector2((float)32/pixelMeter,(float)32/pixelMeter);
 
 	//Layer
+ 
+	public static final String MapLayerOverLayer = "overlayer";
+	public static final String MapLayerForeGround = "foreground";
 	public static final String MapLayerBlockage = "blockage";
 	public static final String MapLayerDecor = "decor";
 	public static final String MapLayerElement = "element";
@@ -117,6 +120,8 @@ public class ConfigPref {
 	
 	public static final String File_MapDeDust2 				= "data/map/ninjamap.tmx";		
 	public static final String File_MapDeDust2Miniature 	= "data/map/minmap_ninjamap.png";
+	
+	public static final String File_MapDonjon 	= "data/map/donjon.tmx";
 	
 	public static final String File_MapMiniature 	= 	"data/map/minmap.png";
 	
