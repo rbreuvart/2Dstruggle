@@ -39,6 +39,9 @@ public abstract class AbsctactScreen implements  GameLogicScreenImpl ,Screen {
 	public  void render(float delta) {
 		Gdx.gl.glClearColor(backGroundColor.r, backGroundColor.g, backGroundColor.b, backGroundColor.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+	}
+	public void renderStage(float delta){
 		stage.act(delta);
 		stage.draw();
 	}

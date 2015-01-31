@@ -1,7 +1,9 @@
 package com.rbr.game.screen.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -20,7 +22,7 @@ public class ScreenLoading extends AbsctactScreen{
 	Label label;
 	Label labelProgression;
 	ProgressBar bar;
-	
+	Texture backgroundTexture;
 	public ScreenLoading(MainGame mainGame) {
 		super(mainGame);
 		this.mainGame = mainGame;
@@ -34,6 +36,7 @@ public class ScreenLoading extends AbsctactScreen{
 		super.create();
 		spriteBatchLoading = new SpriteBatch();
 		bitmapfont = new BitmapFont();
+		backgroundTexture = new Texture(Gdx.files.internal("data/menu/chargement.png"));
 		
 	//	stage = new Stage(new StretchViewport(ConfigPref.viewPortWidth,ConfigPref.viewPortHeight));
 		
@@ -51,9 +54,9 @@ public class ScreenLoading extends AbsctactScreen{
 		bar.setCenterPosition(ConfigPref.viewPortWidth/2,20);
 		
 		label = new Label("", skin);
-		table.add(label);
+		label.setColor(Color.YELLOW);
+		table.add(label);		
 		
-			
 		labelProgression = new Label("", skin);
 		labelProgression.setCenterPosition(ConfigPref.viewPortWidth/2-10,35);
 		getStage().addActor(labelProgression);
@@ -89,10 +92,17 @@ public class ScreenLoading extends AbsctactScreen{
 		 }
 		  spriteBatchLoading.end();
 		  */
+		 spriteBatchLoading.begin();
+		 spriteBatchLoading.draw(backgroundTexture, 0, 0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+		 spriteBatchLoading.end();
 		 getStage().act();
 		 getStage().draw();
-		
-		  if (mainGame.getManager().update()&& Gdx.input.isTouched()) {
+		 
+		/*
+		if (mainGame.getManager().update()&& Gdx.input.isTouched()) {
+			  mainGame.setScreen(new ScreenAccueil(mainGame));			
+		}*/
+		if (mainGame.getManager().update()) {
 			  mainGame.setScreen(new ScreenAccueil(mainGame));			
 		}
 	}

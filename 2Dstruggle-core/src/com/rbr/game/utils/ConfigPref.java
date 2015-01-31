@@ -122,6 +122,7 @@ public class ConfigPref {
 	public static final String File_MapDeDust2Miniature 	= "data/map/minmap_ninjamap.png";
 	
 	public static final String File_MapDonjon 	= "data/map/donjon.tmx";
+	public static final String File_MapDonjon2Miniature 	= "data/map/minmap_donjon.png";
 	
 	public static final String File_MapMiniature 	= 	"data/map/minmap.png";
 	
