@@ -1,6 +1,8 @@
 package com.rbr.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.rbr.game.screen.game.ScreenGame;
 import com.rbr.game.utils.ConfigPref;
@@ -15,12 +17,18 @@ public class CameraManageur {
 	
 	public CameraManageur(MainGame mainGame) {
 		this.mainGame = mainGame;
+		//orthographicCamera = new OrthographicCamera(Gdx.graphics.getWidth()/ConfigPref.pixelMeter,Gdx.graphics.getHeight()/ConfigPref.pixelMeter);
 		orthographicCamera = new OrthographicCamera(960/ConfigPref.pixelMeter,540/ConfigPref.pixelMeter);
 	
 	}
 
 	public OrthographicCamera getOrthographicCamera() {		
 		return orthographicCamera;
+	}
+	public Matrix4 getNormalProjection(){
+		Matrix4 normalProjection = new Matrix4();
+		normalProjection.setToOrtho2D(0, 0, Gdx.graphics.getWidth()/1.5f,Gdx.graphics.getHeight()/1.5f);	
+		return normalProjection;
 	}
 	
 	

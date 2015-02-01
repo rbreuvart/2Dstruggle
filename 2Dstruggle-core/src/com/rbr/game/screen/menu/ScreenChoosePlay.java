@@ -64,8 +64,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		super.create();
 		backgroundTexture = new Texture(Gdx.files.internal("data/menu/choixmap.png"));
 		Image imgbackground = new Image(backgroundTexture);
-		imgbackground.setWidth(Gdx.graphics.getWidth());
-		imgbackground.setHeight(Gdx.graphics.getHeight());
+		imgbackground.setFillParent(true);
 		getStage().addActor(imgbackground);
 
 		

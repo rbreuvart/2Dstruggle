@@ -20,6 +20,7 @@ import com.rbr.game.manageur.PlayerManageur;
 import com.rbr.game.manageur.WorldManageur;
 import com.rbr.game.net.kryo.NetApplicationContainer;
 import com.rbr.game.net.kryo.NetKryoManageur;
+import com.rbr.game.screen.layer.PerformanceAnnalyseLayer;
 import com.rbr.game.utils.ConfigPref;
 
 public class ScreenGame implements Screen{
@@ -54,7 +55,6 @@ public class ScreenGame implements Screen{
 		this.mainGame = mainGame;
 	}
 	
-	
 	private CameraManageur camManageur;
 	
 	private NetKryoManageur kryoManageur;
@@ -74,6 +74,8 @@ public class ScreenGame implements Screen{
 	private HudManageur hudManageur;
 	
 	private GarbageManageur garbageManageur;
+	
+	private PerformanceAnnalyseLayer performanceAnnalyseLayer;
 	
 	public CameraManageur getCamManageur() {
 		return camManageur;
@@ -135,7 +137,13 @@ public class ScreenGame implements Screen{
 	public void setGarbageManageur(GarbageManageur garbageManageur) {
 		this.garbageManageur = garbageManageur;
 	}
-
+	public PerformanceAnnalyseLayer getPerformanceAnnalyseLayer() {
+		return performanceAnnalyseLayer;
+	}
+	public void setPerformanceAnnalyseLayer(PerformanceAnnalyseLayer performanceAnnalyseLayer) {
+		this.performanceAnnalyseLayer = performanceAnnalyseLayer;
+	}
+	
 	
 	ScreenGame screenGame;
 	public ScreenGame(MainGame mainGame,NetApplicationContainer  netApplicationContainer,String mapFileAsset) {
@@ -182,12 +190,13 @@ public class ScreenGame implements Screen{
 		
 		garbageManageur = new GarbageManageur(this);
 	
-	
+		performanceAnnalyseLayer =  new PerformanceAnnalyseLayer(this);
 	}	
 	
 	
 	@Override
-	public void render(float delta) {		
+	public void render(float delta) {	
+		performanceAnnalyseLayer.getPerfLogger().notifyBloc(delta);
 		Gdx.gl.glClearColor(getBackGroundColor().r, getBackGroundColor().g, getBackGroundColor().b, getBackGroundColor().a);
 		Gdx.gl20.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 				
@@ -203,7 +212,7 @@ public class ScreenGame implements Screen{
 		if (kryoManageur!=null) {
 			kryoManageur.update(this, delta);
 		}
-		
+	//	performanceAnnalyseLayer.getPerfLogger().notifyTime("update", System.currentTimeMillis());
 		mapManageur.render(this);
 	
 		worldManageur.render(delta,camManageur);
@@ -238,12 +247,21 @@ public class ScreenGame implements Screen{
 		hudManageur.update(this, delta);
 		hudManageur.render(this, batch);
 		
+		//performanceAnnalyseLayer.getPerfLogger().notifyTime("render", System.currentTimeMillis());
+		
+		if (ConfigPref.Performance_AnalyseStatistiqueLayer) {
+			performanceAnnalyseLayer.update(delta);
+			performanceAnnalyseLayer.render(delta, batch, shapeRenderer);
+		}
+		
 		Gdx.app.postRunnable(new Runnable() {			
 			@Override
 			public void run() {
 				garbageManageur.update(screenGame);
 			}
 		});
+		
+		
 		
 	}
 	@Override
@@ -270,6 +288,7 @@ public class ScreenGame implements Screen{
 	public void dispose() {
 		// TODO Auto-generated method stub		
 	}
+	
 	
 	
 	

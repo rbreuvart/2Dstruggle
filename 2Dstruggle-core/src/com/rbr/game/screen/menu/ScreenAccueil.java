@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -24,12 +25,16 @@ public class ScreenAccueil extends AbsctactScreen {
 	public void create() {		
 		super.create();
 		backgroundTexture = new Texture(Gdx.files.internal("data/menu/intro.png"));
+		Image imgBackground = new Image(backgroundTexture);
+		imgBackground.setFillParent(true);
 		Skin skin = getMainGame().getManager().get(ConfigPref.File_UiSkin);
 	    Table table = new Table(skin);
 	    table.setFillParent(true);
 	    table.setHeight(Gdx.graphics.getHeight());
 	    table.setWidth(Gdx.graphics.getWidth());
+	    getStage().addActor(imgBackground);
 	    getStage().addActor(table);	
+	    
 	    
 		table.row();	
 		
@@ -85,9 +90,6 @@ public class ScreenAccueil extends AbsctactScreen {
 	@Override
 	public void render(float delta) {
 		 super.render(delta);
-		 getBatch().begin();
-		 getBatch().draw(backgroundTexture, 0, 0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		 getBatch().end();
 		 super.renderStage(delta);
 		
 	}
