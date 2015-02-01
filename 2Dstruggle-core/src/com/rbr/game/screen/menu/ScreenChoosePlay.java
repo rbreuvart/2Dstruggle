@@ -36,7 +36,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 	
 	private String mapFileAssetChoisie;
 	private String ip ;
-	
+	Texture backgroundTexture;
 	
 	Window windowMap;
 	Table tableWindow;
@@ -62,14 +62,20 @@ public class ScreenChoosePlay extends AbsctactScreen{
 	@Override
 	public void create() {		
 		super.create();
-		Skin skin = getMainGame().getManager().get(ConfigPref.File_UiSkin);
+		backgroundTexture = new Texture(Gdx.files.internal("data/menu/choixmap.png"));
+		Image imgbackground = new Image(backgroundTexture);
+		imgbackground.setFillParent(true);
+		getStage().addActor(imgbackground);
+
 		
+		
+		Skin skin = getMainGame().getManager().get(ConfigPref.File_UiSkin);
 		/*
 		 * Bouton de retour
 		 */
 		Table tableCornerRight = new Table(skin);
 	    tableCornerRight.setFillParent(false);
-	    tableCornerRight.setPosition(885, 520);
+	    tableCornerRight.setPosition(885, 490);
 	    getStage().addActor(tableCornerRight);
 	  
 	    TextButton buttonRetour = new TextButton("Retour ", skin);
@@ -80,7 +86,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 	    						return super.touchDown(event, x, y, pointer, button);	    			
 	    		}
 	    });
-	    tableCornerRight.add(buttonRetour).width(150).height(40);
+	    tableCornerRight.add(buttonRetour).width(120).height(40);
 	    tableCornerRight.row();
 		
 	    
@@ -93,7 +99,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		Table tableCornerbotRight = new Table(skin);
 		tableCornerbotRight.setFillParent(false);	 
 		tableCornerbotRight.align(Align.bottom+Align.right);
-		tableCornerbotRight.setPosition(960, 0);
+		tableCornerbotRight.setPosition(960, 20);
 	    getStage().addActor(tableCornerbotRight);
 	   
 	    
@@ -108,7 +114,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 				return super.touchDown(event, x, y, pointer, button);	
 			}
 		});
-		tableCornerbotRight.add(buttonRefrechServer).width(100).height(50);	
+		tableCornerbotRight.add(buttonRefrechServer).width(130).height(50);	
 		
 	    this.buttonStartClient = new TextButton("Start Client", skin,"default");
 	    buttonStartClient.addCaptureListener(new InputListener(){
@@ -130,7 +136,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 	    			return super.touchDown(event, x, y, pointer, button);	    			  
 	    		}
 	    });	    
-	    tableCornerbotRight.add(buttonStartClient).width(100).height(50);	
+	    tableCornerbotRight.add(buttonStartClient).width(130).height(50);	
 	    
 	    this.buttonStartServer = new TextButton("Start Server", skin,"default");
 	    buttonStartServer.addCaptureListener(new InputListener(){
@@ -149,7 +155,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		    			return super.touchDown(event, x, y, pointer, button);	    			
 		    		}
 		});
-		tableCornerbotRight.add(buttonStartServer).width(100).height(50);	
+		tableCornerbotRight.add(buttonStartServer).width(130).height(50);	
 		
 		
 		
@@ -165,6 +171,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		
 		windowMap = new Window("Liste des MAPs", skin);
 		windowMap.setVisible(true);
+		windowMap.setColor(1, 1, 1, 0.75f);
 		windowMap.align(Align.center);
 		windowMap.setMovable(false);
 		windowMap.defaults().space(0);
@@ -250,7 +257,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		 */
 		Table tableOption = new Table(skin);
 		tableOption.setFillParent(false);
-		tableOption.setPosition(650, 470);
+		tableOption.setPosition(680, 490);
 		getStage().addActor(tableOption);
 		
 		textfieldIp = new TextField("", skin);
@@ -282,7 +289,8 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		getStage().addActor(tableServeur);
 				
 		windowServeur = new Window("Liste des Serveurs", skin);
-		windowServeur.setVisible(true);
+		//windowServeur.setVisible(true);
+		windowServeur.setColor(1, 1, 1, 0.75f);
 		windowServeur.align(Align.center);
 		windowServeur.setMovable(false);
 		windowServeur.defaults().space(0);
@@ -310,7 +318,7 @@ public class ScreenChoosePlay extends AbsctactScreen{
 			}
 		});
 		ScrollPane scrollPaneServeur = new ScrollPane(listServeur, skin);
-		scrollPaneServeur.setFlickScroll(false);
+		//scrollPaneServeur.setFlickScroll(false);
 		windowServeur.add(scrollPaneServeur).expand().fill();
 		
 		//recherche des serveur
@@ -460,7 +468,17 @@ public class ScreenChoosePlay extends AbsctactScreen{
 		return serveurLocal;
 	}
 	
-	
+	@Override
+	public void render(float delta) {
+		
+		 super.render(delta);
+		/* getBatch().begin();
+		 getBatch().draw(backgroundTexture, 0, 0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+		 getBatch().end();*/
+		 super.renderStage(delta);
+		
+		
+	}
 	
 	
 }

@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class ConfigPref {
 	//Vertion
-	public static final String Version = "0.0.0.3";
-	public static final int VertionNum = 3;
+	public static final String Version = "0.0.0.4";
+	public static final int VertionNum = 4;
 	
 	//Camera
 	public static final Float viewPortWidth = 960f;
@@ -122,6 +122,7 @@ public class ConfigPref {
 	public static final String File_MapDeDust2Miniature 	= "data/map/minmap_ninjamap.png";
 	
 	public static final String File_MapDonjon 	= "data/map/donjon.tmx";
+	public static final String File_MapDonjon2Miniature 	= "data/map/minmap_donjon.png";
 	
 	public static final String File_MapMiniature 	= 	"data/map/minmap.png";
 	
@@ -136,6 +137,11 @@ public class ConfigPref {
 	public static final String PatternField_File =	"File_";
 	
 
+	
+	
+	//Perfomance Analyse
+	public static boolean Performance_AnalyseStatistiqueLayer = true;
+	public static boolean Performance_AnalyseStatistiqueLogger = true;
 	//Performance
 	public static  boolean Performance_DynamiqueLight = getDynamiqueLightByApplicationType();
 	
@@ -146,5 +152,9 @@ public class ConfigPref {
 			return true;
 		}
 	}
+	
+	
+	
+	
 	
 }

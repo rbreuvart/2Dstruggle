@@ -68,8 +68,7 @@ public class HudManageur {
 	@SuppressWarnings("rawtypes")
 	public HudManageur(final ScreenGame screenGame) {
 		this.screenGame = screenGame;
-		normalProjection = new Matrix4();
-		normalProjection.setToOrtho2D(0, 0, Gdx.graphics.getWidth()/1.5f,Gdx.graphics.getHeight()/1.5f);	
+		normalProjection =  screenGame.getCamManageur().getNormalProjection();
 		bitmapFont = new BitmapFont();
 		bitmapFont.scale(-0.1f);
 		bfc = new BitmapFontCache(bitmapFont);
@@ -185,10 +184,10 @@ public class HudManageur {
 		@Override
 		public boolean scrolled(InputEvent event, float x, float y,
 				int amount) {
-		/*	float zoom = screenGame.getCamManageur().getOrthographicCamera().zoom +(amount*0.5f);
+			float zoom = screenGame.getCamManageur().getOrthographicCamera().zoom +(amount*0.5f);
 			if (zoom>0) {
 				screenGame.getCamManageur().getOrthographicCamera().zoom =zoom;
-			}*/
+			}
 			return false;
 			//return super.scrolled(event, x, y, amount);
 		}
@@ -201,7 +200,7 @@ public class HudManageur {
 		batch.setProjectionMatrix(normalProjection);
 		batch.begin();
 	//	bitmapFont.draw(batch, "cam("+screenGame.getCamManageur().getOrthographicCamera().position.x+"\n"+screenGame.getCamManageur().getOrthographicCamera().position.y+")\n"+screenGame.getCamManageur().getOrthographicCamera().zoom, 10, 350);
-	//	bitmapFont.draw(batch, "FPS:"+Gdx.graphics.getFramesPerSecond(), 10, 24);
+		bitmapFont.draw(batch, "FPS:"+Gdx.graphics.getFramesPerSecond(), 10, 350);
 		if (screenGame.getKryoManageur()!=null) {		
 			if (screenGame.getKryoManageur().getNetApplicationType().equals(NetApplicationType.Client)) {
 				bitmapFont.draw(batch, "Type : "+"Client",60, 24);
